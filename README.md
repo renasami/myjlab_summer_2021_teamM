@@ -6,4 +6,4 @@ we are at [myjlab](https://www.myjlab.org/)
 * くどちゃん
 * のぶ
 
-
+# 頑張っていこー！

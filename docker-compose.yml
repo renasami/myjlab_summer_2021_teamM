@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  front:
+    container_name: front
+    build:
+      context: .
+      dockerfile: ./docker/front/Dockerfile
+    ports:
+      - 8080:8080
+    restart: always
+    tty: true
+    volumes:
+      - ./app/my-vue-app:/app
+    
+  back:
+    container_name: back
+    build:
+      context: .
+      dockerfile: ./docker/back/Dockerfile
+    ports:
+      - 8000:8000
+    restart: always
+    tty: true
+    volumes:
+      - ./app/python:/app
+  db:
+    image: mariadb:latest
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: vue-fastapi-db
+      MYSQL_USER: fastapi
+      MYSQL_PASSWORD: secret
+      TZ: Asia/Tokyoa
+    volumes:
+    - ./db/data:/var/lib/mysql
+    - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    - ./db/sql:/docker-entrypoint-initdb.d
+    ports:
+    - 3306:3306

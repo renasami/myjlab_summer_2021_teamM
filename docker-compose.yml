@@ -5,37 +5,35 @@ services:
     container_name: frontend_container
     build:
       context: .
-      dockerfile: ./frontend/Dockerfile
+      dockerfile: ./docker/frontend/Dockerfile
     restart: always
     tty: true
     stdin_open: true
     privileged: true
-    command: bin/sh
     ports:
       - "8080:8080"
     environment:
       TZ: "Asia/Tokyo"
     volumes:
-      - ./frontend :/app:cached
+      - ./frontend :/frontend:cached
     # volumes:
     #   - ./web/vue/dist:/home/www/contents:ro
   backend:
     container_name: api_container
     build:
       context: .
-      dockerfile: ./api/Dockerfile
+      dockerfile: ./docker/api/Dockerfile
     image: backend
     restart: always
     tty: true
     stdin_open: true
     privileged: true
-    command: bin/sh
     ports:
       - "8000:8000"
     environment:
       TZ: "Asia/Tokyo"
     volumes:
-      - ./api :/app:cached
+      - ./api :/api:cached
     # volumes:
     #   - ./backend/python:/var/www/
   db:
@@ -53,3 +51,17 @@ services:
     - ./db/sql:/docker-entrypoint-initdb.d
     ports:
     - 3306:3306
+  prod:
+    container_name: production_container
+    build:
+      context: .
+      dockerfile: ./docker/prod/Dockerfile
+    tty: true
+    stdin_open: true
+    privileged: true
+    ports:
+      - 80:80
+    environment:
+      TZ: "Asia/Tokyo"
+    volumes:
+      - ./frontend/dist :/usr/share/nginx/html

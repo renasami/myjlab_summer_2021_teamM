@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   front:
-    container_name: front_container
+    container_name: front
     build:
       context: .
       dockerfile: ./docker/front/Dockerfile
@@ -14,7 +14,7 @@ services:
       - ./app/my-vue-app:/app
     
   back:
-    container_name: back_container
+    container_name: back
     build:
       context: .
       dockerfile: ./docker/back/Dockerfile
@@ -26,7 +26,7 @@ services:
       - ./app/python:/app
   db:
     image: mariadb:latest
-    container_name: db_container
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: vue-fastapi-db

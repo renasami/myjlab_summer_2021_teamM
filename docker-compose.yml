@@ -1,44 +1,32 @@
-version: "3"
+version: '3.7'
 
 services:
-  frontend:
-    container_name: frontend_container
+  front:
+    container_name: front
     build:
       context: .
-      dockerfile: ./docker/frontend/Dockerfile
+      dockerfile: ./docker/front/Dockerfile
+    ports:
+      - 8080:8080
     restart: always
     tty: true
-    stdin_open: true
-    privileged: true
-    ports:
-      - "8080:8080"
-    environment:
-      TZ: "Asia/Tokyo"
     volumes:
-      - ./frontend :/frontend:cached
-    # volumes:
-    #   - ./web/vue/dist:/home/www/contents:ro
-  backend:
-    container_name: api_container
+      - ./app/my-vue-app:/app
+    
+  back:
+    container_name: back
     build:
       context: .
-      dockerfile: ./docker/api/Dockerfile
-    image: backend
+      dockerfile: ./docker/back/Dockerfile
+    ports:
+      - 8000:8000
     restart: always
     tty: true
-    stdin_open: true
-    privileged: true
-    ports:
-      - "8000:8000"
-    environment:
-      TZ: "Asia/Tokyo"
     volumes:
-      - ./api :/api:cached
-    # volumes:
-    #   - ./backend/python:/var/www/
+      - ./app/python:/app
   db:
     image: mariadb:latest
-    container_name: db_container
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: vue-fastapi-db
@@ -51,17 +39,3 @@ services:
     - ./db/sql:/docker-entrypoint-initdb.d
     ports:
     - 3306:3306
-  prod:
-    container_name: production_container
-    build:
-      context: .
-      dockerfile: ./docker/prod/Dockerfile
-    tty: true
-    stdin_open: true
-    privileged: true
-    ports:
-      - 80:80
-    environment:
-      TZ: "Asia/Tokyo"
-    volumes:
-      - ./frontend/dist :/usr/share/nginx/html

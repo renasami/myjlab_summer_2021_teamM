@@ -8,6 +8,6 @@ COPY requirements.txt .
 
 COPY ./docker/api/requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-EXPOSE 5000
+EXPOSE 8000
 # FastAPIを8000ポートで待機
 CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "5000"]

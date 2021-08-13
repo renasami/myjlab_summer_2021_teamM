@@ -1,8 +1,6 @@
 
 from sqlalchemy.orm import Session, session
 from . import tasks, schemas, comments, likes, movies, musics, posts, users #テーブルをつくったらここにモジュール追加
-import cv2
-
 
 
 # 全てのCRUD処理をここに記述。
@@ -42,21 +40,17 @@ def try_login(db: Session):
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)
-
+    if userlen == 0:
+        return 'wrong e-mail or password'
     for i in range(userlen):
         print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
         print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
-        if mail != USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-            print('存在しません。')
-
-        elif mail == USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-            print('入力したパスワードが間違っています。')
-
-        elif mail != USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-            print('入力したメールアドレスが間違っています。')
-        else:
-            session['login'] = user
+        if mail == USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
+            session['login'] = True
             return True
+        else:
+            return 'wrong e-mail or password'
+    
 
 # @app.route('/login/try', methods=['POST'])
 # def login_try():
@@ -111,5 +105,5 @@ def get_mylikemovie(db: Session):
     
 
 
-    return db.query(movies.MOVIESTable).filter(movies.MOVIESTable.USER_ID == ).all()
+    return db.query(movies.MOVIESTable).filter(movies.MOVIESTable.USER_ID == "").all()
 

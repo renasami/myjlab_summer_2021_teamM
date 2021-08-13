@@ -5,12 +5,12 @@ from models.schemas import *
 
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
-from jose import jwt
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, movies, musics, posts, users   #テーブル作成したら随時追加
+from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
 import os, re
 
@@ -35,7 +35,7 @@ class MyPostData(BaseModel):
     mean: str
 
 origins = [
-    "http://localhost:8080",
+    "http://localhost:8080/",
 ]
 
 app.add_middleware(
@@ -43,8 +43,9 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
 
 # テスト用辞書
 test_data = {
@@ -53,8 +54,11 @@ test_data = {
 }
 
 @app.get("/")
-async def index():
-    return {"message": "hello world"}
+def index():
+    print("Session")
+    print(session())
+   
+    return "ss"
 
 
 @app.get("/data/")
@@ -83,26 +87,37 @@ def get_user(db: Session = Depends(get_db)):
 
 
 #ログイン試行
-@app.post('/login/try')
-def login_try(db: Session = Depends(get_db)):
+# @app.post('/login')
+# def login_try(db: Session = Depends(get_db)):
     
-    ok = crud.try_login(db)
+#     ok = crud.try_login(db)
 
-    if not ok: return print('ログイン失敗')
+#     if not ok: 
+#         return {"fas":"fas"}
+@app.post('/login')
+def login(db: Session = Depends(get_db)):
+    can_login = crud_try_login(db)
+    print("canLogin: "+ str(can_login))
+    if can_login == True:
+        return True
+    else:
+        return False
+
+
 
 #新規登録
-@app.post('/register/try', methods=['POST'])
-def register_try():
-    res = {}
-    res['mail'] = request.form.get('mail')
-    res['pw'] = request.form.get('pw')
+# @app.post('/register/try', methods=['POST'])
+# def register_try():
+#     res = {}
+#     res['mail'] = request.form.get('mail')
+#     res['pw'] = request.form.get('pw')
 
-    exec('''
-    INSERT INTO USERS (MAIL, PASSWORD)
-    VALUES(?, ?)''',
-    res['mail'], res['pw'])
+#     exec('''
+#     INSERT INTO USERS (MAIL, PASSWORD)
+#     VALUES(?, ?)''',
+#     res['mail'], res['pw'])
 
-    return redirect('/login')
+#     return {"fas":"fas"}
 
 
 # ログアウト
@@ -110,38 +125,6 @@ def register_try():
 def logout():
     crud.try_logout()
     return print('ログアウトしました')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # @app.get("/movie")
@@ -230,6 +213,6 @@ def get_Mylikemovie(db: Session = Depends(get_db)):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0",port=8000,reload=True)
 
 

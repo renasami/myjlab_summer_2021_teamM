@@ -1,7 +1,14 @@
+
+# from app.python.models.schemas import Users
+
 from models.schemas import *
+
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordRequestForm
+from datetime import datetime, timedelta
+from jose import jwt
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, movies, musics, posts, users   #テーブル作成したら随時追加
 from models.database import session, ENGINE
@@ -22,8 +29,6 @@ def get_db():
     finally:
         db.close()
         print('closed database')
-
-
 
 class MyPostData(BaseModel):
     name: str
@@ -56,13 +61,10 @@ async def index():
 def read_data(key: str):
     return test_data[key]
 
-
 @app.post("/data/")
 def update_data(post_data: MyPostData):
     test_data[post_data.name] = post_data.mean
     return {"message": "post success!!"}
-
-
 
 
 @app.get("/test_task")
@@ -74,7 +76,40 @@ def get_task(db: Session = Depends(get_db)):
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
 
+@app.get("userloginlist")
+def get_user(db: Session = Depends(get_db)):
+    USER_LOGIN_LIST = crud.get_userlist(db)
+    return USER_LOGIN_LIST
 
+
+#ログイン試行
+@app.post('/login/try')
+def login_try(db: Session = Depends(get_db)):
+    
+    ok = crud.try_login(db)
+
+    if not ok: return print('ログイン失敗')
+
+#新規登録
+@app.post('/register/try', methods=['POST'])
+def register_try():
+    res = {}
+    res['mail'] = request.form.get('mail')
+    res['pw'] = request.form.get('pw')
+
+    exec('''
+    INSERT INTO USERS (MAIL, PASSWORD)
+    VALUES(?, ?)''',
+    res['mail'], res['pw'])
+
+    return redirect('/login')
+
+
+# ログアウト
+@app.post('/logout')
+def logout():
+    crud.try_logout()
+    return print('ログアウトしました')
 
 
 
@@ -198,4 +233,3 @@ if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
-    

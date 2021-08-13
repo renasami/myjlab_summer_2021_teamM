@@ -1,6 +1,9 @@
 db/data/*
-app/python/__pycache__/*
-app/python/models/__pycache__/*
+
+python/__pycache__
+python/models/__pycache__/*
+TrainingCamp.pem
+auth_keys.py
 TrainingCamp.pem
 app/python/__pycache__/
 app/python/models/__pycache__/

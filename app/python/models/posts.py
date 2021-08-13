@@ -14,5 +14,6 @@ class POSTSTable(Base):
     ID = Column(Integer, primary_key=True, autoincrement=True)
     CAPTION = Column(String(200)) 
     USER_ID = Column(Integer, nullable=False)
+    MOVIEPATH = Column(String(100))
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)

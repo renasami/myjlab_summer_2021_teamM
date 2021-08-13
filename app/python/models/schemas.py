@@ -45,6 +45,7 @@ class Users(UsersBase):
 class PostsBase(BaseModel):
     caption: str
     user_id: int
+    moviepath: str
     created_at: datetime
     updated_at: datetime
 
@@ -58,6 +59,7 @@ class PostsCreate(PostsBase):
 class Posts(PostsBase):
     caption: str
     user_id: int
+    moviepath: str
     created_at: datetime
     updated_at: datetime
 

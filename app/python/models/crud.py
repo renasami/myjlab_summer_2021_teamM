@@ -140,7 +140,7 @@ def get_allposts(db: Session):
 # select * from POSTS limit 20;
 def get_postAthome(db: Session):
 
-    latestposts = db.query(posts.POSTSTable.CREATED_AT).limit(20).all() 
+    latestposts = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
 
     
     return latestposts

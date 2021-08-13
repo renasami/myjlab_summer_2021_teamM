@@ -3,10 +3,10 @@ import App from './App.vue'
 import router from './router'
 
 Vue.config.productionTip = false
+console.log('fas')
 
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
-})
+  render: h => h(App),
+});

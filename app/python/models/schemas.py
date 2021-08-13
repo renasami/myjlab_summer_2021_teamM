@@ -171,6 +171,7 @@ class Task(TestTaskBase):
 class MoviesBase(BaseModel):
     moviepath: str
     post_id: int
+    user_id: int
 
 
 class MoviesSend(MoviesBase):

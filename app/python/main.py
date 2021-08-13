@@ -1,3 +1,4 @@
+from models.schemas import *
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
@@ -108,18 +109,16 @@ def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
 
 
 
+# @app.get("/movie")
+# # 動画ファイルを受け取る
+# def get_movie():
 
+#     #動画ファイルを受け取る処理書く、でもわからん。
 
-@app.get("/movie")
-# 動画ファイルを受け取る
-def get_movie():
-
-    #動画ファイルを受け取る処理書く、でもわからん。
-
-    # 受け取ったファイル形式をチェック、mp4ファイルだけを許可
-    if not re.search(r'\.(mp4)$', upfile.filename):
-        print('mp4ファイルではない:', upfile.filename)
-        return 0
+#     # 受け取ったファイル形式をチェック、mp4ファイルだけを許可
+#     if not re.search(r'\.(mp4)$', upfile.filename):
+#         print('mp4ファイルではない:', upfile.filename)
+#         return 0
 
 
 
@@ -130,21 +129,21 @@ def get_movie():
 
 
 
-# 動画ファイルをfilesディレクトリに保存する
-def save_movie(user_id, upfile, post_id):
+# # 動画ファイルをfilesディレクトリに保存する
+# def save_movie(user_id, upfile, post_id):
 
-    frame_rate = 24.0 #フレームレート
-    size = (640, 480) #動画の画面サイズ
+#     frame_rate = 24.0 #フレームレート
+#     size = (640, 480) #動画の画面サイズ
 
-    fmt = cv2.VideoWrite_fourcc('m', 'p', '4', 'v') #ファイル形式指定(ここではmp4)
+#     fmt = cv2.VideoWrite_fourcc('m', 'p', '4', 'v') #ファイル形式指定(ここではmp4)
 
-    #指定したディレクトリ、名前、フレームレート、ファイル形式、動画の画面サイズで動画を保存 
-    writer = cv2.VideoWriter('./files/' + rename_movie(upfile) + '.mp4', fmt, frame_rate, size) 
+#     #指定したディレクトリ、名前、フレームレート、ファイル形式、動画の画面サイズで動画を保存 
+#     writer = cv2.VideoWriter('./files/' + rename_movie(upfile) + '.mp4', fmt, frame_rate, size) 
 
-    ret, frame = video.read()
-    writer.write(frame) #画像を1フレーム分として書き込み
+#     ret, frame = video.read()
+#     writer.write(frame) #画像を1フレーム分として書き込み
 
-    writer.release() #ファイルを閉じる
+#     writer.release() #ファイルを閉じる
 
      
     # # ファイル情報を保存
@@ -153,23 +152,46 @@ def save_movie(user_id, upfile, post_id):
     #     VALUES(?,?,?)''',
     #     user_id, moviename, post_id
     # )
+# @app.post('/postmovie')
+# def post_movie():
 
-    crud.post_movie(db=db, movie=movie)
-
+#     result = crud.post_movie(db=db, movie=movie)
+ 
+    # return result
 
 #動画ファイルの保存先pathを取得
-def get_moviepath():
-    return FILES_DIR + '/' + str(file_id) + ptype + '.mp4'
+# def get_moviepath():
 
 
+#     return FILES_DIR + '/' + str(file_id) + ptype + '.mp4'
+
+
+
+#動画ファイルのpathをDBに保存
 @app.post("/movie")
 def send_movie(movie: schemas.MoviesSend, db: Session = Depends(get_db)):
     
     movie = crud.post_movie(db=db, movie=movie)
 
-
-
     return movie
+
+#動画をみせる
+
+@app.get("/allmovie")
+# 投稿されている全ての動画の情報をすべて取得
+def get_Allmovie(db: Session = Depends(get_db)):
+    
+    allmovie = crud.get_postmovie(db)
+    
+    return allmovie
+
+# 自分がいいねした動画のみをすべて取得
+def get_Mylikemovie(db: Session = Depends(get_db)):
+    
+    mylike = crud.get_mylikemovie(db) 
+
+    return mylike
+
 
 if __name__ == '__main__':
     import uvicorn

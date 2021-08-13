@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
-from jose import jwt
+# from jose import jwt
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, movies, musics, posts, users   #テーブル作成したら随時追加
 from models.database import session, ENGINE
@@ -82,34 +82,34 @@ def get_user(db: Session = Depends(get_db)):
     return USER_LOGIN_LIST
 
 
-#ログイン試行
-@app.post('/login/try')
-def login_try(db: Session = Depends(get_db)):
+# #ログイン試行
+# @app.post('/login/try')
+# def login_try(db: Session = Depends(get_db)):
     
-    ok = crud.try_login(db)
+#     ok = crud.try_login(db)
 
-    if not ok: return print('ログイン失敗')
+#     if not ok: return print('ログイン失敗')
 
-#新規登録
-@app.post('/register/try', methods=['POST'])
-def register_try():
-    res = {}
-    res['mail'] = request.form.get('mail')
-    res['pw'] = request.form.get('pw')
+# #新規登録
+# @app.post('/register/try', methods=['POST'])
+# def register_try():
+#     res = {}
+#     res['mail'] = request.form.get('mail')
+#     res['pw'] = request.form.get('pw')
 
-    exec('''
-    INSERT INTO USERS (MAIL, PASSWORD)
-    VALUES(?, ?)''',
-    res['mail'], res['pw'])
+#     exec('''
+#     INSERT INTO USERS (MAIL, PASSWORD)
+#     VALUES(?, ?)''',
+#     res['mail'], res['pw'])
 
-    return redirect('/login')
+#     return redirect('/login')
 
 
-# ログアウト
-@app.post('/logout')
-def logout():
-    crud.try_logout()
-    return print('ログアウトしました')
+# # ログアウト
+# @app.post('/logout')
+# def logout():
+#     crud.try_logout()
+#     return print('ログアウトしました')
 
 
 
@@ -225,6 +225,23 @@ def get_movieathome(db: Session = Depends(get_db)):
 
 #     return mylike
 
+
+# 全ての投稿を表示する
+@app.get("/allposts")
+def get_Allposts(db: Session = Depends(get_db)):
+
+    Allposts = crud.get_allposts(db)
+    
+    return Allposts
+
+
+@app.get("/latestposts")
+# 最新の20件投稿を表示する
+def get_PostAthome(db: Session = Depends(get_db)):
+
+    Latestposts = crud.get_postAthome(db)
+
+    return Latestposts
 
 if __name__ == '__main__':
     import uvicorn

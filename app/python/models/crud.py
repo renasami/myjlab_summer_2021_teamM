@@ -124,4 +124,23 @@ def get_movieAthome(db: Session):
 
 
     return indexpage 
+
+
+#全ての投稿の情報を表示する
+# select * from POSTS 
+def get_allposts(db: Session):
+
+    allposts = db.query(posts.POSTSTable).all()
+
+    return allposts
+
+
+
+# 最新の20件の投稿を表示する 
+# select * from POSTS limit 20;
+def get_postAthome(db: Session):
+
+    latestposts = db.query(posts.POSTSTable.CREATED_AT).limit(20).all() 
+
     
+    return latestposts

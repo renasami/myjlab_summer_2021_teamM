@@ -16,7 +16,7 @@ export default{
         }
     },
     methods: {
-        login: async function(){
+        login: function(){
             const valid = this.valid()
             if (!valid) {
                 return 

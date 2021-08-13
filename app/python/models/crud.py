@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from . import tasks, schemas, comments, likes, movies, musics, posts, users #テーブルをつくったらここにモジュール追加
 import cv2
-
+from sqlalchemy import desc
 
 
 # 全てのCRUD処理をここに記述。
@@ -37,13 +37,31 @@ def post_movie(db: Session, movie: schemas.MoviesSend):
     return db_movie
 
 
-# 動画のpathをDBからとってくる
-def get_postmovie(db: Session):
 
+
+
+# 全ての動画の情報をDBからとってくる
+# select * from MOVIES;
+def get_allmovie(db: Session):
     return db.query(movies.MOVIESTable).all()
 
-def get_mylikemovie(db: Session):
+
+
+#最新の動画20件を抽出
+# select * from MOVIE order by desc limit 20;
+def get_movieAthome(db: Session):
+    
+    indexpage = db.query(movies.MOVIESTable).\  
+                order_by(desc(movies.MOVIESTable.created_at)).\
+                limit(20).\
+                all()
+
+    return all
     
 
 
-    return db.query(movies.MOVIESTable).filter(movies.MOVIESTable.USER_ID == ).all()
+# def get_mylikemovie(db: Session):
+
+
+
+#     return db.query(movies.MOVIESTable).filter(movies.MOVIESTable.USER_ID == ).all()

@@ -110,11 +110,11 @@ def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
 
 
 # @app.get("/movie")
-# # 動画ファイルを受け取る
+# # 動画ファイルを受け取る upfileと仮定
 # def get_movie():
 
 #     #動画ファイルを受け取る処理書く、でもわからん。
-
+    # upfile = 
 #     # 受け取ったファイル形式をチェック、mp4ファイルだけを許可
 #     if not re.search(r'\.(mp4)$', upfile.filename):
 #         print('mp4ファイルではない:', upfile.filename)
@@ -124,13 +124,17 @@ def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
 
 # # 動画ファイルをmoviesテーブルのidと同じ数字にリネームする
 # def rename_movie():
-    
-#     return
+
+#     namefile = ムービーid
+
+#     renamedfile = os.rename(upfile, namefile)
+
+#     return renamedfile
 
 
 
 # # 動画ファイルをfilesディレクトリに保存する
-# def save_movie(user_id, upfile, post_id):
+# def save_movie(user_id, renamefile, post_id):
 
 #     frame_rate = 24.0 #フレームレート
 #     size = (640, 480) #動画の画面サイズ
@@ -138,59 +142,53 @@ def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
 #     fmt = cv2.VideoWrite_fourcc('m', 'p', '4', 'v') #ファイル形式指定(ここではmp4)
 
 #     #指定したディレクトリ、名前、フレームレート、ファイル形式、動画の画面サイズで動画を保存 
-#     writer = cv2.VideoWriter('./files/' + rename_movie(upfile) + '.mp4', fmt, frame_rate, size) 
+#     writer = cv2.VideoWriter('./files/' + renamedfile + '.mp4', fmt, frame_rate, size) 
 
 #     ret, frame = video.read()
 #     writer.write(frame) #画像を1フレーム分として書き込み
 
 #     writer.release() #ファイルを閉じる
 
-     
-    # # ファイル情報を保存
+@app.post("/save_movie_info")
+def save_file_info(movie: schemas.MoviesSend, db: Session = Depends(get_db)):
+    # # 動画ファイル情報を保存
     # file_id = exec('''
-    #     INSERT INTO MOVIES (USER_ID, MOVIENAME, POST_ID)
+    #     INSERT INTO MOVIES (USER_ID, MOVIE, POST_ID)
     #     VALUES(?,?,?)''',
-    #     user_id, moviename, post_id
+    #     user_id, movie, post_id
     # )
-# @app.post('/postmovie')
-# def post_movie():
 
-#     result = crud.post_movie(db=db, movie=movie)
- 
-    # return result
+    fileinfo = crud.post_movie(db=db, movie=movie)
 
-#動画ファイルの保存先pathを取得
-# def get_moviepath():
+    return fileinfo
 
 
-#     return FILES_DIR + '/' + str(file_id) + ptype + '.mp4'
-
-
-
-#動画ファイルのpathをDBに保存
-@app.post("/movie")
-def send_movie(movie: schemas.MoviesSend, db: Session = Depends(get_db)):
-    
-    movie = crud.post_movie(db=db, movie=movie)
-
-    return movie
 
 #動画をみせる
 
 @app.get("/allmovie")
-# 投稿されている全ての動画の情報をすべて取得
+# 投稿されている全ての動画の情報をすべて取得 ホームページで使う
 def get_Allmovie(db: Session = Depends(get_db)):
     
-    allmovie = crud.get_postmovie(db)
+    allmovie = crud.get_allmovie(db)
     
     return allmovie
 
-# 自分がいいねした動画のみをすべて取得
-def get_Mylikemovie(db: Session = Depends(get_db)):
-    
-    mylike = crud.get_mylikemovie(db) 
+@app.get("/movieAthome")
+def get_movieathome(db: Session = Depends(get_db)):
 
-    return mylike
+    latestmovie = crud.get_movieAthome 
+
+    return latestmovie
+
+
+
+# # 自分がいいねした動画のみをすべて取得
+# def get_Mylikemovie(db: Session = Depends(get_db)):
+    
+#     mylike = crud.get_mylikemovie(db) 
+
+#     return mylike
 
 
 if __name__ == '__main__':

@@ -2,3 +2,5 @@ fastapi
 uvicorn[standard]
 mysqlclient
 sqlalchemy
+peewee
+python-jose

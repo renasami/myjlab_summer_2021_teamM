@@ -3,7 +3,7 @@
         <h1> this is register page </h1>
         <input type="text" id="username" v-model="name" placeholder="e-mail"> <br>
         <input type="text" id="password" v-model="pas" placeholder="password"> <br>
-        <button type="submit" @click="login">登録</button>
+        <button type="submit" @click="register">登録</button>
     </div>
 </template>
 <script>
@@ -16,7 +16,7 @@ export default {
         }
     },
     methods: {
-        login: async function(){
+        register: function(){
             const valid = this.valid()
             if (!valid) {
                 return 

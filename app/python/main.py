@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from models import crud, tasks, schemas
+from models import crud, tasks, schemas, name_age_list
 from models.database import session, ENGINE
 
 
@@ -69,6 +69,14 @@ def get_task(db: Session = Depends(get_db)):
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
 
+@app.get("/peter")
+def get_peter(db:Session=Depends(get_db)):
+    peter = crud.get_nameagelist(db)
+    return peter
+
+@app.post("/peter")
+def create_peter(nameagelist: schemas.NameAgeListCreate, db: Session = Depends(get_db)):
+    return crud.create_peter(db=db, nameagelist=nameagelist)
 
 
 if __name__ == '__main__':

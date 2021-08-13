@@ -11,6 +11,23 @@ from pydantic import BaseModel
 #     class Config:
 #         orm_mode = True
 
+class NameAgeListBase(BaseModel):
+    name: str
+    age: int
+
+class NameAgeListCreate(NameAgeListBase):
+    pass
+
+    class Config:
+        orm_mode = True
+
+
+class NameAgeList(NameAgeListBase):
+    name: str
+    age: int
+
+    class Config:
+        orm_mode = True
 
 
 
@@ -32,3 +49,4 @@ class Task(TestTaskBase):
 
     class Config:
         orm_mode = True
+

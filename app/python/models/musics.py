@@ -14,6 +14,6 @@ class MUSICSTable(Base):
     ID = Column(Integer, primary_key=True, autoincrement=True)
     MUSIC = Column(String(50)) 
     IMAGE = Column(String(50))
-    POST_ID = Column(Integer, nullable=False, ForeignKey("POST.ID"))
+    POST_ID = Column(Integer, nullable=False)
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)

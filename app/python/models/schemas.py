@@ -1,4 +1,5 @@
-from app.python.models.database import DATABASE
+# from app.python.models.database import DATABASE
+from models.database import DATABASE
 from typing import List
 from pydantic import BaseModel
 from datetime import datetime
@@ -168,14 +169,11 @@ class Task(TestTaskBase):
 
 #movies
 class MoviesBase(BaseModel):
-    id :int
-    movie: str
+    moviepath: str
     post_id: int
-    created_at: datetime
-    updated_at: datetime
 
 
-class MoviesCreate(MoviesBase):
+class MoviesSend(MoviesBase):
     pass
     
     class Config:
@@ -183,11 +181,8 @@ class MoviesCreate(MoviesBase):
 
 
 class Movies(MoviesBase):
-    id: int
-    movie: str
+    moviepath: str
     post_id: int
-    created_at: datetime
-    updated_at: datetime
 
     class Config:
         orm_mode = True

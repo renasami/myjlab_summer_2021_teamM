@@ -1,5 +1,8 @@
 from sqlalchemy.orm import Session
-from . import tasks, schemas #テーブルをつくったらここにモジュール追加
+from . import tasks, schemas, comments, likes, movies, musics, posts, users #テーブルをつくったらここにモジュール追加
+import cv2
+
+
 
 # 全てのCRUD処理をここに記述。
 # CRUD名_テーブル名
@@ -16,3 +19,16 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
     return db_task
 
+
+
+
+
+
+# 動画のpathをDBに保存する
+def post_movie(db: Session, movie: schemas.MoviesSend):
+    db_movie = movies.MOVIESTable(MOVIES=movie.moviepath, POST_ID=movie.post_id)
+    db.add(db_movie)
+    db.commit()
+    db.refresh(db_movie)
+
+    return db_movie

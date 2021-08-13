@@ -177,7 +177,7 @@ def get_Allmovie(db: Session = Depends(get_db)):
 @app.get("/movieAthome")
 def get_movieathome(db: Session = Depends(get_db)):
 
-    latestmovie = crud.get_movieAthome 
+    latestmovie = crud.get_movieAthome(db)
 
     return latestmovie
 

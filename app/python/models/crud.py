@@ -51,12 +51,14 @@ def get_allmovie(db: Session):
 # select * from MOVIE order by desc limit 20;
 def get_movieAthome(db: Session):
     
-    indexpage = db.query(movies.MOVIESTable).\  
-                order_by(desc(movies.MOVIESTable.created_at)).\
-                limit(20).\
-                all()
+    indexpage = db.query(movies.MOVIESTable).order_by(desc(movies.MOVIESTable.CREATED_AT)).limit(20).all()
 
-    return all
+    # indexpage = db.query(movies.MOVIESTable).order_by(desc(movies.MOVIESTable.created_at)).all()
+
+    # indexpage = db.query(movies.MOVIESTable).limit(20).all()
+
+
+    return indexpage 
     
 
 

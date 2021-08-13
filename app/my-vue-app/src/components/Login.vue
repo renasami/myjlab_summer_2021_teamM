@@ -7,7 +7,6 @@
     </div>
 </template>
 <script >
-
 //axios.defaults.withCredentials = true;
 export default{
     name: "Login",
@@ -15,6 +14,7 @@ export default{
         return {
             name: "kaiseiota0620@gmail.com",
             password: "peter555",
+            dialog: false,
         }
     },
     methods: {
@@ -26,8 +26,9 @@ export default{
             this.axios.get("http://0.0.0.0:8000").then(res => console.log(res))
             this.axios.post("http://0.0.0.0:8000/login")
                 .then(result => {
-                    if(!result){
-                        
+                    if(!result.data){
+                        alert('ユーザー名、もしくはパスワードが間違っています。')
+                        return 
                     }
                     this.$router.push("/home")
                 })

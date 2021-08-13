@@ -1,6 +1,10 @@
+from app.python.models.schemas import Users
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordRequestForm
+from datetime import datetime, timedelta
+from jose import jwt
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas
 from models.database import session, ENGINE
@@ -18,7 +22,7 @@ def get_db():
         db.close()
         print('closed database')
 
-
+SECRET_KEY = "4qcdcd_iqxk-y6(gr8l^9elsr1acj+t7zohf7v8reqp&^e7%6p"
 
 class MyPostData(BaseModel):
     name: str
@@ -51,7 +55,6 @@ async def index():
 def read_data(key: str):
     return test_data[key]
 
-
 @app.post("/data/")
 def update_data(post_data: MyPostData):
     test_data[post_data.name] = post_data.mean
@@ -69,11 +72,8 @@ def get_task(db: Session = Depends(get_db)):
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
 
-
-
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
-    

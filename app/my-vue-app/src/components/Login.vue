@@ -1,10 +1,8 @@
 <template height="100%">
     <div id="login">
         <h1> this is login page </h1>
-        <label for="username">fas</label>
-        <input type="text" id="username" v-model="name"> <br>
-        <label for="password">fas</label>
-        <input type="text" id="password" v-model="pas"> <br>
+        <input type="text" id="username" v-model="name" placeholder="ユーザ名orE-mail"> <br>
+        <input type="text" id="password" v-model="pas" placeholder="password"> <br>
         <button type="submit">ログイン</button>
     </div>
 </template>
@@ -22,7 +20,7 @@ export default{
         
         },
         valid() {
-
+            console.log(name)
         }
     }
 }

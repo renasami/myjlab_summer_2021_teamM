@@ -36,6 +36,7 @@ def try_login(form,db: Session):
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)
+    if userlen == 0:
 
     for i in range(userlen):
         print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
@@ -52,27 +53,6 @@ def try_login(form,db: Session):
             session['login'] = user
             return True
 
-def register_try():
-    res = {}
-    res['mail'] = request.form.get('mail')
-    res['pw'] = request.form.get('pw')
-
-    exec('''
-    INSERT INTO USERS (MAIL, PASSWORD)
-    VALUES(?, ?)''',
-    res['mail'], res['pw'])
-
-
-# @app.route('/login/try', methods=['POST'])
-# def login_try():
-#     ok = try_login(request.form)
-
-#     if not ok: return msg('ログイン失敗')
-#     return redirect('/') #戻り値は好きに変えてください
-
-
-# 新規登録
-# @app.route('/register/try', medhods=['POST'])
 # def register_try():
 #     res = {}
 #     res['mail'] = request.form.get('mail')
@@ -83,7 +63,12 @@ def register_try():
 #     VALUES(?, ?)''',
 #     res['mail'], res['pw'])
 
-#     return redirect('/login')
+def create_user(db: Session, user: schemas.UsersCreate):
+    db_user = users.USERSTable(name=user.name, mail=user.mail, password=user.password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
 
 #ログアウト
 

@@ -4,7 +4,6 @@ from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
-from jose import jwt
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas
 from models.database import session, ENGINE
@@ -13,7 +12,6 @@ from models.database import session, ENGINE
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
-
 def get_db():
     try:
         db = session()
@@ -75,9 +73,9 @@ def get_user(db: Session = Depends(get_db)):
 
 
 #ログイン試行
-@app.post('/login/try')
+@app.post('/login')
 def login_try(db: Session = Depends(get_db)):
-    
+    can_login = crud.try_login(db)
     ok = crud.try_login(request.form, db)
 
     if not ok: return print('ログイン失敗')
@@ -104,6 +102,7 @@ def logout():
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0",port=8000,reload=True)
+
 
 

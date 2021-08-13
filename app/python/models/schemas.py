@@ -17,20 +17,19 @@ from datetime import datetime
 
 #users
 class UsersBase(BaseModel):
-    caption: str
-    user_id: int
+    name: str
+    mail: str
     created_at: datetime
     updated_at: datetime
 
 class UsersCreate(UsersBase):
-    pass
+    password: str
     
     class Config:
         orm_mode = True
 
 
 class Users(UsersBase):
-    caption: str
     user_id: int
     created_at: datetime
     updated_at: datetime

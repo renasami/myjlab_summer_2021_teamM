@@ -1,13 +1,18 @@
 <template>
     <div>
         <h1>Hello this is home comp</h1>
+        <Card/>
     </div>
 </template>
 
 <script>
+import Card from './Card'
 
 export default {
     name: 'Home',
+    components: {
+        Card
+    }
 }
 </script>
 

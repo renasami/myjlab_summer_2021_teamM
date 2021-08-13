@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Session
-from . import tasks, schemas #テーブルをつくったらここにモジュール追加
+from sqlalchemy.orm import Session, session
+from . import tasks, schemas, users, tasks, musics,  posts #テーブルをつくったらここにモジュール追加
 
 # 全てのCRUD処理をここに記述。
 # CRUD名_テーブル名
@@ -16,10 +16,12 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
     return db_task
 
-#ユーザー情報取得
-USER_LOGIN_LIST = select(
-                    'SELECT USER_ID, MAIL ,PASSWORD FROM USERS'
-)
+def get_login_list(db: Session):
+    return db.query(users.USERSTable).all()
+
+# #ユーザー情報取得
+# USER_LOGIN_LIST = Session.query(USERS.USER_ID,USERS.MAIL, USERS.PASSWORD)
+
 
 # ログインしているかの確認 --- (*2)
 def is_login():
@@ -27,9 +29,10 @@ def is_login():
 
 
 # ログインを試行する
-def try_login(form):
-    mail = form.get('mail', '')
-    password = form.get('pw', '')
+def try_login(db: Session):
+    USER_LOGIN_LIST = get_login_list(db)
+    mail = "kaiseiota0620@gmail.com"
+    password = "peter555"
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)

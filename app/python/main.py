@@ -1,4 +1,4 @@
-from app.python.models.schemas import Users
+# from app.python.models.schemas import Users
 from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
@@ -9,10 +9,7 @@ from sqlalchemy.orm import Session
 from models import crud, tasks, schemas
 from models.database import session, ENGINE
 
-#ユーザー情報取得
-USER_LOGIN_LIST = select(
-                    'SELECT USER_ID, MAIL ,PASSWORD FROM USERS'
-)
+
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
@@ -62,8 +59,6 @@ def update_data(post_data: MyPostData):
     return {"message": "post success!!"}
 
 
-
-
 @app.get("/test_task")
 def get_task(db: Session = Depends(get_db)):
     tasks = crud.get_tasks(db)
@@ -73,29 +68,22 @@ def get_task(db: Session = Depends(get_db)):
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
 
-#ログイン画面(ここは変更してください)
-@app.route('/login')
-def login():
-    print(USER_LOGIN_LIST)
+@app.get("userloginlist")
+def get_user(db: Session = Depends(get_db)):
+    USER_LOGIN_LIST = crud.get_userlist(db)
+    return USER_LOGIN_LIST
 
-    return render_template('login_form.html')
 
 #ログイン試行
-@app.route('/login/try', methods=['POST'])
-def login_try():
-    ok = crud.try_login(request.form)
+@app.post('/login/try')
+def login_try(db: Session = Depends(get_db)):
+    
+    ok = crud.try_login(db)
 
-    if not ok: return msg('ログイン失敗')
-    return redirect('/') #戻り値は好きに変えてください
-
-#新規登録画面(ここは変更してください)
-@app.route('/register')
-def register():
-    return render_template('register_form.html')
-
+    if not ok: return print('ログイン失敗')
 
 #新規登録
-@app.route('/register/try', medhods=['POST'])
+@app.post('/register/try', methods=['POST'])
 def register_try():
     res = {}
     res['mail'] = request.form.get('mail')
@@ -110,10 +98,10 @@ def register_try():
 
 
 # ログアウト
-@app.route('/logout')
+@app.post('/logout')
 def logout():
     crud.try_logout()
-    return msg('ログアウトしました')
+    return print('ログアウトしました')
 
 if __name__ == '__main__':
     import uvicorn

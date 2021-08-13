@@ -1,4 +1,5 @@
-from app.python.models.database import DATABASE
+# from app.python.models.database import DATABASE
+from models.database import DATABASE
 from typing import List
 from pydantic import BaseModel
 from datetime import datetime

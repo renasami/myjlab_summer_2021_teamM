@@ -29,10 +29,10 @@ def is_login():
 
 
 # ログインを試行する
-def try_login(db: Session):
+def try_login(form,db: Session):
     USER_LOGIN_LIST = get_login_list(db)
-    mail = "kaiseiota0620@gmail.com"
-    password = "peter555"
+    mail = form.get('mail', '')
+    password = form.get('pw', '')
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)
@@ -51,6 +51,17 @@ def try_login(db: Session):
         else:
             session['login'] = user
             return True
+
+def register_try():
+    res = {}
+    res['mail'] = request.form.get('mail')
+    res['pw'] = request.form.get('pw')
+
+    exec('''
+    INSERT INTO USERS (MAIL, PASSWORD)
+    VALUES(?, ?)''',
+    res['mail'], res['pw'])
+
 
 # @app.route('/login/try', methods=['POST'])
 # def login_try():

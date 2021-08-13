@@ -78,12 +78,12 @@ def get_user(db: Session = Depends(get_db)):
 @app.post('/login/try')
 def login_try(db: Session = Depends(get_db)):
     
-    ok = crud.try_login(db)
+    ok = crud.try_login(request.form, db)
 
     if not ok: return print('ログイン失敗')
 
 #新規登録
-@app.post('/register/try', methods=['POST'])
+@app.post('/register/try')
 def register_try():
     res = {}
     res['mail'] = request.form.get('mail')
@@ -94,7 +94,6 @@ def register_try():
     VALUES(?, ?)''',
     res['mail'], res['pw'])
 
-    return redirect('/login')
 
 
 # ログアウト

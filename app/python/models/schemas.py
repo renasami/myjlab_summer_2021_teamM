@@ -165,3 +165,27 @@ class Task(TestTaskBase):
 
     class Config:
         orm_mode = True
+
+
+#movies
+class MoviesBase(BaseModel):
+    moviepath: str
+    post_id: int
+    user_id: int
+
+
+class MoviesSend(MoviesBase):
+    pass
+    
+    class Config:
+        orm_mode = True
+
+
+class Movies(MoviesBase):
+    moviepath: str
+    post_id: int
+
+    class Config:
+        orm_mode = True
+
+#end

@@ -4,7 +4,7 @@
 <div class='nav_inner2'>
 
 
-<img id='logo' alt="VG logo" src="./img/vglogo.png">
+<img id='logo' alt="VG logo" src="./img/vglogo.svg"><br>
 <img id='profile_pic' alt="Profile pic" src="./img/profile.jpg">
 <h3>User Name</h3>
 
@@ -36,7 +36,7 @@ text-align: center;
 }
 
 .nav_inner {
-    height: 90%;
+    height: 93%;
     width: 95%;
     position: absolute;
     text-align: center;
@@ -53,6 +53,15 @@ text-align: center;
     position:relative;
 }
 
+#profile_pic {
+    width: 120px;
+    border-radius:100vh;
+    margin-top:20px;
+}
+
+h3 {
+    margin-top:5px;
+}
 
 ul {
     list-style:none;
@@ -63,19 +72,13 @@ li {
     margin-top: 20px;
 }
 
-#profile_pic {
-    width: 120px;
-    border-radius:100vh;
-    margin-top:10px;
-}
-
 #logo {
     width:140px;
 }
 
 
 .btn { 
-    width:140px;
+    width:150px;
     display: inline-block;
     color: white !important;
     padding-top: 12px;
@@ -90,7 +93,7 @@ li {
     /*アニメーションの指定*/
     transition: all 0.3s ease-out;
     position: absolute;
-    top: 90%;
+    top: 93%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
     -webkit-transform: translateY(-50%) translateX(-50%);

@@ -1,13 +1,18 @@
 <template>
     <div>
         <h1>Hello this is home comp</h1>
+        <Card/>
     </div>
 </template>
 
 <script>
+import Card from './Card'
 
 export default {
     name: 'Home',
+    components: {
+         Card
+     }
 }
 </script>
 
@@ -26,7 +31,7 @@ export default {
   position: fixed;
   background-color: #F7F7F7;
   top:0;
-  width:250px;
+  width:18%;
   height:100vh;
 }
 

@@ -1,17 +1,13 @@
 <template>
     <div>
         <h1>Hello this is home comp</h1>
-        <Navber/>
     </div>
 </template>
 
 <script>
-import Navber from './Navber'
+
 export default {
     name: 'Home',
-    components: {
-    Navber
-    }
 }
 </script>
 

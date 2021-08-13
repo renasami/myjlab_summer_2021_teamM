@@ -4,6 +4,8 @@ import App from '../App'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import Home from '../components/Home'
+import Like from '../components/Like'
+import Profile from '../components/Profile'
 
 Vue.use(VueRouter)
 
@@ -28,6 +30,15 @@ const routes = [
     name: 'home',
     component: Home
   },
+  {
+    path: '/like',
+    name: 'like',
+    component: Like
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile
   }
 ]
 

@@ -11,8 +11,8 @@
 <ul>
             <li><a><router-link to="/home">Home</router-link></a></li>
             <li><a><router-link to="/like">Like</router-link></a></li>
-            <li><a><router-link to="/user">User Profile</router-link></a></li>
-            <li><a><router-link to="/logout">Logout</router-link></a></li>
+            <li><a><router-link to="/profile">User Profile</router-link></a></li>
+            <li><a>Logout</a></li>
 </ul>
 
 

@@ -12,7 +12,7 @@ from datetime import datetime
 class LIKESTable(Base):
     __tablename__ = 'LIKES'
     ID = Column(Integer, primary_key=True, autoincrement=True)
-    POST_ID = Column(Integer, nullable=False, ForeignKey("POSTS.ID")) 
-    USER_ID = Column(Integer, nullable=False, ForeignKey("USERS.ID"))
+    POST_ID = Column(Integer, nullable=False) 
+    USER_ID = Column(Integer, nullable=False)
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)

@@ -12,7 +12,8 @@ from datetime import datetime
 class MOVIESTable(Base):
     __tablename__ = 'MOVIES'
     ID = Column(Integer, primary_key=True, autoincrement=True)
-    MOVIES = Column(String(50), nullable=False) 
-    POST_ID = Column(Integer, nullable=False, ForeignKey("POST.ID"))
+    MOVIE = Column(String(50), nullable=False) 
+    POST_ID = Column(Integer, nullable=False)
+    USER_ID = Column(Integer, nullable=False)
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
-    UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False
+    UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)

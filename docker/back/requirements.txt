@@ -4,3 +4,5 @@ mysqlclient
 sqlalchemy
 peewee
 python-jose
+opencv-python
+opencv-contrib-python

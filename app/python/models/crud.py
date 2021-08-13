@@ -49,37 +49,37 @@ def try_login(form):
             session['login'] = user
             return True
 
-@app.route('/login/try', methods=['POST'])
-def login_try():
-    ok = try_login(request.form)
+# @app.route('/login/try', methods=['POST'])
+# def login_try():
+#     ok = try_login(request.form)
 
-    if not ok: return msg('ログイン失敗')
-    return redirect('/') #戻り値は好きに変えてください
+#     if not ok: return msg('ログイン失敗')
+#     return redirect('/') #戻り値は好きに変えてください
 
 
-#新規登録
-@app.route('/register/try', medhods=['POST'])
-def register_try():
-    res = {}
-    res['mail'] = request.form.get('mail')
-    res['pw'] = request.form.get('pw')
+# 新規登録
+# @app.route('/register/try', medhods=['POST'])
+# def register_try():
+#     res = {}
+#     res['mail'] = request.form.get('mail')
+#     res['pw'] = request.form.get('pw')
 
-    exec('''
-    INSERT INTO USERS (MAIL, PASSWORD)
-    VALUES(?, ?)''',
-    res['mail'], res['pw'])
+#     exec('''
+#     INSERT INTO USERS (MAIL, PASSWORD)
+#     VALUES(?, ?)''',
+#     res['mail'], res['pw'])
 
-    return redirect('/login')
+#     return redirect('/login')
 
 #ログアウト
 
 def try_logout():
     session.pop('login', None)
 
-@app.route('/logout')
-def logout():
-    user.try_logout()
-    return msg('ログアウトしました')
+# @app.route('/logout')
+# def logout():
+#     user.try_logout()
+#     return msg('ログアウトしました')
 
 
 

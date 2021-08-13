@@ -9,7 +9,10 @@ from sqlalchemy.orm import Session
 from models import crud, tasks, schemas
 from models.database import session, ENGINE
 
-
+#ユーザー情報取得
+USER_LOGIN_LIST = select(
+                    'SELECT USER_ID, MAIL ,PASSWORD FROM USERS'
+)
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
@@ -21,8 +24,6 @@ def get_db():
     finally:
         db.close()
         print('closed database')
-
-SECRET_KEY = "4qcdcd_iqxk-y6(gr8l^9elsr1acj+t7zohf7v8reqp&^e7%6p"
 
 class MyPostData(BaseModel):
     name: str
@@ -71,6 +72,48 @@ def get_task(db: Session = Depends(get_db)):
 @app.post("/test_task")
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
+
+#ログイン画面(ここは変更してください)
+@app.route('/login')
+def login():
+    print(USER_LOGIN_LIST)
+
+    return render_template('login_form.html')
+
+#ログイン試行
+@app.route('/login/try', methods=['POST'])
+def login_try():
+    ok = crud.try_login(request.form)
+
+    if not ok: return msg('ログイン失敗')
+    return redirect('/') #戻り値は好きに変えてください
+
+#新規登録画面(ここは変更してください)
+@app.route('/register')
+def register():
+    return render_template('register_form.html')
+
+
+#新規登録
+@app.route('/register/try', medhods=['POST'])
+def register_try():
+    res = {}
+    res['mail'] = request.form.get('mail')
+    res['pw'] = request.form.get('pw')
+
+    exec('''
+    INSERT INTO USERS (MAIL, PASSWORD)
+    VALUES(?, ?)''',
+    res['mail'], res['pw'])
+
+    return redirect('/login')
+
+
+# ログアウト
+@app.route('/logout')
+def logout():
+    crud.try_logout()
+    return msg('ログアウトしました')
 
 if __name__ == '__main__':
     import uvicorn

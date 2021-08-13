@@ -134,7 +134,7 @@ def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
 
 
 # # 動画ファイルをfilesディレクトリに保存する
-# def save_movie(user_id, renamefile, post_id):
+# def save_movie(user_id, renamedfile, post_id):
 
 #     frame_rate = 24.0 #フレームレート
 #     size = (640, 480) #動画の画面サイズ

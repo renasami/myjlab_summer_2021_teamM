@@ -31,7 +31,6 @@ templates = Jinja2Templates(directory="templates")
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
-# LIST =[]
 
 
 def get_db():
@@ -169,14 +168,17 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 class PostInfo(BaseModel):
     # thumbnail_id: str
     # user_id: int
-    id: int
+    userid: int
+    youtube: str
     caption: str
     title: str
 
 #YoutubeでURLにて投稿機能
 @app.post('/up/')
-def create_youtube(post: schemas.PostsCreate, db: Session = Depends(get_db)):
-    return crud.post_movie(db=db, post=post)
+def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depends(get_db)):
+    youtubeurl = form.youtube
+    url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
+    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption)
 
 #動画投稿機能
 @app.post('/posts/')
@@ -233,7 +235,7 @@ def read_post_like(post_id: int, db: Session = Depends(get_db)):
 def create_comment_for_user(comment: schemas.CommentsCreate, db: Session = Depends(get_db)):
     return crud.post_comment(db=db, comment=comment)
 
-#コメント投稿別一覧表示
+#コメント
 @app.get('/posts/{post_id}/comments/')
 def read_comment(post_id: int, db: Session = Depends(get_db)):
     db_comment = crud.get_post_comment(db, post_id=post_id)
@@ -456,28 +458,40 @@ def get_Allposts(db: Session = Depends(get_db)):
 def get_PostAthome(db: Session = Depends(get_db)):
 
     Latestposts = crud.get_postAthome(db)
-    ret_arr = []
-    for n in range(len(Latestposts)):
-        ret_arr.append(Latestposts[n].__dict__)
-    print(type(ret_arr[0]))
-    print(type(ret_arr))
-    return ret_arr
+    # ret_arr = []
+    # for n in range(len(Latestposts)):
+    #     ret_arr.append(Latestposts[n].__dict__)
+    # print(type(ret_arr[0]))
+    # print(type(ret_arr))
+    return Latestposts
 
-@app.get("/get_url")
-def get_youtube(db: Session = Depends(get_db)):
+# @app.get("/get_url")
+# def get_youtube(db: Session = Depends(get_db)):
 
-    urlyoutube = crud.get_youtube(db)
-
-    return urlyoutube
+#     urlyoutube = crud.get_allyoutube(db)
+#     url = urlyoutube.__str__
+    
+#     return type(url)
 
 @app.get("/get_oneURL")
 def get_Oneyoutube(db: Session = Depends(get_db)):
 
-    postid = 1
+    postid = 7
     oneurl = crud.get_youtube(db, postid)
-    trueURL = "https://www.youtube.com/embed/" + oneurl
+    embedURL = "https://www.youtube.com/embed/" + oneurl[0]["YOUTUBE"]
 
-    return trueURL
+    return embedURL
+
+@app.get("/get_URL")
+def get_url(db: Session = Depends(get_db)):
+    LIST = []
+    urlyoutube = crud.get_latestyoutube(db)
+    for i in range(len(urlyoutube)):
+        embedURL = "https://www.youtube.com/embed/" + urlyoutube[i]['YOUTUBE']
+        LIST.append(embedURL)
+    
+    return LIST
+
 
 if __name__ == '__main__':
     import uvicorn

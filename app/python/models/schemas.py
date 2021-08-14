@@ -48,8 +48,6 @@ class PostsBase(BaseModel):
     youtube: str
     caption: str
     title: str
-    created_at: datetime
-    updated_at: datetime
 
 class PostsCreate(PostsBase):
     pass

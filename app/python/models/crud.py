@@ -53,9 +53,9 @@ def is_login():
     return 'login' in session
 
 #動画投稿機能
-def post_movie(db: Session, post: schemas.PostsCreate):
-    db_post = posts.POSTSTable(USER_ID=post.user_id, YOUTUBE=post.youtube,
-    CAPTION=post.caption, TITLE=post.title)
+def post_movie(db: Session, post: schemas.PostsCreate, url: str, userid: int, caption: str, title: str):
+    db_post = posts.POSTSTable(USER_ID=userid, YOUTUBE=url,
+    CAPTION=caption, TITLE=title)
     db.add(db_post)
     db.commit()
     db.refresh(db_post)
@@ -202,7 +202,7 @@ def get_postAthome(db: Session):
 
     latestposts = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
     for idx in range(len(latestposts)):
-        LIST.append(latestposts[idx])
+        LIST.append(latestposts[idx].__dict__)
 
     
     return LIST
@@ -226,12 +226,21 @@ def search_userid(db: Session, mail):
 
 def get_allyoutube(db: Session):
 
-    youtube = db.query(posts.POSTSTable.YOUTUBE).all()
+    youtube = db.query(posts.POSTSTable).all()
+    for idx in range(len(youtube)):
+        LIST.append(youtube[idx].__dict__)
 
-    return youtube
+    return LIST
 
 def get_youtube(db: Session, postid):
 
-    Oneyoutube = db.query(posts.POSTSTable.YOUTUBE).filter(posts.POSTSTable.ID == postid).all()
+    Oneyoutube = db.query(posts.POSTSTable).filter(posts.POSTSTable.ID == postid).all()
+    for idx in range(len(Oneyoutube)):
+        LIST.append(Oneyoutube[idx].__dict__)
 
-    return Oneyoutube
+def get_latestyoutube(db: Session):
+    youtube = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
+    for idx in range(len(youtube)):
+        LIST.append(youtube[idx].__dict__)
+
+    return LIST

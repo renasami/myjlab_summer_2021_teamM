@@ -80,7 +80,7 @@ export default {
     console.log(cookiesArray)
     for(var c of cookiesArray){ //一つ一つ取り出して
         var cArray = c.split('='); //さらに=で分割して配列に
-        if( cArray[0] == ' isLogin'){ // 取り出したいkeyと合致したら
+        if( cArray[0] == 'isLogin'){ // 取り出したいkeyと合致したら
             if( cArray[1] == 'true'){
               this.show = true;
             }

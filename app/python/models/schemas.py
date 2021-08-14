@@ -19,8 +19,6 @@ from datetime import datetime
 class UsersBase(BaseModel):
     mail: str
     password: str
-    created_at: datetime
-    updated_at: datetime
 
 class UsersCreate(UsersBase):
 
@@ -34,8 +32,8 @@ class Users(UsersBase):
 
     mail: str
     password: str
-    created_at: datetime
-    updated_at: datetime
+    # created_at: datetime
+    # updated_at: datetime
 
     class Config:
         orm_mode = True
@@ -49,8 +47,6 @@ class PostsBase(BaseModel):
     user_id: int
     caption: str
     title: str
-    created_at: datetime
-    updated_at: datetime
 
 class PostsCreate(PostsBase):
     pass
@@ -64,8 +60,6 @@ class Posts(PostsBase):
     user_id: int
     caption: str
     title: str
-    created_at: datetime
-    updated_at: datetime
 
     class Config:
         orm_mode = True
@@ -98,8 +92,6 @@ class CommentsBase(BaseModel):
     post_id: int
     user_id: int
     comments: str
-    created_at: datetime
-    updated_at: datetime
 
 class CommentsCreate(CommentsBase):
     pass
@@ -112,8 +104,6 @@ class Comments(CommentsBase):
     post_id: int
     user_id: int
     comments: str
-    created_at: datetime
-    updated_at: datetime
 
     class Config:
         orm_mode = True

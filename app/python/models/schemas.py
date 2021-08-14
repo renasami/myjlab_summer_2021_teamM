@@ -19,11 +19,13 @@ from datetime import datetime
 class UsersBase(BaseModel):
     name: str
     mail: str
+    password: str
     created_at: datetime
     updated_at: datetime
 
 class UsersCreate(UsersBase):
-    password: str
+
+    pass
     
     class Config:
         orm_mode = True

@@ -92,7 +92,7 @@ def login_try(db: Session = Depends(get_db)):
 #     VALUES(?, ?)''',
 #     res['mail'], res['pw'])
 #会員登録
-@app.post('/users/', response_model=schemas.Users)
+@app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     db_user  = crud.get_user_by_email(db, mail=user.mail)
     if db_user:

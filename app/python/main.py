@@ -21,9 +21,13 @@ tasks.Base.metadata.create_all(bind=ENGINE)
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
+<<<<<<< HEAD
 
 
 
+=======
+##to push
+>>>>>>> kaisei pull
 def get_db():
     try:
         db = session()

@@ -9,15 +9,15 @@
 <script >
 //axios.defaults.withCredentials = true;
 import axios from "axios"
-import crypto from "crypto"
-const sha256 = crypto.createHash('sha256');
+//import crypto from "crypto"
+//const sha256 = crypto.createHash('sha256');
 
 export default{
     name: "Login",
     data() {
         return {
-            name: "kaiseiota0620@gmail.com",
-            password: "peter555",
+            name: "kaisei@gmail.com",
+            password: "kaiseiota",
             dialog: false,
         }
     },
@@ -27,15 +27,15 @@ export default{
             if (!valid) {
                 return 
             }
-            sha256.update(this.password)
-            const hashedPassword = sha256.digest("hex")
-            axios.post('http://0.0.0.0:8000/login/',{email:this.name,password:hashedPassword}).then(result => {
-                print(result)
+            // sha256.update(this.password)
+            // const hashedPassword = sha256.digest("hex")
+            axios.post('http://0.0.0.0:8000/login/',{mail:this.name,password:this.password}).then(result => {
                     if(!result.data){
                         alert('ユーザー名、もしくはパスワードが間違っています。')
                         return 
                     }
-                    this.$router.push("/home")
+                    console.log(result.data)
+                    //this.$router.push("/home")
                 })
         },
         valid() {

@@ -138,7 +138,7 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
     can_login = crud.try_login(form,db)
 
     if can_login:
-        users = crud.search_userid(form.email)
+        users = crud.search_userid(db, form.email)
         session['login'] = users
 
         return True

@@ -83,6 +83,14 @@ def get_user(db: Session = Depends(get_db)):
     USER_LOGIN_LIST = crud.get_userlist(db)
     return USER_LOGIN_LIST
 
+#ユーザー一覧
+@app.get('/User')
+def get_login_list(db: Session = Depends(get_db)):
+    user = crud.get_login_list(db)
+    for row in user:
+        d = row.__dict__
+    return d['MAIL']
+
 #ログイン試行
 @app.post('/login')
 def login_try(db: Session = Depends(get_db)):
@@ -114,6 +122,13 @@ def create_likes_for_user(
     user_id: int, post_id: int, like: schemas.LikesCreate, db: Session = Depends(get_db)
 ):
     return crud.create_user_like(db=db, like=like, user_id=user_id, post_id=post_id)
+
+@app.get("/users/{user_id}/likes")
+def read_like(user_id: int, db: Session = Depends(get_db)):
+    db_like = crud.get_user_like(db, user_id=user_id)
+    if db_like is None:
+        raise HTTPException(status_code=404, detail="選択されたユーザーのいいねはありません")
+    return db_like
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定

@@ -500,10 +500,12 @@ def get_PostAthome(db: Session = Depends(get_db)):
 def get_url(db: Session = Depends(get_db)):
     LIST = []
     urlyoutube = crud.get_latestyoutube(db)
+    print("=========================-")
+    print(len(urlyoutube))
     for i in range(len(urlyoutube)):
         embedURL = "https://www.youtube.com/embed/" + urlyoutube[i]['YOUTUBE']
         LIST.append(embedURL)
-    
+    print(LIST)
     return LIST
 
 

@@ -23,7 +23,7 @@ def hash_password(password: str) -> str:
     return pbkdf2_hmac("sha256", password.encode(), getenv("SALT").encode(), 100000).hex()
 
 
-def get_token_header(authorization: str = Header()):
+def get_token_header(authorization: str = Header("")):
     print(authorization)
     if authorization is None:
         raise HTTPException(401, headers={"WWW-Authenticate": 'Bearer realm=""'})

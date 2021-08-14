@@ -73,7 +73,6 @@ def get_likes(db: Session):
     for idx in range(len(getlikes)):
         LIST.append(getlikes[idx].__dict__)
 
-
     return LIST
 
 #いいねuser別一覧
@@ -91,8 +90,6 @@ def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_i
     db.commit()
     return db_like
 
-
-
 #コメント機能
 def post_comment(db: Session, comment: schemas.CommentsCreate):
     db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
@@ -106,6 +103,10 @@ def post_comment(db: Session, comment: schemas.CommentsCreate):
 def get_post_comment(db: Session, post_id: int):
     return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
 
+#現在の最新の投稿を取り出す
+def get_latest_post(db: Session):
+    latest = db.query(posts.POSTSTable.ID).filter(posts.POSTSTable.CREATED_AT).first()
+    return latest
 
 # ログインを試行する
 # def try_login(form,db: Session):
@@ -130,9 +131,6 @@ def try_login(form, db: Session):
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)
-
-    
-
 
 
     print(userlen)

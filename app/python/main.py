@@ -64,8 +64,6 @@ test_data = {
     "slot": "リールを回す遊び",
 }
 
-
-
 @app.post("/")
 def main(data):
     print(data)
@@ -103,7 +101,6 @@ def get_login_list(db: Session = Depends(get_db)):
         d = row.__dict__
     return d['MAIL']
 
-
 #ログイン試行
 @app.post('/login')
 def login_try(db: Session = Depends(get_db)):
@@ -124,10 +121,12 @@ class UserInfo(BaseModel):
 
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
-    print(form.email, form.password)
+    print(form.mail, form.password)
     can_login = crud.try_login(form,db)
 
     if can_login:
+        users = crud.search_userid(db, form.email)
+        session['login'] = users
         # session['login'] = users
         return True
     return False
@@ -140,7 +139,6 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
-
 # @app.get('/User')
 # def get_login_list(db: Session = Depends(get_db)):
 #     user = crud.get_login_list(db)
@@ -149,15 +147,26 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 #     typed = type(d)
 #     return d['MAIL'], typed
 
+class PostInfo(BaseModel):
+    # thumbnail_id: str
+    # user_id: int
+    id: int
+    caption: str
+    title: str
 
 #動画投稿機能
 @app.post('/posts/')
-def create_post_for_user(post: UploadFile = File(...), db: Session = Depends(get_db)):
+def create_post_for_user( form:PostInfo, db: Session = Depends(get_db), post: UploadFile = File(...)):
+    crud.post_movie(db, form.title, form.caption, session['login'])
+    post_id = db
     try:
         suffix = Path(post.filename).suffix
         with NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
             shutil.copyfileobj(post.file, tmp)
             tmp_path = Path(tmp.name)
+            namefile = crud.get_latest_post(db) + ".mp4"
+            renamedfile = os.rename(suffix, namefile)
+
     finally:
         post.file.close()
     return tmp_path
@@ -171,7 +180,6 @@ def read_likes(db: Session = Depends(get_db)):
     likes = crud.get_likes(db)
 
     return likes
-
 
 #指定ユーザーいいね機能
 @app.post("/users/{user_id}/likes")
@@ -196,7 +204,6 @@ def read_post_like(post_id: int, db: Session = Depends(get_db)):
         db_post_like = 0
     return db_post_like
     
-
 #コメント機能
 @app.post('/users/{user_id}/comments/')
 def create_comment_for_user(comment: schemas.CommentsCreate, db: Session = Depends(get_db)):
@@ -210,8 +217,6 @@ def read_comment(post_id: int, db: Session = Depends(get_db)):
         db_comment = 0
     return db_comment
 
-
-
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
 # def get_movie():
@@ -224,7 +229,7 @@ def read_comment(post_id: int, db: Session = Depends(get_db)):
 #         return 0
 
 
-
+# @app.get('/movie')
 # # 動画ファイルをmoviesテーブルのidと同じ数字にリネームする
 # def rename_movie():
 
@@ -305,12 +310,6 @@ async def get_filelist(request: Request):
         "extention": get_extention(f),
     } for f in files if os.path.isfile(os.path.join(uploadedpath, f))]
     return filelist
-
-
-
-
-
-
 
 
 # @app.post("/fileupload/upload")

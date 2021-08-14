@@ -38,6 +38,7 @@ def create_user(db: Session, user: schemas.UsersCreate):
     db.refresh(db_user)
     return db_user
 
+
 #ログアウト
 def try_logout():
     session.pop('login', None)
@@ -70,6 +71,15 @@ def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_i
     db.add(db_like)
     db.commit()
     return db_like
+
+#コメント機能
+def post_comment(db: Session, comment: schemas.CommentsCreate):
+    db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
+    COMMENTS=comment.comments)
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
 
 
 # ログインを試行する

@@ -186,12 +186,13 @@ class PostInfo(BaseModel):
     caption: str
     title: str
 
-#YoutubeでURLにて投稿機能
+#YoutubeでURLにて投稿機能とqrコード作成機能
 @app.post('/up/')
 def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depends(get_db)):
     youtubeurl = form.youtube
     url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
-    
+   
+
     file_name = url + '.png'
     img = youtubeurl
     qrimg = qrcode.make(img)

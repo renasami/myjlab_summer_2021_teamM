@@ -105,7 +105,7 @@ def get_post_comment(db: Session, post_id: int):
 
 #現在の最新の投稿を取り出す
 def get_latest_post(db: Session):
-    latest = db.query(posts.POSTSTable.ID).filter(posts.POSTSTable.CREATED_AT).first()
+    latest = db.query(posts.POSTSTable.ID).order_by(desc(posts.POSTSTable.ID)).first()
     return latest
 
 # ログインを試行する

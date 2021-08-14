@@ -22,7 +22,8 @@ BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
 
-##to push
+
+
 def get_db():
     try:
         db = session()
@@ -90,7 +91,7 @@ def login_try(db: Session = Depends(get_db)):
     ok = crud.try_login(request.form, db)
 
 
-
+#新規会員登録
 @app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     db_user  = crud.get_user_by_email(db, mail=user.mail)
@@ -98,7 +99,16 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
+#動画投稿機能
+@app.post('/posts/')
+def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
+    return crud.post_movie(db=db, post=post)
 
+#いいね抽出
+@app.get('/likes/')
+def read_likes(db: Session = Depends(get_db)):
+    likes = crud.get_likes(db)
+    return likes
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
@@ -123,7 +133,7 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 #     return renamedfile
 
 
-
+# @app.get("/save_movie")
 # # 動画ファイルをfilesディレクトリに保存する
 # def save_movie(user_id, renamedfile, post_id):
 

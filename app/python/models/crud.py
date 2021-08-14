@@ -1,10 +1,7 @@
 
 from sqlalchemy.orm import Session, session
 from . import tasks, schemas, comments, likes, posts, users #テーブルをつくったらここにモジュール追加
-
-
-from . import tasks, schemas, comments, likes,posts, users #テーブルをつくったらここにモジュール追加
-
+import cv2
 from sqlalchemy import desc
 
 
@@ -47,6 +44,20 @@ def try_logout():
 # ログインしているかの確認 --- (*2)
 def is_login():
     return 'login' in session
+
+#動画投稿機能
+def post_movie(db: Session, post: schemas.PostsCreate):
+    db_post = posts.POSTSTable(USER_ID=post.user_id, THUMBNAIL_ID=post.thumbnail_id,
+    CAPTION=post.caption, TITLE=post.title)
+    db.add(db_post)
+    db.commit()
+    db.refresh(db_post)
+    return db_post
+
+#いいね抽出
+def get_likes(db: Session):
+    return db.query(likes.LIKESTable).all()
+
 
 # ログインを試行する
 # def try_login(form,db: Session):

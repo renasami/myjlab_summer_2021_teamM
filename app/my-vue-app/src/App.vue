@@ -9,11 +9,15 @@
       @drop.prevent="dropFile" 
       :class="{enter:isEnter}">
         
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
-        <br><p>Drag and Drop Videos</p>
+        <div class="content-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
+        <p>Drag & Drop Videos</p>
+        </div>
 
       </div>
-      <button class='cancel-button' @click="closeModal"><p>×</p></button>
+      <button class='cancel-button' @click="closeModal">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
       <button class='upload-button' @click="sendFile">Upload</button>
     </div>
     </div>
@@ -112,24 +116,33 @@ export default {
 }
 
 .drop_area {
-  color: gray;
+  color: #444;
   font-weight: bold;
   font-size: 1.2em;
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   width: auto;
   height: 8em;
   /* border: 5px solid gray; */
   border: 2px dashed #FFDD83;
-  border-radius: 15px;
+  border-radius: 25px;
   /* margin:auto; */
   margin: 1em;
+  position: relative;
+}
+
+.content-inner{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
 }
 
 .enter {
     border: 2px solid #FFDD83;
-    border-radius: 15px;
+    border-radius: 25px;
 }
 
 .cancel-button {
@@ -141,6 +154,10 @@ export default {
   font-size: 35px;
   color:rgba(0, 0, 0, 0.4);
   font-weight: 100;
+}
+
+.upload-button:hover {
+  background-color: #ffedbd;
 }
 
 .upload-button{

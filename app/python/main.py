@@ -1,5 +1,6 @@
 
 # from app.python.models.schemas import Users
+from tempfile import NamedTemporaryFile
 from models.schemas import *
 from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
 from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse
@@ -13,6 +14,7 @@ from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
 from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
+from pathlib import Path
 
 from models.fromFrontClasses import LoginUserInfo
 import os, re, ast
@@ -62,12 +64,11 @@ test_data = {
     "slot": "リールを回す遊び",
 }
 
-class Data(BaseModel):
-    user: str
 
 
 @app.post("/")
-def main(data: Data):
+def main(data):
+    print(data)
     return data
 
 @app.get("/data/")
@@ -133,8 +134,18 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 
 #動画投稿機能
 @app.post('/posts/')
-def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
-    return crud.post_movie(db=db, post=post)
+def create_post_for_user(post: UploadFile = File(...), db: Session = Depends(get_db)):
+    try:
+        suffix = Path(post.filename).suffix
+        with NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+            shutil.copyfileobj(post.file, tmp)
+            tmp_path = Path(tmp.name)
+    finally:
+        post.file.close()
+    return tmp_path
+    # test = open(post)
+    # print(test)
+    #return crud.post_movie(db=db, post=post)
 
 #いいね全抽出
 @app.get('/likes/')

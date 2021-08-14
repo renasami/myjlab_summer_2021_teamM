@@ -76,8 +76,6 @@ def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_i
     db.commit()
     return db_like
 
-
-
 #コメント機能
 def post_comment(db: Session, comment: schemas.CommentsCreate):
     db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
@@ -90,6 +88,7 @@ def post_comment(db: Session, comment: schemas.CommentsCreate):
 #コメント投稿別一覧
 def get_post_comment(db: Session, post_id: int):
     return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
+
 
 
 # ログインを試行する

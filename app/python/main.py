@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
 from models.database import session, ENGINE
 import os, re
-import qrcode
+import cv2
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
@@ -154,12 +154,15 @@ def read_comment(post_id: int, db: Session = Depends(get_db)):
         db_comment = 0
     return db_comment
 
-# #QRコード発行
-# @app.get('/qr/')
-# def make_qr():
-#     img = qrcode.make('テストテスト')
-#     print(type(img))
-#     print(img.size)
+#動画サムネイル
+@app.get('/moviephoto/')
+def get_photo():
+    file = 'test1.mp4'
+    cap = cv2.VideoCapture(file)
+    cap.set(cv2.CAP_PROP_POS_MSEC, 1000)
+    res, img = cap.read()
+    cv2.imwrite('test.png', img)
+    
 
 
 # @app.get("/movie")

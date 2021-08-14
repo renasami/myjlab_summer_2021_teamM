@@ -58,6 +58,13 @@ def post_movie(db: Session, post: schemas.PostsCreate):
 def get_likes(db: Session):
     return db.query(likes.LIKESTable).all()
 
+#いいね機能
+def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
+    db_like = likes.LIKESTable(USER_ID=user_id, POST_ID=post_id)
+    db.add(db_like)
+    db.commit()
+    return db_like
+
 
 # ログインを試行する
 # def try_login(form,db: Session):

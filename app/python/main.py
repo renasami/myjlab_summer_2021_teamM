@@ -89,9 +89,9 @@ def get_task(db: Session = Depends(get_db)):
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
 
-@app.get("userloginlist")
+@app.get("/userloginlist")
 def get_user(db: Session = Depends(get_db)):
-    USER_LOGIN_LIST = crud.get_userlist(db)
+    USER_LOGIN_LIST = crud.get_login_list(db)
     return USER_LOGIN_LIST
 
 

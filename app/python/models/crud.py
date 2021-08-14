@@ -101,15 +101,27 @@ def try_login(form, db: Session):
         print('ユーザーリストのmail: ' + LIST[i]['MAIL'])
         print('ユーザリストのpassword: ' + LIST[i]['PASSWORD'])
         print(USER_LOGIN_LIST[i])
-        if mail == LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
-            result = True
-            # return True
-            # session['login'] = users
-        else:
-            result = False
-            # return "wrong username or password"
+        for idx in range(userlen):
+
+            if mail != LIST[i]['MAIL'] and password != LIST[i]['PASSWORD']:
+                print('存在しません')
+            elif mail == LIST[i]['MAIL'] and password != LIST[i]['PASSWORD']:
+                print('パスワードが間違っています')
+            elif mail != LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
+                print('メールアドレスが間違っています')
+            else:
+                return True
+                # result = True
+            # if mail == LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
+            #     result = True
+            #     break
+            #     # return True
+            #     # session['login'] = users
+            # else:
+            #     result = False
+            #     # return "wrong username or password"
         
-    return result 
+    # return result 
     
 
 

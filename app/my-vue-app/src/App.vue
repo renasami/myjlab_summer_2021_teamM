@@ -10,7 +10,7 @@
       :class="{enter:isEnter}">
         
         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
-        <br><p>Drag and Drop <span class='video-color'>Videos</span></p>
+        <br><p>Drag and Drop Videos</p>
 
       </div>
       <button class='cancel-button' @click="closeModal"><p>×</p></button>
@@ -126,14 +126,10 @@ export default {
   /* margin:auto; */
   margin: 1em;
 }
+
 .enter {
     border: 2px solid #FFDD83;
     border-radius: 15px;
-}
-
-.video-color{
-  color:#FFDD83; 
-  font-weight: 900;
 }
 
 .cancel-button {

@@ -2,9 +2,9 @@
 <div class="card">
 <component-children v-bind:variable="list" />
     <div v-for="(items, index) in groupedArray" :key="index">
-        <li class='cards' v-for="item in items" :key="item.id">
+        <li class='cards' v-for="(item,itemIndex) in items" :key="item.id">
           <div class='cards_inner'>
-          <Cardmin v-bind:ttl="item" v-bind:index="index" />    
+          <Cardmin v-bind:ttl="item" :index="index*10+itemIndex" :id="index*10+itemIndex" />    
           </div>
         </li>
     </div>
@@ -24,7 +24,17 @@ export default {
     },
    data: function () {
      return {
-        list: [],
+        list: [
+          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
+          'https://www.youtube.com/embed/AFJ7tYwHK4',
+          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
+          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
+          'https://www.youtube.com/embed/AFJ7tYwHK4',
+          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
+          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
+          'https://www.youtube.com/embed/AFJ7tYwHK4',
+          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
+          ],
      }
    },
   computed: {
@@ -67,17 +77,22 @@ export default {
 
 .cards {
   width:320px;
-  height:250px;
   margin: 20px 20px;
   display: inline-block;
-  /* box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2); */
+  box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
   border-radius: 3px;
+  background-color: white;
+  cursor: pointer;
+  transition-duration: 0.4s;
 }
+
+.cards:hover{
+        transform: scale(1.1);
+        transition-duration: 0.4s;
+      }
 
 .cards_inner {
   margin: 0 auto;
-  width:95%;
-  height:95%;
 }
 
 .upper_video {

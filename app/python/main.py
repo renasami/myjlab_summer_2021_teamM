@@ -99,6 +99,7 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
     print(form.email, form.password)
     can_login = crud_try_login(form,db)
     if can_login:
+        session['login'] = users
         return True
     return False
 #新規会員登録

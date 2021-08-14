@@ -22,6 +22,7 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
 
 def get_login_list(db: Session):
+    print("=========================================")
     return db.query(users.USERSTable).all()
 
 
@@ -70,13 +71,14 @@ def try_login(form,db: Session):
     if userlen == 0:
         return "wrong username or password"
     for i in range(userlen):
-        print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
-        print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
-        if mail == USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-            return True
-            session['login'] = users
-        else:
-            return "wrong username or password"
+        # print('ユーザーリストのmail' + USER_LOGIN_LIST[i].MAIL)
+        # print('ユーザリストのpassword' +USER_LOGIN_LIST[i].PASSWORD)
+        print(USER_LOGIN_LIST[i])
+        # if mail == USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
+        #     return True
+        #     session['login'] = users
+        # else:
+        #     return "wrong username or password"
         
             
     

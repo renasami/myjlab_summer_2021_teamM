@@ -8,7 +8,6 @@ from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
-# from jose import jwt
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, movies, musics, posts, users   #テーブル作成したら随時追加
 from models.database import session, ENGINE
@@ -17,9 +16,12 @@ import os, re
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
 
+
 # 動画の保存ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
+
+
 
 
 def get_db():
@@ -82,65 +84,20 @@ def get_user(db: Session = Depends(get_db)):
     return USER_LOGIN_LIST
 
 
-# #ログイン試行
-# @app.post('/login/try')
-# def login_try(db: Session = Depends(get_db)):
-    
-#     ok = crud.try_login(db)
-
-#     if not ok: return print('ログイン失敗')
-
-# #新規登録
-# @app.post('/register/try', methods=['POST'])
-# def register_try():
-#     res = {}
-#     res['mail'] = request.form.get('mail')
-#     res['pw'] = request.form.get('pw')
-
-#     exec('''
-#     INSERT INTO USERS (MAIL, PASSWORD)
-#     VALUES(?, ?)''',
-#     res['mail'], res['pw'])
-
-#     return redirect('/login')
-
-
-# # ログアウト
-# @app.post('/logout')
-# def logout():
-#     crud.try_logout()
-#     return print('ログアウトしました')
+#ログイン試行
+@app.post('/login')
+def login_try(db: Session = Depends(get_db)):
+    can_login = crud.try_login(db)
+    ok = crud.try_login(request.form, db)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@app.post('/users/')
+def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
+    db_user  = crud.get_user_by_email(db, mail=user.mail)
+    if db_user:
+        raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
+    return crud.create_user(db=db, user=user)
 
 
 
@@ -245,6 +202,7 @@ def get_PostAthome(db: Session = Depends(get_db)):
 
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="0.0.0.0",port=8000,reload=True)
+
 
 

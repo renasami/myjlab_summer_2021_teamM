@@ -25,49 +25,53 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 def get_login_list(db: Session):
     return db.query(users.USERSTable).all()
 
-# #ユーザー情報取得
-# USER_LOGIN_LIST = Session.query(USERS.USER_ID,USERS.MAIL, USERS.PASSWORD)
 
+def get_user_by_email(db: Session, mail: str):
+    return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
+
+
+def create_user(db: Session, user: schemas.UsersCreate):
+    db_user = users.USERSTable(NAME=user.name, MAIL=user.mail, PASSWORD=user.password, PASSWORD_CONFIRMATION=user.password)
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+#ログアウト
+def try_logout():
+    session.pop('login', None)
 
 # ログインしているかの確認 --- (*2)
 def is_login():
     return 'login' in session
 
-
 # ログインを試行する
-def try_login(db: Session):
-    USER_LOGIN_LIST = get_login_list(db)
-    mail = "kaiseiota0620@gmail.com"
-    password = "peter555"
-    print('入力されたメールアドレス'+ mail)
-    print('入力されたパスワード' + password)
-    userlen = len(USER_LOGIN_LIST)
+# def try_login(form,db: Session):
+#     USER_LOGIN_LIST = get_login_list(db)
+#     mail = form.get('mail', '')
+#     password = form.get('pw', '')
+#     print('入力されたメールアドレス'+ mail)
+#     print('入力されたパスワード' + password)
+#     userlen = len(USER_LOGIN_LIST)
+#     if userlen == 0:
+    
+#     for i in range(userlen):
+#         print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
+#         print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
+#         if mail != USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
+#             print('存在しません。')
 
-    for i in range(userlen):
-        print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
-        print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
-        if mail != USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-            print('存在しません。')
+#         elif mail == USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
+#             print('入力したパスワードが間違っています。')
 
-        elif mail == USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-            print('入力したパスワードが間違っています。')
-
-        elif mail != USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-            print('入力したメールアドレスが間違っています。')
-        else:
-            session['login'] = user
-            return True
-
-# @app.route('/login/try', methods=['POST'])
-# def login_try():
-#     ok = try_login(request.form)
-
-#     if not ok: return msg('ログイン失敗')
-#     return redirect('/') #戻り値は好きに変えてください
+#         elif mail != USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
+#             print('入力したメールアドレスが間違っています。')
+#         else:
+#             session['login'] = users
+#             return True
 
 
-# 新規登録
-# @app.route('/register/try', medhods=['POST'])
+
 # def register_try():
 #     res = {}
 #     res['mail'] = request.form.get('mail')
@@ -78,12 +82,6 @@ def try_login(db: Session):
 #     VALUES(?, ?)''',
 #     res['mail'], res['pw'])
 
-#     return redirect('/login')
-
-#ログアウト
-
-def try_logout():
-    session.pop('login', None)
 
 # @app.route('/logout')
 # def logout():

@@ -23,6 +23,7 @@ class UsersBase(BaseModel):
     updated_at: datetime
 
 class UsersCreate(UsersBase):
+
     pass
     
     class Config:
@@ -30,6 +31,7 @@ class UsersCreate(UsersBase):
 
 
 class Users(UsersBase):
+
     mail: str
     password: str
     created_at: datetime

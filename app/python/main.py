@@ -81,17 +81,23 @@ def login_try(db: Session = Depends(get_db)):
     if not ok: return print('ログイン失敗')
 
 #新規登録
-@app.post('/register/try')
-def register_try():
-    res = {}
-    res['mail'] = request.form.get('mail')
-    res['pw'] = request.form.get('pw')
+# @app.post('/register/try')
+# def register_try():
+#     res = {}
+#     res['mail'] = request.form.get('mail')
+#     res['pw'] = request.form.get('pw')
 
-    exec('''
-    INSERT INTO USERS (MAIL, PASSWORD)
-    VALUES(?, ?)''',
-    res['mail'], res['pw'])
-
+#     exec('''
+#     INSERT INTO USERS (MAIL, PASSWORD)
+#     VALUES(?, ?)''',
+#     res['mail'], res['pw'])
+#会員登録
+@app.post('/users/', response_model=schemas.Users)
+def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
+    db_user  = crud.get_user_by_email(db, mail=user.mail)
+    if db_user:
+        raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
+    return crud.create_user(db=db, user=user)
 
 
 # ログアウト

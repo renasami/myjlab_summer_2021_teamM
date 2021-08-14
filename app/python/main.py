@@ -149,12 +149,27 @@ def create_likes_for_user(
 ):
     return crud.create_user_like(db=db, like=like, user_id=user_id, post_id=post_id)
 
+#いいね指定抽出
 @app.get("/users/{user_id}/likes")
 def read_like(user_id: int, db: Session = Depends(get_db)):
     db_like = crud.get_user_like(db, user_id=user_id)
     if db_like is None:
         raise HTTPException(status_code=404, detail="選択されたユーザーのいいねはありません")
     return db_like
+
+#コメント機能
+@app.post('/users/{user_id}/comments/')
+def create_comment_for_user(comment: schemas.CommentsCreate, db: Session = Depends(get_db)):
+    return crud.post_comment(db=db, comment=comment)
+
+#コメント投稿別一覧表示
+@app.get('/users/{post_id}/comments/')
+def read_comment(post_id: int, db: Session = Depends(get_db)):
+    db_comment = crud.get_post_comment(db, post_id=post_id)
+    if db_comment is None:
+        raise HTTPException(status_code=404, detail="選択された動画にコメントはありません")
+    return db_comment
+
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定

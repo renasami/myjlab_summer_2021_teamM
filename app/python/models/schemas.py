@@ -97,7 +97,7 @@ class Likes(LikesBase):
 class CommentsBase(BaseModel):
     post_id: int
     user_id: int
-    comment: str
+    comments: str
     created_at: datetime
     updated_at: datetime
 
@@ -111,7 +111,7 @@ class CommentsCreate(CommentsBase):
 class Comments(CommentsBase):
     post_id: int
     user_id: int
-    comment: str
+    comments: str
     created_at: datetime
     updated_at: datetime
 

@@ -38,6 +38,7 @@ def create_user(db: Session, user: schemas.UsersCreate):
     db.refresh(db_user)
     return db_user
 
+
 #ログアウト
 def try_logout():
     session.pop('login', None)
@@ -56,11 +57,11 @@ def post_movie(db: Session, post: schemas.PostsCreate):
     return db_post
 
 
-#いいね全抽出
+#いいね全一覧
 def get_likes(db: Session):
     return db.query(likes.LIKESTable).all()
 
-#いいねuser別抽出
+#いいねuser別一覧
 def get_user_like(db: Session, user_id: int):
     return db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
 
@@ -71,6 +72,18 @@ def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_i
     db.commit()
     return db_like
 
+#コメント機能
+def post_comment(db: Session, comment: schemas.CommentsCreate):
+    db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
+    COMMENTS=comment.comments)
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return db_comment
+
+#コメント投稿別一覧
+def get_post_comment(db: Session, post_id: int):
+    return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
 
 # ログインを試行する
 # def try_login(form,db: Session):

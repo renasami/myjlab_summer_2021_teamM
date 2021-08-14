@@ -1,4 +1,3 @@
-
 from sqlalchemy import Column, Integer, String
 from .database import Base
 
@@ -13,3 +12,4 @@ class TestTasksTable(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(30), nullable=False)
     content = Column(String(128), nullable=False)
+

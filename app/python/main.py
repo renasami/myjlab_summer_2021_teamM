@@ -11,9 +11,13 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
+from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
+
+from models.fromFrontClasses import LoginUserInfo
 import os, re, ast
 import shutil
+
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
@@ -26,7 +30,8 @@ BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
 
-##to push
+
+
 def get_db():
     try:
         db = session()
@@ -45,7 +50,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -57,10 +62,13 @@ test_data = {
     "slot": "リールを回す遊び",
 }
 
-@app.get("/")
-async def index():
-    return {"message": "hello world"}
+class Data(BaseModel):
+    user: str
 
+
+@app.post("/")
+def main(data: Data):
+    return data
 
 @app.get("/data/")
 def read_data(key: str):
@@ -87,14 +95,20 @@ def get_user(db: Session = Depends(get_db)):
     return USER_LOGIN_LIST
 
 
+class UserInfo(BaseModel):
+    email: str
+    password: str
+
 #ログイン試行
-@app.post('/login')
-def login_try(db: Session = Depends(get_db)):
-    can_login = crud.try_login(db)
-    ok = crud.try_login(request.form, db)
-
-
-
+@app.post('/login/')
+def login_try(form:UserInfo, db: Session = Depends(get_db)):
+    print(form.email, form.password)
+    can_login = crud_try_login(form,db)
+    if can_login:
+        session['login'] = users
+        return True
+    return False
+#新規会員登録
 @app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     db_user  = crud.get_user_by_email(db, mail=user.mail)
@@ -102,7 +116,16 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
+#動画投稿機能
+@app.post('/posts/')
+def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
+    return crud.post_movie(db=db, post=post)
 
+#いいね抽出
+@app.get('/likes/')
+def read_likes(db: Session = Depends(get_db)):
+    likes = crud.get_likes(db)
+    return likes
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
@@ -125,6 +148,7 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 #     renamedfile = os.rename(upfile, namefile)
 
 #     return renamedfile
+
 
 
 # @app.get("/fileupload")
@@ -238,6 +262,7 @@ async def deletefile_post(request: Request):
         os.remove(os.path.join("./uploads", dictparams.get('filename')))
     response = RedirectResponse(url='/fileupload2', status_code=HTTP_302_FOUND)
     return response
+
 
 
 # @app.get("/save_movie")

@@ -80,6 +80,7 @@ h3 {
     margin-top:0px;
 }
 
+
 ul {
     width:100%;
     list-style:none;
@@ -90,6 +91,7 @@ li {
     margin-top: 20px;
     text-align:left;
 }
+
 
 a {
     text-decoration: none;
@@ -109,7 +111,7 @@ a {
     border-radius:100vh;
     outline: none;
     /*背景の色と形状*/
-    background: linear-gradient(270deg, #FFDD83 0%, #CF2E92 100%);
+    background: linear-gradient(270deg, #FFDD83 10%, #CF2E92 90%);
     background-position: 1% 50%;
     background-size: 130% auto;
     /*アニメーションの指定*/

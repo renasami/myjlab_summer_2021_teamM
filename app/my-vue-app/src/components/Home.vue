@@ -10,8 +10,8 @@ import Card from './Card'
 export default {
     name: 'Home',
     components: {
-         Card
-     }
+        Card
+    }
 }
 </script>
 

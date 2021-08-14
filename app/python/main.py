@@ -9,7 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from models import crud, tasks, schemas, comments, likes, movies, musics, posts, users   #テーブル作成したら随時追加
+from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
 from models.database import session, ENGINE
 import os, re
 

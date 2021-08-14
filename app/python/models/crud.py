@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import Session, session
-from . import tasks, schemas, comments, likes, movies, musics, posts, users #テーブルをつくったらここにモジュール追加
+from . import tasks, schemas, comments, likes,posts, users #テーブルをつくったらここにモジュール追加
 import cv2
 from sqlalchemy import desc
 
@@ -31,7 +31,7 @@ def get_user_by_email(db: Session, mail: str):
 
 
 def create_user(db: Session, user: schemas.UsersCreate):
-    db_user = users.USERSTable(NAME=user.name, MAIL=user.mail, PASSWORD=user.password, PASSWORD_CONFIRMATION=user.password)
+    db_user = users.USERSTable(MAIL=user.mail, PASSWORD=user.password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

@@ -1,8 +1,11 @@
 
 # from app.python.models.schemas import Users
 from tempfile import NamedTemporaryFile
+from typing import Optional
+
+from starlette import status
 from models.schemas import *
-from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
+from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile, Cookie
 from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_302_FOUND
@@ -18,10 +21,12 @@ from pathlib import Path
 from models.fromFrontClasses import LoginUserInfo
 import os, re, ast, cv2, shutil
 from starlette.middleware.sessions import SessionMiddleware
-from fastapi.security import APIKeyCookie
-
+from fastapi import Depends, FastAPI
+from fastapi.security import OAuth2PasswordBearer
+import auth
 
 app=FastAPI()
+app.include_router(auth.router, prefix="/auth")
 tasks.Base.metadata.create_all(bind=ENGINE)
 
 # テスト用のtemplates指定
@@ -48,11 +53,12 @@ class MyPostData(BaseModel):
 
 origins = [
     "http://localhost:8080",
+    "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins= origins,
+    allow_origins= ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -103,7 +109,10 @@ def get_user(db: Session = Depends(get_db)):
 
 #     return searchinfo
 
-
+@app.get("/user")
+def get_index(username: str = Depends(auth.verify_token)):
+    print("get_index: %s" % username)
+    return {"username": username}
 
 #ユーザー一覧
 @app.get('/User')
@@ -132,17 +141,19 @@ class UserInfo(BaseModel):
     mail: str
     password: str
 
+
+    
 @app.post('/login/')
-def login_try(form:UserInfo, db: Session = Depends(get_db)):
+def login_try(form:UserInfo, ads_id: Optional[str] = Cookie(None),db: Session = Depends(get_db)):
     print(form)
     can_login = crud.try_login(form,db)
 
     if can_login:
         users = crud.search_userid(db, form.mail)
-        session['login'] = form.mail
 
-        return True
+        return {"ads_id": ads_id}
     return False
+
 
     
   

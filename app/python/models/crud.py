@@ -220,3 +220,12 @@ def search_userid(db: Session, mail):
     mail = db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
 
     return mail
+
+
+
+
+def get_youtube(db: Session):
+
+    youtube = db.query(posts.POSTSTable.YOUTUBE).all()
+
+    return youtube

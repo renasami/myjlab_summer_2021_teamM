@@ -458,6 +458,14 @@ def get_PostAthome(db: Session = Depends(get_db)):
     print(type(ret_arr))
     return ret_arr
 
+@app.get("/get_url")
+def get_youtube(db: Session = Depends(get_db)):
+
+    urlyoutube = crud.get_youtube(db)
+
+    return urlyoutube
+
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0",port=8000,reload=True)

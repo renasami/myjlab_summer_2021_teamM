@@ -44,7 +44,6 @@ class Users(UsersBase):
 
 #posts
 class PostsBase(BaseModel):
-    thumbnail_id: str
     user_id: int
     youtube: str
     caption: str

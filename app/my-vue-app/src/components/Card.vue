@@ -24,7 +24,11 @@ export default {
     },
    data: function () {
      return {
-        list: [],
+        list: [
+          'https://www.youtube.com/watch?v=Z_EK0Zt1pXU',
+          'https://www.youtube.com/watch?v=yAFJ7tYwHK4',
+          'https://www.youtube.com/watch?v=FGtLSiyuhec&t=511s'
+          ],
      }
    },
   computed: {
@@ -67,17 +71,15 @@ export default {
 
 .cards {
   width:320px;
-  height:250px;
   margin: 20px 20px;
   display: inline-block;
-  /* box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2); */
+  box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
   border-radius: 3px;
+  background-color: white;
 }
 
 .cards_inner {
   margin: 0 auto;
-  width:95%;
-  height:95%;
 }
 
 .upper_video {

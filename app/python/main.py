@@ -17,7 +17,7 @@ from models.database import session, ENGINE
 from pathlib import Path
 from models.fromFrontClasses import LoginUserInfo
 import os, re, ast, cv2, shutil
-from starlette.middleware.sessions import SessionMiddleware
+# from starlette.middleware.sessions import SessionMiddleware
 from fastapi.security import APIKeyCookie
 
 
@@ -469,6 +469,17 @@ def get_youtube(db: Session = Depends(get_db)):
     urlyoutube = crud.get_youtube(db)
 
     return urlyoutube
+
+@app.get("/get_oneURL")
+def get_Oneyoutube(db: Session = Depends(get_db)):
+
+    postid = 1
+    oneurl = crud.get_youtube(db, postid)
+    trueURL = "https://www.youtube.com/embed/" + oneurl
+
+    return trueURL
+
+
 
 
 if __name__ == '__main__':

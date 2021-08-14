@@ -224,8 +224,14 @@ def search_userid(db: Session, mail):
 
 
 
-def get_youtube(db: Session):
+def get_allyoutube(db: Session):
 
     youtube = db.query(posts.POSTSTable.YOUTUBE).all()
 
     return youtube
+
+def get_youtube(db: Session, postid):
+
+    Oneyoutube = db.query(posts.POSTSTable.YOUTUBE).filter(posts.POSTSTable.ID == postid).all()
+
+    return Oneyoutube

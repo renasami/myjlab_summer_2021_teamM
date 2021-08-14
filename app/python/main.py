@@ -20,18 +20,18 @@ from models.database import session, ENGINE
 from pathlib import Path
 from models.fromFrontClasses import LoginUserInfo
 import os, re, ast, cv2, shutil
-
+from typing import Optional
 from fastapi.security import APIKeyCookie
 
 
-from starlette.middleware.sessions import SessionMiddleware
+# from starlette.middleware.sessions import SessionMiddleware
 from fastapi import Depends, FastAPI
 from fastapi.security import OAuth2PasswordBearer
-import auth
+# import auth
 
 app=FastAPI()
 
-app.include_router(auth.router, prefix="/auth")
+# app.include_router(auth.router, prefix="/auth")
 tasks.Base.metadata.create_all(bind=ENGINE)
 
 
@@ -112,10 +112,10 @@ def get_user(db: Session = Depends(get_db)):
 
 #     return searchinfo
 
-@app.get("/user")
-def get_index(username: str = Depends(auth.verify_token)):
-    print("get_index: %s" % username)
-    return {"username": username}
+# @app.get("/user")
+# def get_index(username: str = Depends(auth.verify_token)):
+#     print("get_index: %s" % username)
+#     return {"username": username}
 
 #ユーザー一覧
 @app.get('/User')
@@ -146,16 +146,17 @@ class UserInfo(BaseModel):
 
     
 @app.post('/login/')
-def login_try(form:UserInfo, ads_id: Optional[str] = Cookie(None),db: Session = Depends(get_db)):
+def login_try(form:UserInfo, user_id :Optional[int] = Cookie(None),db: Session = Depends(get_db)):
 
     print(form)
     can_login = crud.try_login(form,db)
 
     if can_login:
         users = crud.search_userid(db, form.mail)
-
-        session['login'] = form.mail
-        return True
+        print(users)
+        # print(Cookie[0])
+        # session['login'] = form.mail
+        return True, {"user_id" : users}
     return False
 
 

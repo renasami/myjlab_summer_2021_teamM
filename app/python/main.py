@@ -136,6 +136,15 @@ def read_like(user_id: int, db: Session = Depends(get_db)):
 def create_comment_for_user(comment: schemas.CommentsCreate, db: Session = Depends(get_db)):
     return crud.post_comment(db=db, comment=comment)
 
+#コメント投稿別一覧表示
+@app.get('/users/{post_id}/comments/')
+def read_comment(post_id: int, db: Session = Depends(get_db)):
+    db_comment = crud.get_post_comment(db, post_id=post_id)
+    if db_comment is None:
+        raise HTTPException(status_code=404, detail="選択された動画にコメントはありません")
+    return db_comment
+
+
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
 # def get_movie():

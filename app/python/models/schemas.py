@@ -17,8 +17,8 @@ from datetime import datetime
 
 #users
 class UsersBase(BaseModel):
-    caption: str
-    user_id: int
+    mail: str
+    password: str
     created_at: datetime
     updated_at: datetime
 
@@ -30,8 +30,8 @@ class UsersCreate(UsersBase):
 
 
 class Users(UsersBase):
-    caption: str
-    user_id: int
+    mail: str
+    password: str
     created_at: datetime
     updated_at: datetime
 
@@ -43,9 +43,10 @@ class Users(UsersBase):
 
 #posts
 class PostsBase(BaseModel):
-    caption: str
+    thumbnail_id: str
     user_id: int
-    moviepath: str
+    caption: str
+    title: str
     created_at: datetime
     updated_at: datetime
 
@@ -57,9 +58,10 @@ class PostsCreate(PostsBase):
 
 
 class Posts(PostsBase):
-    caption: str
+    thumbnail_id: str
     user_id: int
-    moviepath: str
+    caption: str
+    title: str
     created_at: datetime
     updated_at: datetime
 
@@ -68,40 +70,10 @@ class Posts(PostsBase):
 
 #end posts
 
-
-#musics
-class MusicsBase(BaseModel):
-    music: str
-    image: str
-    post_id: int
-    created_at: datetime
-    updated_at: datetime
-
-class MusicsCreate(MusicsBase):
-    pass
-    
-    class Config:
-        orm_mode = True
-
-
-class Musics(MusicsBase):
-    music: str
-    image: str
-    post_id: int
-    created_at: datetime
-    updated_at: datetime
-
-    class Config:
-        orm_mode = True
-
-#end music
-
 #likes
 class LikesBase(BaseModel):
     post_id: int
     user_id: int
-    created_at: datetime
-    updated_at: datetime
 
 class LikesCreate(LikesBase):
     pass
@@ -113,8 +85,6 @@ class LikesCreate(LikesBase):
 class Likes(LikesBase):
     post_id: int
     user_id: int
-    created_at: datetime
-    updated_at: datetime
 
     class Config:
         orm_mode = True
@@ -123,9 +93,9 @@ class Likes(LikesBase):
 
 #commnet
 class CommentsBase(BaseModel):
-    comment: str
     post_id: int
     user_id: int
+    comment: str
     created_at: datetime
     updated_at: datetime
 
@@ -137,9 +107,9 @@ class CommentsCreate(CommentsBase):
 
 
 class Comments(CommentsBase):
-    comment: str
     post_id: int
     user_id: int
+    comment: str
     created_at: datetime
     updated_at: datetime
 

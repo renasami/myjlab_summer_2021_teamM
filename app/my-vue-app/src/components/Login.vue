@@ -8,6 +8,10 @@
 </template>
 <script >
 //axios.defaults.withCredentials = true;
+import axios from "axios"
+import crypto from "crypto"
+const sha256 = crypto.createHash('sha256');
+
 export default{
     name: "Login",
     data() {
@@ -23,9 +27,10 @@ export default{
             if (!valid) {
                 return 
             }
-            this.axios.get("http://0.0.0.0:8000").then(res => console.log(res))
-            this.axios.post("http://0.0.0.0:8000/login")
-                .then(result => {
+            sha256.update(this.password)
+            const hashedPassword = sha256.digest("hex")
+            axios.post('http://0.0.0.0:8000/login/',{email:this.name,password:hashedPassword}).then(result => {
+                print(result)
                     if(!result.data){
                         alert('ユーザー名、もしくはパスワードが間違っています。')
                         return 

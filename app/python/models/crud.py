@@ -1,10 +1,6 @@
 
 from sqlalchemy.orm import Session, session
 from . import tasks, schemas, comments, likes, posts, users #テーブルをつくったらここにモジュール追加
-
-
-from . import tasks, schemas, comments, likes,posts, users #テーブルをつくったらここにモジュール追加
-
 from sqlalchemy import desc
 
 
@@ -26,6 +22,7 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
 
 def get_login_list(db: Session):
+    print("=========================================")
     return db.query(users.USERSTable).all()
 
 
@@ -48,30 +45,43 @@ def try_logout():
 def is_login():
     return 'login' in session
 
-# ログインを試行する
-# def try_login(form,db: Session):
-#     USER_LOGIN_LIST = get_login_list(db)
-#     mail = form.get('mail', '')
-#     password = form.get('pw', '')
-#     print('入力されたメールアドレス'+ mail)
-#     print('入力されたパスワード' + password)
-#     userlen = len(USER_LOGIN_LIST)
-#     if userlen == 0:
+#動画投稿機能
+def post_movie(db: Session, post: schemas.PostsCreate):
+    db_post = posts.POSTSTable(USER_ID=post.user_id, THUMBNAIL_ID=post.thumbnail_id,
+    CAPTION=post.caption, TITLE=post.title)
+    db.add(db_post)
+    db.commit()
+    db.refresh(db_post)
+    return db_post
+
+#いいね抽出
+def get_likes(db: Session):
+    return db.query(likes.LIKESTable).all()
+
+
+#ログインを試行する
+def try_login(form,db: Session):
+    USER_LOGIN_LIST = get_login_list(db)
+    mail = form.email
+    password = form.password
+    print('入力されたメールアドレス'+ mail)
+    print('入力されたパスワード' + password)
+    userlen = len(USER_LOGIN_LIST)
+    print(userlen)
+    if userlen == 0:
+        return "wrong username or password"
+    for i in range(userlen):
+        # print('ユーザーリストのmail' + USER_LOGIN_LIST[i].MAIL)
+        # print('ユーザリストのpassword' +USER_LOGIN_LIST[i].PASSWORD)
+        print(USER_LOGIN_LIST[i])
+        # if mail == USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
+        #     return True
+        #     session['login'] = users
+        # else:
+        #     return "wrong username or password"
+        
+            
     
-#     for i in range(userlen):
-#         print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
-#         print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
-#         if mail != USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('存在しません。')
-
-#         elif mail == USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('入力したパスワードが間違っています。')
-
-#         elif mail != USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('入力したメールアドレスが間違っています。')
-#         else:
-#             session['login'] = users
-#             return True
 
 
 

@@ -473,15 +473,17 @@ def get_PostAthome(db: Session = Depends(get_db)):
     
 #     return type(url)
 
-@app.get("/get_oneURL")
-def get_Oneyoutube(db: Session = Depends(get_db)):
+# @app.get("/get_oneURL")
+# def get_Oneyoutube(db: Session = Depends(get_db)):
 
-    postid = 7
-    oneurl = crud.get_youtube(db, postid)
-    embedURL = "https://www.youtube.com/embed/" + oneurl[0]["YOUTUBE"]
+#     postid = 7
+#     oneurl = crud.get_youtube(db, postid)
+#     embedURL = "https://www.youtube.com/embed/" + oneurl[0]["YOUTUBE"]
 
-    return embedURL
+#     return embedURL
 
+
+#youtube URLの取得(最新20件)
 @app.get("/get_URL")
 def get_url(db: Session = Depends(get_db)):
     LIST = []

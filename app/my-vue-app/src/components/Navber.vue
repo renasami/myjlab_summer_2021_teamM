@@ -9,10 +9,10 @@
 <h3>Yutaka Miyaji</h3>
 
 <ul>
-            <li><a><router-link to="/home"><span class='router_box'><span class='router_text'>Home</span></span></router-link></a></li>
-            <li><a><router-link to="/like"><span class='router_box'><span class='router_text'>Like</span></span></router-link></a></li>
-            <li><a><router-link to="/profile"><span class='router_box'><span class='router_text'>User Profile</span></span></router-link></a></li>
-            <li><a><span class='router_box'><span class='router_text'>Logout</span></span></a></li>
+            <li><a><router-link to="/home"><span class='router_box'><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 -7 28 30" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20 9v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9"/><path d="M9 22V12h6v10M2 10.6L12 2l10 8.6"/></svg><span class='router_text'>Home</span></span></router-link></a></li>
+            <li><a><router-link to="/like"><span class='router_box'><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 -7 28 30" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg><span class='router_text'>Like</span></span></router-link></a></li>
+            <li><a><router-link to="/profile"><span class='router_box'><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 -7 28 30" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg><span class='router_text'>User Profile</span></span></router-link></a></li>
+            <li><a><span class='router_box'><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 -7 28 30" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5M19.8 12H9M10 3H4v18h6"/></svg><span class='router_text'>Logout</span></span></a></li>
 </ul>
 
 
@@ -49,7 +49,16 @@ text-align: center;
 }
 
 #nav .router_text {
-    margin-left: 40px;
+    margin-left: 10px;
+}
+
+svg {
+    margin-left: 35px;
+    margin-top: 10px;
+}
+
+#nav a .router-link-exact-active svg{
+    stroke: #CF2E92;
 }
 
 .nav_inner {
@@ -83,11 +92,11 @@ h3 {
 ul {
     width:100%;
     list-style:none;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 li {
-    margin-top: 20px;
+    margin-top: 5px;
     text-align:left;
 }
 
@@ -105,6 +114,7 @@ a {
     width:150px;
     display: inline-block;
     color: white !important;
+    font-weight: bold;
     padding-top: 12px;
     padding-bottom: 12px;
     border-radius:100vh;

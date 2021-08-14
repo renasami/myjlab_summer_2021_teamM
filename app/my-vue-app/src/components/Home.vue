@@ -6,12 +6,21 @@
 
 <script>
 import Card from './Card'
+let cookies = document.cookie; //全てのcookieを取り出して
+let cookiesArray = cookies.split(';'); // ;で分割し配列に
+if (document.cookie == "" & location.pathname == "/home") location.href = "/login";
+for(var c of cookiesArray){
+    let cArray = c.split('=')
+    if(cArray[0] == ' isLogin' & location.pathname == "/home"){ 
+        if(cArray[1] == "false") location.href = "/login" 
+    }
+}
 
 export default {
     name: 'Home',
     components: {
         Card
-    }
+    },
 }
 </script>
 

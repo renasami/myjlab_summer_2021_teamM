@@ -191,7 +191,13 @@ class PostInfo(BaseModel):
 def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depends(get_db)):
     youtubeurl = form.youtube
     url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
-    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption)
+    
+    file_name = url + '.png'
+    img = youtubeurl
+    qrimg = qrcode.make(img)
+
+
+    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption), FileResponse(qrimg)
 
 #動画投稿機能
 @app.post('/posts/')

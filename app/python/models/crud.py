@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import Session, session
-from . import tasks, schemas, comments, likes, movies, musics, posts, users #テーブルをつくったらここにモジュール追加
+from . import tasks, schemas, comments, likes, posts, users #テーブルをつくったらここにモジュール追加
 import cv2
 from sqlalchemy import desc
 

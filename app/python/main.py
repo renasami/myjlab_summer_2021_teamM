@@ -173,6 +173,11 @@ class PostInfo(BaseModel):
     caption: str
     title: str
 
+#YoutubeでURLにて投稿機能
+@app.post('/up/')
+def create_youtube(post: schemas.PostsCreate, db: Session = Depends(get_db)):
+    return crud.post_movie(db=db, post=post)
+
 #動画投稿機能
 @app.post('/posts/')
 def create_post_for_user( form:PostInfo, db: Session = Depends(get_db), post: UploadFile = File(...)):

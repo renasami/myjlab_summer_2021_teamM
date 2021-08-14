@@ -120,7 +120,7 @@ def try_login(form, db: Session):
     for idx in range(len(USER_LOGIN_LIST)):
         LIST.append(USER_LOGIN_LIST[idx].__dict__)
     
-    mail = form.email
+    mail = form.mail
     password = form.password
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)

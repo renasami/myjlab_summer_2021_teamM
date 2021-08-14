@@ -92,17 +92,16 @@
 
 
 .title {
-  font-size: 1.1em;
+  font-size: 1.2em;
   margin-bottom: 5px;
   text-align: left;
-
 }
 
 .sub-title {
     font-size: 0.8em;
     color: rgb(116, 116, 116);
     width:95%;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: left;
 }
 

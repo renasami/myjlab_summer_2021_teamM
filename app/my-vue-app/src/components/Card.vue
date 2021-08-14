@@ -77,12 +77,12 @@ export default {
   border-radius: 3px;
   background-color: white;
   cursor: pointer;
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .cards:hover{
         transform: scale(1.1);
-        transition-duration: 0.5s;
+        transition-duration: 0.4s;
       }
 
 .cards_inner {

@@ -29,7 +29,7 @@ templates = Jinja2Templates(directory="templates")
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
-
+# LIST =[]
 
 
 def get_db():
@@ -89,9 +89,9 @@ def get_task(db: Session = Depends(get_db)):
 def create_task(task: schemas.TestTaskCreate, db: Session = Depends(get_db)):
     return crud.create_task(db=db, task=task)
 
-@app.get("userloginlist")
+@app.get("/userloginlist")
 def get_user(db: Session = Depends(get_db)):
-    USER_LOGIN_LIST = crud.get_userlist(db)
+    USER_LOGIN_LIST = crud.get_login_list(db)
     return USER_LOGIN_LIST
 
 #ユーザー一覧
@@ -114,12 +114,20 @@ class UserInfo(BaseModel):
     password: str
 
 #ログイン試行
+
+# @app.get('/users')
+# def check(db: Session = Depends(get_db)):
+#     test = crud.try_login(db)
+
+#     return test
+
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
     print(form.email, form.password)
-    can_login = crud_try_login(form,db)
+    can_login = crud.try_login(form,db)
+
     if can_login:
-        session['login'] = users
+        # session['login'] = users
         return True
     return False
   
@@ -131,6 +139,16 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
+
+# @app.get('/User')
+# def get_login_list(db: Session = Depends(get_db)):
+#     user = crud.get_login_list(db)
+#     for row in user:
+#         d = row.__dict__
+#     typed = type(d)
+#     return d['MAIL'], typed
+
+
 #動画投稿機能
 @app.post('/posts/')
 def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
@@ -140,7 +158,9 @@ def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db
 @app.get('/likes/')
 def read_likes(db: Session = Depends(get_db)):
     likes = crud.get_likes(db)
+
     return likes
+
 
 #指定ユーザーいいね機能
 @app.post("/users/{user_id}/likes")
@@ -169,6 +189,7 @@ def read_comment(post_id: int, db: Session = Depends(get_db)):
     if db_comment is None:
         raise HTTPException(status_code=404, detail="選択された動画にコメントはありません")
     return db_comment
+
 
 
 # @app.get("/movie")

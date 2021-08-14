@@ -13,7 +13,8 @@ class POSTSTable(Base):
     __tablename__ = 'POSTS'
     ID = Column(Integer, primary_key=True, autoincrement=True)
     USER_ID = Column(Integer)
-    THUMBNAIL_ID = Column(Integer)
+    THUMBNAIL_ID = Column(IntAeger)
+    YOUTUBE = Column(String(100))
     CAPTION = Column(String(200)) 
     TITLE = Column(String(30))
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)

@@ -9,7 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from models import crud, tasks, schemas, comments, likes, movies, musics, posts, users   #テーブル作成したら随時追加
+from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
 from models.database import session, ENGINE
 import os, re
 
@@ -91,7 +91,7 @@ def login_try(db: Session = Depends(get_db)):
     ok = crud.try_login(request.form, db)
 
 
-
+#新規会員登録
 @app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     db_user  = crud.get_user_by_email(db, mail=user.mail)
@@ -99,7 +99,10 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
-
+#動画投稿機能
+@app.post('/posts/')
+def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
+    return crud.post_movie(db=db, post=post)
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定

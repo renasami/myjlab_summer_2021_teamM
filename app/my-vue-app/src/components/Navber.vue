@@ -36,7 +36,7 @@ text-align: center;
 }
 
 .nav_inner {
-    height: 90%;
+    height: 93%;
     width: 95%;
     position: absolute;
     text-align: center;
@@ -53,10 +53,14 @@ text-align: center;
     position:relative;
 }
 
+h3 {
+    margin-top: 5px;
+}
+
 
 ul {
     list-style:none;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 li {
@@ -66,7 +70,7 @@ li {
 #profile_pic {
     width: 120px;
     border-radius:100vh;
-    margin-top:10px;
+    margin-top:20px;
 }
 
 #logo {
@@ -75,7 +79,7 @@ li {
 
 
 .btn { 
-    width:140px;
+    width:150px;
     display: inline-block;
     color: white !important;
     padding-top: 12px;
@@ -84,13 +88,13 @@ li {
     text-decoration: none;
     outline: none;
     /*背景の色と形状*/
-    background: linear-gradient(270deg, #FFDD83 0%, #CF2E92 100%);
+    background: linear-gradient(270deg, #FFDD83 10%, #CF2E92 90%);
     background-position: 1% 50%;
     background-size: 130% auto;
     /*アニメーションの指定*/
     transition: all 0.3s ease-out;
     position: absolute;
-    top: 90%;
+    top: 93%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
     -webkit-transform: translateY(-50%) translateX(-50%);

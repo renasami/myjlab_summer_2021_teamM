@@ -212,3 +212,17 @@ def get_postAthome(db: Session):
 
     
     return LIST
+
+def get_sessioninfo(db: Session):
+
+    sessioninfo = db.query(users.USERSTable.MAIL).all()
+
+    return sessioninfo
+
+
+
+def search_userid(db: Session, mail):
+
+    mail = db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
+
+    return mail

@@ -95,6 +95,16 @@ def get_user(db: Session = Depends(get_db)):
     USER_LOGIN_LIST = crud.get_login_list(db)
     return USER_LOGIN_LIST
 
+
+# @app.get("/searchforsession")
+# def search_session(db: Session = Depends(get_db)):
+#     mail = "kaisei@gmail.com"
+#     searchinfo = crud.search_mail(db, mail)
+
+#     return searchinfo
+
+
+
 #ユーザー一覧
 @app.get('/User')
 def get_login_list(db: Session = Depends(get_db)):
@@ -128,7 +138,9 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
     can_login = crud.try_login(form,db)
 
     if can_login:
-        # session['login'] = users
+        users = crud.search_userid(form.email)
+        session['login'] = users
+
         return True
     return False
   

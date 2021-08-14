@@ -2,6 +2,9 @@
 <div class="card">
 
 <Cardmin/>
+<component-children v-bind:variable="list" />
+
+
 
     <div v-for="(items, index) in groupedArray" :key="index">
         <li class='cards' v-for="item in items" :key="item.id">

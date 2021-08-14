@@ -75,16 +75,20 @@ def get_likes(db: Session):
 
 
 #ログインを試行する
-def try_login(form,db: Session):
+def try_login(form, db: Session):
     USER_LOGIN_LIST = get_login_list(db)
+
+    # データ型をリスト内辞書に変換
+    for idx in range(len(USER_LOGIN_LIST)):
+        LIST.append(USER_LOGIN_LIST[idx].__dict__)
+    
     mail = form.email
     password = form.password
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)
 
-    for idx in range(len(USER_LOGIN_LIST)):
-        LIST.append(USER_LOGIN_LIST[idx].__dict__)
+    
 
 
 
@@ -92,20 +96,20 @@ def try_login(form,db: Session):
     if userlen == 0:
         return "wrong username or password"
 
-
-
     
     for i in range(userlen):
-        # print('ユーザーリストのmail' + USER_LOGIN_LIST[i].MAIL)
-        # print('ユーザリストのpassword' +USER_LOGIN_LIST[i].PASSWORD)
+        print('ユーザーリストのmail: ' + LIST[i]['MAIL'])
+        print('ユーザリストのpassword: ' + LIST[i]['PASSWORD'])
         print(USER_LOGIN_LIST[i])
-        # if mail == USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-        #     return True
-        #     session['login'] = users
-        # else:
-        #     return "wrong username or password"
+        if mail == LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
+            result = True
+            # return True
+            # session['login'] = users
+        else:
+            result = False
+            # return "wrong username or password"
         
-            
+    return result 
     
 
 

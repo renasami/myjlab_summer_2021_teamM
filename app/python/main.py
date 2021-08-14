@@ -100,12 +100,20 @@ class UserInfo(BaseModel):
     password: str
 
 #ログイン試行
+
+# @app.get('/users')
+# def check(db: Session = Depends(get_db)):
+#     test = crud.try_login(db)
+
+#     return test
+
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
     print(form.email, form.password)
-    can_login = crud_try_login(form,db)
+    can_login = crud.try_login(form,db)
+
     if can_login:
-        session['login'] = users
+        # session['login'] = users
         return True
     return False
 #新規会員登録

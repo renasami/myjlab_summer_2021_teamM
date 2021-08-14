@@ -134,15 +134,15 @@ class UserInfo(BaseModel):
 
 @app.post('/login/')
 
-def login_try(form:UserInfo, db: Session = Depends(get_db), user_id: Optional[str] = Cookie(None)):
+def login_try(form:UserInfo, db: Session = Depends(get_db), user_id = Cookie(None)):
     print(form.mail, form.password)
     can_login = crud.try_login(form,db)
 
     if can_login:
         users = crud.search_userid(db, form.mail)
 
-        return True
-    return False, "user_id": users
+        return True, {"user_id": users}
+    return False
 
 # def login_try(form:UserInfo, db: Session = Depends(get_db)):
 #     print(form.mail, form.password)
@@ -448,6 +448,10 @@ def get_PostAthome(db: Session = Depends(get_db)):
     Latestposts = crud.get_postAthome(db)
 
     return Latestposts
+@app.get("/latest")
+def latestpost(db: Session = Depends(get_db)):
+    return crud.get_latest_post(db)
+
 
 if __name__ == '__main__':
     import uvicorn

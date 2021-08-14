@@ -227,4 +227,7 @@ def search_userid(db: Session, mail):
 
     return mail
 
-def form_createuser(db: Session, user: schemas.PostsCreate)
+#最新の投稿を取り出す
+def get_latest_post(db: Session):
+    latest = db.query(posts.POSTSTable.ID).order_by(desc(posts.POSTSTable.ID)).first()
+    return latest

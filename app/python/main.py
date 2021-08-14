@@ -2,7 +2,7 @@
 # from app.python.models.schemas import Users
 from tempfile import NamedTemporaryFile
 from models.schemas import *
-from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
+from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile, Cookie
 from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_302_FOUND
@@ -133,16 +133,27 @@ class UserInfo(BaseModel):
 #     return test
 
 @app.post('/login/')
-def login_try(form:UserInfo, db: Session = Depends(get_db)):
-    print(form.email, form.password)
+
+def login_try(form:UserInfo, db: Session = Depends(get_db), user_id: Optional[str] = Cookie(None)):
+    print(form.mail, form.password)
     can_login = crud.try_login(form,db)
 
     if can_login:
-        users = crud.search_userid(db, form.email)
-        session['login'] = users
+        users = crud.search_userid(db, form.mail)
 
         return True
-    return False
+    return False, "user_id": users
+
+# def login_try(form:UserInfo, db: Session = Depends(get_db)):
+#     print(form.mail, form.password)
+#     can_login = crud.try_login(form,db)
+
+#     if can_login:
+#         users = crud.search_userid(db, form.email)
+#         session['login'] = users
+
+#         return True
+#     return False
   
 #新規会員登録
 @app.post('/users/')

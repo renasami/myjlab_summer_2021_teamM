@@ -125,7 +125,7 @@ def try_login(form, db: Session):
     for idx in range(len(USER_LOGIN_LIST)):
         LIST.append(USER_LOGIN_LIST[idx].__dict__)
     
-    mail = form.email
+    mail = form.mail
     password = form.password
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
@@ -226,3 +226,5 @@ def search_userid(db: Session, mail):
     mail = db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
 
     return mail
+
+def form_createuser(db: Session, user: schemas.PostsCreate)

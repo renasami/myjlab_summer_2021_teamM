@@ -6,6 +6,6 @@ TrainingCamp.pem
 auth_keys.py
 TrainingCamp.pem
 app/python/__pycache__/
-app/python/models/__pycache__/*
+app/python/models/__pycache__/
 app/python/files/*.mp4
 app/.DS_Store

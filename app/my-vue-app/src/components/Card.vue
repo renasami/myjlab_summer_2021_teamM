@@ -1,5 +1,11 @@
 <template>
 <div class="card">
+
+<Cardmin/>
+<component-children v-bind:variable="list" />
+
+
+
     <div v-for="(items, index) in groupedArray" :key="index">
         <li class='cards' v-for="item in items" :key="item.id">
         <div class='cards_inner'>
@@ -21,11 +27,15 @@
 </template>
 
 <script>
+import Cardmin from './Cardmin.vue'
 import axios from 'axios';
 axios.get('http://0.0.0.0:8000/latestposts').then(result => console.log(result.data))
 
 export default {
-     name: 'Card',
+    name: 'Card',
+    components: {
+      Cardmin
+    },
    data: function () {
      return {
         list: [],

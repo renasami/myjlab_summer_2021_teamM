@@ -32,7 +32,7 @@ export default {
       showContent: false,
       isEnter: false,
       files:[],
-      show: false,
+      show: true,
     }
   },
   methods:{
@@ -68,18 +68,18 @@ export default {
   beforeCreate() {
     
   },
-  watch: {
-  '$route': function (to) {
-    console.log(to.name)
-    if(to.name != 'login' || to.name != 'register') {
-      this.show = true;
-      return 
-    }
-    if(to.name == 'login' || to.name == 'register'){
-      this.show = false;
-    }
-  }
-}
+//   watch: {
+//   '$route': function (to) {
+//     console.log(to.name)
+//     if(to.name != 'login' || to.name != 'register') {
+//       this.show = true;
+//       return 
+//     }
+//     if(to.name == 'login' || to.name == 'register'){
+//       this.show = false;
+//     }
+//   }
+// }
 }
 </script>
 

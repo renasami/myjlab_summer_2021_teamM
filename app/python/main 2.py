@@ -1,11 +1,8 @@
 
 # from app.python.models.schemas import Users
 from tempfile import NamedTemporaryFile
-from typing import Optional
-
-from starlette import status
 from models.schemas import *
-from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile, Cookie
+from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
 from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_302_FOUND
@@ -21,19 +18,9 @@ from pathlib import Path
 from models.fromFrontClasses import LoginUserInfo
 import os, re, ast, cv2, shutil
 
-from fastapi.security import APIKeyCookie
-
-
-from starlette.middleware.sessions import SessionMiddleware
-from fastapi import Depends, FastAPI
-from fastapi.security import OAuth2PasswordBearer
-import auth
 
 app=FastAPI()
-
-app.include_router(auth.router, prefix="/auth")
 tasks.Base.metadata.create_all(bind=ENGINE)
-
 
 # テスト用のtemplates指定
 templates = Jinja2Templates(directory="templates")
@@ -42,6 +29,7 @@ templates = Jinja2Templates(directory="templates")
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
+# LIST =[]
 
 
 def get_db():
@@ -58,12 +46,11 @@ class MyPostData(BaseModel):
 
 origins = [
     "http://localhost:8080",
-    "*"
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins= ["*"],
+    allow_origins= origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -74,6 +61,8 @@ test_data = {
     "pachinko": "玉を弾く遊び",
     "slot": "リールを回す遊び",
 }
+
+
 
 @app.post("/")
 def main(data):
@@ -112,10 +101,7 @@ def get_user(db: Session = Depends(get_db)):
 
 #     return searchinfo
 
-@app.get("/user")
-def get_index(username: str = Depends(auth.verify_token)):
-    print("get_index: %s" % username)
-    return {"username": username}
+
 
 #ユーザー一覧
 @app.get('/User')
@@ -125,12 +111,16 @@ def get_login_list(db: Session = Depends(get_db)):
         d = row.__dict__
     return d['MAIL']
 
-#ログイン試行
-# @app.post('/login')
-# def login_try(db: Session = Depends(get_db)):
-#     can_login = crud.try_login(db)
-#     ok = crud.try_login(request.form, db)
 
+#ログイン試行
+@app.post('/login')
+def login_try(db: Session = Depends(get_db)):
+    can_login = crud.try_login(db)
+    ok = crud.try_login(request.form, db)
+
+class UserInfo(BaseModel):
+    mail: str
+    password: str
 
 #ログイン試行
 
@@ -139,27 +129,18 @@ def get_login_list(db: Session = Depends(get_db)):
 #     test = crud.try_login(db)
 
 #     return test
-class UserInfo(BaseModel):
-    mail: str
-    password: str
 
-
-    
 @app.post('/login/')
-def login_try(form:UserInfo, ads_id: Optional[str] = Cookie(None),db: Session = Depends(get_db)):
-
+def login_try(form:UserInfo, db: Session = Depends(get_db)):
     print(form)
     can_login = crud.try_login(form,db)
 
     if can_login:
-        users = crud.search_userid(db, form.mail)
+        users = crud.search_userid(db, form.email)
+        session['login'] = users
 
-        session['login'] = form.mail
         return True
     return False
-
-
-    
   
 #新規会員登録
 @app.post('/register/')
@@ -169,6 +150,7 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
+
 # @app.get('/User')
 # def get_login_list(db: Session = Depends(get_db)):
 #     user = crud.get_login_list(db)
@@ -177,34 +159,15 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 #     typed = type(d)
 #     return d['MAIL'], typed
 
-class PostInfo(BaseModel):
-    # thumbnail_id: str
-    # user_id: int
-    userid: int
-    youtube: str
-    caption: str
-    title: str
-
-#YoutubeでURLにて投稿機能
-@app.post('/up/')
-def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depends(get_db)):
-    youtubeurl = form.youtube
-    url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
-    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption)
 
 #動画投稿機能
 @app.post('/posts/')
-def create_post_for_user( form:PostInfo, db: Session = Depends(get_db), post: UploadFile = File(...)):
-    crud.post_movie(db, form.title, form.caption, session['login'])
-    post_id = db
+def create_post_for_user(post: UploadFile = File(...), db: Session = Depends(get_db)):
     try:
         suffix = Path(post.filename).suffix
         with NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
             shutil.copyfileobj(post.file, tmp)
             tmp_path = Path(tmp.name)
-            namefile = crud.get_latest_post(db) + ".mp4"
-            renamedfile = os.rename(suffix, namefile)
-
     finally:
         post.file.close()
     return tmp_path
@@ -218,6 +181,7 @@ def read_likes(db: Session = Depends(get_db)):
     likes = crud.get_likes(db)
 
     return likes
+
 
 #指定ユーザーいいね機能
 @app.post("/users/{user_id}/likes")
@@ -242,19 +206,19 @@ def read_post_like(post_id: int, db: Session = Depends(get_db)):
         db_post_like = 0
     return db_post_like
     
+
 #コメント機能
 @app.post('/users/{user_id}/comments/')
 def create_comment_for_user(comment: schemas.CommentsCreate, db: Session = Depends(get_db)):
     return crud.post_comment(db=db, comment=comment)
 
-#コメント
+#コメント投稿別一覧表示
 @app.get('/posts/{post_id}/comments/')
 def read_comment(post_id: int, db: Session = Depends(get_db)):
     db_comment = crud.get_post_comment(db, post_id=post_id)
     if db_comment is None:
         db_comment = 0
     return db_comment
-
 
 #動画サムネイル
 @app.get('/moviephoto/')
@@ -265,6 +229,9 @@ def get_photo():
     res, img = cap.read()
     cv2.imwrite('test.png', img)
     
+
+
+
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
 # def get_movie():
@@ -277,7 +244,7 @@ def get_photo():
 #         return 0
 
 
-# @app.get('/movie')
+
 # # 動画ファイルをmoviesテーブルのidと同じ数字にリネームする
 # def rename_movie():
 
@@ -358,6 +325,12 @@ async def get_filelist(request: Request):
         "extention": get_extention(f),
     } for f in files if os.path.isfile(os.path.join(uploadedpath, f))]
     return filelist
+
+
+
+
+
+
 
 
 # @app.post("/fileupload/upload")
@@ -470,42 +443,12 @@ def get_Allposts(db: Session = Depends(get_db)):
 def get_PostAthome(db: Session = Depends(get_db)):
 
     Latestposts = crud.get_postAthome(db)
-    # ret_arr = []
-    # for n in range(len(Latestposts)):
-    #     ret_arr.append(Latestposts[n].__dict__)
-    # print(type(ret_arr[0]))
-    # print(type(ret_arr))
-    return Latestposts
-
-# @app.get("/get_url")
-# def get_youtube(db: Session = Depends(get_db)):
-
-#     urlyoutube = crud.get_allyoutube(db)
-#     url = urlyoutube.__str__
-    
-#     return type(url)
-
-# @app.get("/get_oneURL")
-# def get_Oneyoutube(db: Session = Depends(get_db)):
-
-#     postid = 7
-#     oneurl = crud.get_youtube(db, postid)
-#     embedURL = "https://www.youtube.com/embed/" + oneurl[0]["YOUTUBE"]
-
-#     return embedURL
-
-
-#youtube URLの取得(最新20件)
-@app.get("/get_URL")
-def get_url(db: Session = Depends(get_db)):
-    LIST = []
-    urlyoutube = crud.get_latestyoutube(db)
-    for i in range(len(urlyoutube)):
-        embedURL = "https://www.youtube.com/embed/" + urlyoutube[i]['YOUTUBE']
-        LIST.append(embedURL)
-    
-    return LIST
-
+    ret_arr = []
+    for n in range(len(Latestposts)):
+        ret_arr.append(Latestposts[n].__dict__)
+    print(type(ret_arr[0]))
+    print(type(ret_arr))
+    return ret_arr
 
 if __name__ == '__main__':
     import uvicorn

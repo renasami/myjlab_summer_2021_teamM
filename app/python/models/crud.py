@@ -26,6 +26,7 @@ def get_login_list(db: Session):
     return db.query(users.USERSTable).all()
 
 
+
 def get_user_by_email(db: Session, mail: str):
     return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
 
@@ -54,10 +55,32 @@ def post_movie(db: Session, post: schemas.PostsCreate):
     db.refresh(db_post)
     return db_post
 
-#いいね抽出
+
+#いいね全抽出
 def get_likes(db: Session):
     return db.query(likes.LIKESTable).all()
 
+#いいねuser別抽出
+def get_user_like(db: Session, user_id: int):
+    return db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
+
+#いいね機能
+def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
+    db_like = likes.LIKESTable(USER_ID=user_id, POST_ID=post_id)
+    db.add(db_like)
+    db.commit()
+    return db_like
+
+
+# ログインを試行する
+# def try_login(form,db: Session):
+    # USER_LOGIN_LIST = get_login_list(db)
+#     mail = form.get('mail', '')
+#     password = form.get('pw', '')
+#     print('入力されたメールアドレス'+ mail)
+#     print('入力されたパスワード' + password)
+#     userlen = len(USER_LOGIN_LIST)
+#     if userlen == 0:
 
 #ログインを試行する
 def try_login(form,db: Session):
@@ -80,7 +103,7 @@ def try_login(form,db: Session):
         # else:
         #     return "wrong username or password"
         
-            
+         
     
 
 

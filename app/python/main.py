@@ -94,6 +94,20 @@ def get_user(db: Session = Depends(get_db)):
     USER_LOGIN_LIST = crud.get_userlist(db)
     return USER_LOGIN_LIST
 
+#ユーザー一覧
+@app.get('/User')
+def get_login_list(db: Session = Depends(get_db)):
+    user = crud.get_login_list(db)
+    for row in user:
+        d = row.__dict__
+    return d['MAIL']
+
+
+#ログイン試行
+@app.post('/login')
+def login_try(db: Session = Depends(get_db)):
+    can_login = crud.try_login(db)
+    ok = crud.try_login(request.form, db)
 
 class UserInfo(BaseModel):
     email: str
@@ -108,6 +122,7 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
         session['login'] = users
         return True
     return False
+  
 #新規会員登録
 @app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
@@ -121,11 +136,25 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
     return crud.post_movie(db=db, post=post)
 
-#いいね抽出
+#いいね全抽出
 @app.get('/likes/')
 def read_likes(db: Session = Depends(get_db)):
     likes = crud.get_likes(db)
     return likes
+
+#指定ユーザーいいね機能
+@app.post("/users/{user_id}/likes")
+def create_likes_for_user(
+    user_id: int, post_id: int, like: schemas.LikesCreate, db: Session = Depends(get_db)
+):
+    return crud.create_user_like(db=db, like=like, user_id=user_id, post_id=post_id)
+
+@app.get("/users/{user_id}/likes")
+def read_like(user_id: int, db: Session = Depends(get_db)):
+    db_like = crud.get_user_like(db, user_id=user_id)
+    if db_like is None:
+        raise HTTPException(status_code=404, detail="選択されたユーザーのいいねはありません")
+    return db_like
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定

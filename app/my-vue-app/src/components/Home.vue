@@ -1,24 +1,33 @@
 <template>
     <div>
-        <h1>Hello this is home comp</h1>
+        <Card/>
     </div>
 </template>
 
 <script>
+import Card from './Card'
 
 export default {
     name: 'Home',
+    components: {
+        Card
+    }
 }
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #231815;
+  margin-top: 0px;
   height: 100vh;
 }
 
@@ -26,17 +35,11 @@ export default {
   position: fixed;
   background-color: #F7F7F7;
   top:0;
-  width:250px;
+  width:18%;
   height:100vh;
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-
+  color: #231815;
 }
 </style>

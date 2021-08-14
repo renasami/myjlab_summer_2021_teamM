@@ -2,17 +2,23 @@
     <div id="login">
         <h1> this is login page </h1>
         <input type="text" id="username" v-model="name" placeholder="e-mail"> <br>
-        <input type="text" id="password" v-model="pas" placeholder="password"> <br>
+        <input type="text" id="password" v-model="password" placeholder="password"> <br>
         <button type="submit" @click="login">ログイン</button>
     </div>
 </template>
 <script >
+//axios.defaults.withCredentials = true;
+import axios from "axios"
+import crypto from "crypto"
+const sha256 = crypto.createHash('sha256');
+
 export default{
     name: "Login",
     data() {
         return {
-            name: "",
-            password: "",
+            name: "kaiseiota0620@gmail.com",
+            password: "peter555",
+            dialog: false,
         }
     },
     methods: {
@@ -21,7 +27,16 @@ export default{
             if (!valid) {
                 return 
             }
-            alert("成功")
+            sha256.update(this.password)
+            const hashedPassword = sha256.digest("hex")
+            axios.post('http://0.0.0.0:8000/login/',{email:this.name,password:hashedPassword}).then(result => {
+                print(result)
+                    if(!result.data){
+                        alert('ユーザー名、もしくはパスワードが間違っています。')
+                        return 
+                    }
+                    this.$router.push("/home")
+                })
         },
         valid() {
             if (/\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?|\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu.test(this.name)) {

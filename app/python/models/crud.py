@@ -1,12 +1,20 @@
 
 from sqlalchemy.orm import Session, session
 from . import tasks, schemas, comments, likes, posts, users #テーブルをつくったらここにモジュール追加
-import cv2
 from sqlalchemy import desc
 
 
 # 全てのCRUD処理をここに記述。
 # CRUD名_テーブル名
+
+# @app.get('/User')
+# def get_login_list(db: Session = Depends(get_db)):
+#     user = crud.get_login_list(db)
+#     for row in user:
+#         d = row.__dict__
+#     return d['MAIL']
+
+LIST = []
 
 
 #select * from tasks
@@ -22,6 +30,7 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
     return db_task
 
 def get_login_list(db: Session):
+    print("=========================================")
     return db.query(users.USERSTable).all()
 
 def get_user_by_email(db: Session, mail: str):
@@ -55,7 +64,13 @@ def post_movie(db: Session, post: schemas.PostsCreate):
 
 #いいね全一覧
 def get_likes(db: Session):
-    return db.query(likes.LIKESTable).all()
+    getlikes = db.query(likes.LIKESTable).all()
+
+    for idx in range(len(getlikes)):
+        LIST.append(getlikes[idx].__dict__)
+
+
+    return LIST
 
 #いいねuser別一覧
 def get_user_like(db: Session, user_id: int):
@@ -96,21 +111,56 @@ def get_post_comment(db: Session, post_id: int):
 #     print('入力されたパスワード' + password)
 #     userlen = len(USER_LOGIN_LIST)
 #     if userlen == 0:
+
+#ログインを試行する
+def try_login(form, db: Session):
+    USER_LOGIN_LIST = get_login_list(db)
+
+    # データ型をリスト内辞書に変換
+    for idx in range(len(USER_LOGIN_LIST)):
+        LIST.append(USER_LOGIN_LIST[idx].__dict__)
     
-#     for i in range(userlen):
-#         print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
-#         print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
-#         if mail != USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('存在しません。')
+    mail = form.email
+    password = form.password
+    print('入力されたメールアドレス'+ mail)
+    print('入力されたパスワード' + password)
+    userlen = len(USER_LOGIN_LIST)
 
-#         elif mail == USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('入力したパスワードが間違っています。')
+    
 
-#         elif mail != USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('入力したメールアドレスが間違っています。')
-#         else:
-#             session['login'] = users
-#             return True
+
+
+    print(userlen)
+    if userlen == 0:
+        return "wrong username or password"
+
+    
+    for i in range(userlen):
+        print('ユーザーリストのmail: ' + LIST[i]['MAIL'])
+        print('ユーザリストのpassword: ' + LIST[i]['PASSWORD'])
+        print(USER_LOGIN_LIST[i])
+        for idx in range(userlen):
+
+            if mail != LIST[i]['MAIL'] and password != LIST[i]['PASSWORD']:
+                print('存在しません')
+            elif mail == LIST[i]['MAIL'] and password != LIST[i]['PASSWORD']:
+                print('パスワードが間違っています')
+            elif mail != LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
+                print('メールアドレスが間違っています')
+            else:
+                return True
+                # result = True
+            # if mail == LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
+            #     result = True
+            #     break
+            #     # return True
+            #     # session['login'] = users
+            # else:
+            #     result = False
+            #     # return "wrong username or password"
+        
+
+    
 
 
 
@@ -139,8 +189,11 @@ def get_post_comment(db: Session, post_id: int):
 def get_allposts(db: Session):
 
     allposts = db.query(posts.POSTSTable).all()
+    for idx in range(len(allposts)):
+        LIST.append(allposts[idx].__dict__)
 
-    return allposts
+
+    return LIST
 
 
 
@@ -149,6 +202,8 @@ def get_allposts(db: Session):
 def get_postAthome(db: Session):
 
     latestposts = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
+    for idx in range(len(latestposts)):
+        LIST.append(latestposts[idx])
 
     
-    return latestposts
+    return LIST

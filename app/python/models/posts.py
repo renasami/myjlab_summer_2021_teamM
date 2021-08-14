@@ -12,7 +12,9 @@ from datetime import datetime
 class POSTSTable(Base):
     __tablename__ = 'POSTS'
     ID = Column(Integer, primary_key=True, autoincrement=True)
+    USER_ID = Column(Integer)
+    THUMBNAIL_ID = Column(Integer)
     CAPTION = Column(String(200)) 
-    USER_ID = Column(Integer, nullable=False)
+    TITLE = Column(String(30))
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)

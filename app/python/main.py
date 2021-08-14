@@ -52,7 +52,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins= origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -447,8 +447,12 @@ def get_Allposts(db: Session = Depends(get_db)):
 def get_PostAthome(db: Session = Depends(get_db)):
 
     Latestposts = crud.get_postAthome(db)
-
-    return Latestposts
+    ret_arr = []
+    for n in range(len(Latestposts)):
+        ret_arr.append(Latestposts[n].__dict__)
+    print(type(ret_arr[0]))
+    print(type(ret_arr))
+    return ret_arr
 
 if __name__ == '__main__':
     import uvicorn

@@ -513,7 +513,7 @@ async def get_url(db: Session = Depends(get_db)):
     print("=========================-")
     print(urlyoutube[0])
     for i in range(len(urlyoutube)):
-        embedURL = "https://www.youtube.com/embed/" + urlyoutube[i]['YOUTUBE']
+        urlyoutube[i]['YOUTUBE']
         LIST.append(embedURL)
     print(LIST)
     return LIST

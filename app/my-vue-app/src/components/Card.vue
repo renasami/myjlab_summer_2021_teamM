@@ -2,9 +2,9 @@
 <div class="card">
 <component-children v-bind:variable="list" />
     <div v-for="(items, index) in groupedArray" :key="index">
-        <li class='cards' v-for="item in items" :key="item.id">
+        <li class='cards' v-for="(item,itemIndex) in items" :key="item.id">
           <div class='cards_inner'>
-          <Cardmin v-bind:ttl="item" v-bind:index="index" />    
+          <Cardmin v-bind:ttl="item" :index="index*10+itemIndex" :id="index*10+itemIndex" />    
           </div>
         </li>
     </div>
@@ -25,9 +25,15 @@ export default {
    data: function () {
      return {
         list: [
-          'https://www.youtube.com/watch?v=Z_EK0Zt1pXU',
-          'https://www.youtube.com/watch?v=yAFJ7tYwHK4',
-          'https://www.youtube.com/watch?v=FGtLSiyuhec&t=511s'
+          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
+          'https://www.youtube.com/embed/AFJ7tYwHK4',
+          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
+          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
+          'https://www.youtube.com/embed/AFJ7tYwHK4',
+          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
+          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
+          'https://www.youtube.com/embed/AFJ7tYwHK4',
+          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
           ],
      }
    },

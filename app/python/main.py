@@ -127,7 +127,7 @@ def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db
 #     return renamedfile
 
 
-
+# @app.get("/save_movie")
 # # 動画ファイルをfilesディレクトリに保存する
 # def save_movie(user_id, renamedfile, post_id):
 

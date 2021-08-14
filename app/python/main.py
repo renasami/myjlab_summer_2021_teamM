@@ -15,10 +15,8 @@ from models import crud, tasks, schemas, comments, likes, posts, users   #テー
 from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
 from pathlib import Path
-
 from models.fromFrontClasses import LoginUserInfo
-import os, re, ast
-import shutil
+import os, re, ast, cv2, shutil
 
 
 app=FastAPI()
@@ -221,6 +219,16 @@ def read_comment(post_id: int, db: Session = Depends(get_db)):
     if db_comment is None:
         db_comment = 0
     return db_comment
+
+#動画サムネイル
+@app.get('/moviephoto/')
+def get_photo():
+    file = 'test1.mp4'
+    cap = cv2.VideoCapture(file)
+    cap.set(cv2.CAP_PROP_POS_MSEC, 1000)
+    res, img = cap.read()
+    cv2.imwrite('test.png', img)
+    
 
 
 

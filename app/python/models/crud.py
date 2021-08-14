@@ -29,16 +29,12 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
     return db_task
 
-
 def get_login_list(db: Session):
     print("=========================================")
     return db.query(users.USERSTable).all()
 
-
-
 def get_user_by_email(db: Session, mail: str):
     return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
-
 
 def create_user(db: Session, user: schemas.UsersCreate):
     db_user = users.USERSTable(MAIL=user.mail, PASSWORD=user.password)
@@ -91,8 +87,6 @@ def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_i
     db.commit()
     return db_like
 
-
-
 #コメント機能
 def post_comment(db: Session, comment: schemas.CommentsCreate):
     db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
@@ -105,6 +99,7 @@ def post_comment(db: Session, comment: schemas.CommentsCreate):
 #コメント投稿別一覧
 def get_post_comment(db: Session, post_id: int):
     return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
+
 
 
 # ログインを試行する

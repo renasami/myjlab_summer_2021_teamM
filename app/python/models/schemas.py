@@ -22,10 +22,9 @@ class UsersBase(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-class UsersCreate(UsersBase):
-
-    pass
-    
+class UsersCreate(BaseModel):
+    mail: str
+    password: str
     class Config:
         orm_mode = True
 

@@ -121,7 +121,7 @@ def login_try(db: Session = Depends(get_db)):
     ok = crud.try_login(request.form, db)
 
 class UserInfo(BaseModel):
-    email: str
+    mail: str
     password: str
 
 #ログイン試行
@@ -134,7 +134,7 @@ class UserInfo(BaseModel):
 
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
-    print(form.email, form.password)
+    print(form)
     can_login = crud.try_login(form,db)
 
     if can_login:
@@ -145,10 +145,10 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
     return False
   
 #新規会員登録
-@app.post('/users/')
+@app.post('/register/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     db_user  = crud.get_user_by_email(db, mail=user.mail)
-    if db_user:
+    if db_user != None:
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 

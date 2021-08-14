@@ -1,24 +1,28 @@
 <template height="100%">
   <div id="app">
-    <div id="overlay" v-show="showContent"  >
+    <div id="overlay" v-show="showContent">
     <div id="content">
-      <h1>post</h1>
       <div class="drop_area" 
       @dragenter="dragEnter"
       @dragLeave="dragLeave"
       @dragover.prevent
       @drop.prevent="dropFile" 
       :class="{enter:isEnter}">
-          ファイルアップロード
+        
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
+        <div>Drag and Drop <span class='video-color'>Videos</span></div>
+
       </div>
-      <p><button @click="closeModal">close</button></p>
-      <button @click="sendFile">送信</button>
+      <p><button class='cancel-button' @click="closeModal">×</button></p>
+      <button class='upload-button' @click="sendFile">Upload</button>
     </div>
     </div>
     <router-view/> 
     <Navber v-show="show" @createModal="openModal"/>
   </div>
 </template>
+
+
 <script>
 import Navber from './components/Navber'
 //import axios from 'axios'
@@ -91,7 +95,7 @@ export default {
   left:0;
   width:100%;
   height:100%;
-  background-color:rgba(0,0,0,0.5);
+  background-color:rgba(156, 150, 118, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,10 +103,12 @@ export default {
 }
 #content{
   z-index:2;
-  width:50%;
+  width:30%;
   padding: 1em;
-  background:#fff;
+  background-color: #fff;
+  border-radius: 30px;
 }
+
 .drop_area {
   color: gray;
   font-weight: bold;
@@ -112,11 +118,31 @@ export default {
   align-items: center;
   width: auto;
   height: 8em;
-  border: 5px solid gray;
+  /* border: 5px solid gray; */
+  border: 2px dashed #FFDD83;
   border-radius: 15px;
   margin:auto;
 }
 .enter {
-    border: 10px dotted powderblue;
+    border: 3px dashed powderblue;
+}
+
+.video-color{
+  color:#FFDD83; 
+  font-weight: 900;
+}
+
+.cancel-button {
+  background-color: transparent;
+  border: none;
+
+}
+
+.upload-button{
+  color: #fff;
+  background-color: #FFDD83;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 100vh;
 }
 </style>

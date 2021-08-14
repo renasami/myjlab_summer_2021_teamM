@@ -10,10 +10,10 @@
       :class="{enter:isEnter}">
         
         <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
-        <div>Drag and Drop <span class='video-color'>Videos</span></div>
+        <br><p>Drag and Drop <span class='video-color'>Videos</span></p>
 
       </div>
-      <p><button class='cancel-button' @click="closeModal">×</button></p>
+      <button class='cancel-button' @click="closeModal"><p>×</p></button>
       <button class='upload-button' @click="sendFile">Upload</button>
     </div>
     </div>
@@ -95,7 +95,7 @@ export default {
   left:0;
   width:100%;
   height:100%;
-  background-color:rgba(156, 150, 118, 0.5);
+  background-color:rgba(82, 81, 80, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,6 +107,8 @@ export default {
   padding: 1em;
   background-color: #fff;
   border-radius: 30px;
+  position:relative;
+  box-shadow: 0px 2px 6px 0 rgba(82, 81, 80, 0.5);
 }
 
 .drop_area {
@@ -121,10 +123,12 @@ export default {
   /* border: 5px solid gray; */
   border: 2px dashed #FFDD83;
   border-radius: 15px;
-  margin:auto;
+  /* margin:auto; */
+  margin: 1em;
 }
 .enter {
-    border: 3px dashed powderblue;
+    border: 2px solid #FFDD83;
+    border-radius: 15px;
 }
 
 .video-color{
@@ -135,14 +139,21 @@ export default {
 .cancel-button {
   background-color: transparent;
   border: none;
-
+  position: absolute;
+  top: 0.2em;
+  right: 0.4em;
+  font-size: 35px;
+  color:rgba(0, 0, 0, 0.4);
+  font-weight: 100;
 }
 
 .upload-button{
   color: #fff;
   background-color: #FFDD83;
-  padding: 8px 15px;
+  padding: 10px 30px;
   border: none;
   border-radius: 100vh;
+  margin-bottom: 1em;
+  font-size: 16px;
 }
 </style>

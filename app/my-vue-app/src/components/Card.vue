@@ -1,35 +1,35 @@
 <template>
 <div class="card">
     <div v-for="(items, index) in groupedArray" :key="index">
-        <li class='cards' v-for="(item, index) in items" :key="index">
+        <li class='cards' v-for="item in items" :key="item.id">
         <div class='cards_inner'>
-        <div class='upper_video'></div>
+
+        <div class='upper_video'>{{ item.thumbnail }}</div>
+
         <div class='lower_text'>
-          <div class="title">{{ item }}</div>
+          <div class="title">{{ item.title }}</div>
           <div class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5M19.8 12H9M10 3H4v18h6"/></svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
         </div></div>
         </li>
     </div>
-
+    <button @click="getResult">button</button>
 </div>
 </template>
 
 <script>
+import axios from 'axios';
+
+ //const url = 'http://0.0.0.0:8080/latestposts';
+            // axiosでデータの受け渡し
+axios.get('http://0.0.0.0:8000/latestposts').then(result => console.log(result.data))
+
 export default {
      name: 'Card',
    data: function () {
      return {
-        list: [
-            "Video1",
-            "Video2",
-            "Video3",
-            "Video4",
-            "Video5",
-            "Video6",
-            "Video7"
-        ]
+        list: [],
      }
    },
 computed: {
@@ -44,13 +44,29 @@ computed: {
       grouped_list.push(result)
     }
     return grouped_list
-    // [
-    //   ["AMETHYST", "BLUE-SAPPHIRE", "CITRIN"],
-    //   ["DIAMOND", "EMERALD", "FIRE-OPAL"], ...
-    // ]
   }
+},
+methods: {
+        getResult: function() {
+            // axiosでデータの受け渡し
+            // this.axios.get('http://0.0.0.0:8000/latestposts').then(response => console.log(response))
+            this.axios.get('http://0.0.0.0:8000/latestposts').then(response => 
+             {
+               const movies = response.data
+               movies.forEach(response => this.list.push({
+                 thumbnail: response["THUMBNAIL_ID"],
+                 title: response["TITLE"]
+               }))
+             })
+             .catch((e) => {
+            alert(e);
+          });
+          console.log(typeof(this.list))
+      }
+          
+        }
 }
-}
+
 </script>
 
 <style scoped>

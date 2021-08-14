@@ -2,7 +2,7 @@
 # from app.python.models.schemas import Users
 from models.schemas import *
 from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
-from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse
+from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_302_FOUND
 from pydantic import BaseModel
@@ -15,9 +15,7 @@ from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
 
 from models.fromFrontClasses import LoginUserInfo
-import os, re, ast
-import shutil
-
+import os, re, ast, shutil, cv2, sys, numpy
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
@@ -27,7 +25,7 @@ templates = Jinja2Templates(directory="templates")
 
 # 動画の保存ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
-FILES_DIR = BASE_DIR + '/files'
+FILES_DIR = BASE_DIR + '/files/'
 
 
 
@@ -99,12 +97,19 @@ class UserInfo(BaseModel):
     email: str
     password: str
 
+@app.get('/getforsession')
+def get_session(db: Session = Depends(get_db)):
+    userinfo = crud.get_userforsession(db)
+    return userinfo
+
+
 #ログイン試行
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
     print(form.email, form.password)
     can_login = crud_try_login(form,db)
     if can_login:
+        # users = crud.get_userforsession(db)
         session['login'] = users
         return True
     return False
@@ -334,12 +339,29 @@ def get_Allposts(db: Session = Depends(get_db)):
 
 
 @app.get("/latestposts")
-# 最新の20件投稿を表示する
+# 最新の投稿20件を表示する
 def get_PostAthome(db: Session = Depends(get_db)):
 
     Latestposts = crud.get_postAthome(db)
 
     return Latestposts
+
+
+# 1件だけ動画をとってくる
+@app.get("/get_movie")
+def get_filemovie():
+
+    cap = cv2.VideoCapture(FILES_DIR + 'sample_movie.mp4')
+    #動画のながさ  
+    movie = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
+
+    return movie
+
+# @app.post("/send_movie")
+# def gen():
+#     cap = cv2.VideoCapture(FILES_DIR + 'sample_movie.mp4')
+
+
 
 if __name__ == '__main__':
     import uvicorn

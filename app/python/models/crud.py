@@ -123,3 +123,7 @@ def get_postAthome(db: Session):
 
     
     return latestposts
+
+def get_userforsession(db:Session):
+
+    return db.query(users.USERSTable.MAIL).filter()

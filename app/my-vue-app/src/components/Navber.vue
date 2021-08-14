@@ -4,15 +4,15 @@
 <div class='nav_inner2'>
 
 
-<img id='logo' alt="VG logo" src="./img/vglogo.png">
-<img id='profile_pic' alt="Profile pic" src="./img/profile.jpg">
-<h3>User Name</h3>
+<img id='logo' alt="VG logo" src="./img/vglogo.svg"><br>
+<img id='profile_pic' alt="Profile pic" src="./img/Profile.png">
+<h3>Yutaka Miyaji</h3>
 
 <ul>
-            <li><a><router-link to="/home">Home</router-link></a></li>
-            <li><a><router-link to="/like">Like</router-link></a></li>
-            <li><a><router-link to="/profile">User Profile</router-link></a></li>
-            <li><a>Logout</a></li>
+            <li><a><router-link to="/home"><span class='router_box'><span class='router_text'>Home</span></span></router-link></a></li>
+            <li><a><router-link to="/like"><span class='router_box'><span class='router_text'>Like</span></span></router-link></a></li>
+            <li><a><router-link to="/profile"><span class='router_box'><span class='router_text'>User Profile</span></span></router-link></a></li>
+            <li><a><span class='router_box'><span class='router_text'>Logout</span></span></a></li>
 </ul>
 
 
@@ -35,8 +35,25 @@
 text-align: center;
 }
 
+/* #nav li a {
+    height: 30px;
+    display:block;
+} */
+
+#nav a.router-link-exact-active {
+    color: #CF2E92;
+}
+
+#nav a .router-link-exact-active .router_box{
+    background: linear-gradient(to right, #CF2E92 5px, rgba(0, 0, 0, 0) 5px);
+}
+
+#nav .router_text {
+    margin-left: 40px;
+}
+
 .nav_inner {
-    height: 90%;
+    height: 93%;
     width: 95%;
     position: absolute;
     text-align: center;
@@ -48,25 +65,35 @@ text-align: center;
 }
 
 .nav_inner2 {
-    width:100%;
     height:100%;
     position:relative;
-}
-
-
-ul {
-    list-style:none;
-    margin-top: 30px;
-}
-
-li {
-    margin-top: 20px;
 }
 
 #profile_pic {
     width: 120px;
     border-radius:100vh;
-    margin-top:10px;
+    margin-top:20px;
+}
+
+h3 {
+    margin-top:0px;
+}
+
+
+ul {
+    width:100%;
+    list-style:none;
+    margin-top: 50px;
+}
+
+li {
+    margin-top: 20px;
+    text-align:left;
+}
+
+
+a {
+    text-decoration: none;
 }
 
 #logo {
@@ -75,22 +102,21 @@ li {
 
 
 .btn { 
-    width:140px;
+    width:150px;
     display: inline-block;
     color: white !important;
     padding-top: 12px;
     padding-bottom: 12px;
     border-radius:100vh;
-    text-decoration: none;
     outline: none;
     /*背景の色と形状*/
-    background: linear-gradient(270deg, #FFDD83 0%, #CF2E92 100%);
+    background: linear-gradient(270deg, #FFDD83 10%, #CF2E92 90%);
     background-position: 1% 50%;
     background-size: 130% auto;
     /*アニメーションの指定*/
     transition: all 0.3s ease-out;
     position: absolute;
-    top: 90%;
+    top: 93%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
     -webkit-transform: translateY(-50%) translateX(-50%);

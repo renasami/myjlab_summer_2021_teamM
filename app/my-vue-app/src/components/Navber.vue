@@ -10,9 +10,9 @@
 
 <ul>
             <li><a><router-link to="/home"><span class='router_box'><span class='router_text'>Home</span></span></router-link></a></li>
-            <li><a><router-link to="/like"><span class='router_text'>Like</span></router-link></a></li>
-            <li><a><router-link to="/profile"><span class='router_text'>User Profile</span></router-link></a></li>
-            <li><a><span class='router_text'>Logout</span></a></li>
+            <li><a><router-link to="/like"><span class='router_box'><span class='router_text'>Like</span></span></router-link></a></li>
+            <li><a><router-link to="/profile"><span class='router_box'><span class='router_text'>User Profile</span></span></router-link></a></li>
+            <li><a><span class='router_box'><span class='router_text'>Logout</span></span></a></li>
 </ul>
 
 
@@ -45,7 +45,6 @@ text-align: center;
 }
 
 #nav a .router-link-exact-active .router_box{
-    margin: -10 0;
     background: linear-gradient(to right, #CF2E92 5px, rgba(0, 0, 0, 0) 5px);
 }
 

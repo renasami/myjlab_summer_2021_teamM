@@ -14,7 +14,6 @@
 
 <script>
 export default {
-
      name: 'Card',
    data: function () {
      return {
@@ -47,7 +46,6 @@ computed: {
     // ]
   }
 }
-
 }
 </script>
 

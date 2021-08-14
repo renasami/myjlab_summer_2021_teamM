@@ -124,7 +124,7 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 #     return renamedfile
 
 
-
+# @app.get("/save_movie")
 # # 動画ファイルをfilesディレクトリに保存する
 # def save_movie(user_id, renamedfile, post_id):
 

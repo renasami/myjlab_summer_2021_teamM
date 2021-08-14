@@ -14,7 +14,7 @@
 
 <style scoped>
 .profile {
-  width:82%;
+  width:80%;
   position: absolute;
   right: 0;
   height: 100vh;
@@ -54,7 +54,7 @@ input {
     outline: none;
     font-weight: bold;
     text-decoration: none;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .btn:hover {

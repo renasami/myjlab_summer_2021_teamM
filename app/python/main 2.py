@@ -17,12 +17,10 @@ from models.database import session, ENGINE
 from pathlib import Path
 from models.fromFrontClasses import LoginUserInfo
 import os, re, ast, cv2, shutil
-from starlette.middleware.sessions import SessionMiddleware
-from fastapi.security import APIKeyCookie
 
 
 app=FastAPI()
-# tasks.Base.metadata.create_all(bind=ENGINE)
+tasks.Base.metadata.create_all(bind=ENGINE)
 
 # テスト用のtemplates指定
 templates = Jinja2Templates(directory="templates")
@@ -115,11 +113,14 @@ def get_login_list(db: Session = Depends(get_db)):
 
 
 #ログイン試行
-# @app.post('/login')
-# def login_try(db: Session = Depends(get_db)):
-#     can_login = crud.try_login(db)
-#     ok = crud.try_login(request.form, db)
+@app.post('/login')
+def login_try(db: Session = Depends(get_db)):
+    can_login = crud.try_login(db)
+    ok = crud.try_login(request.form, db)
 
+class UserInfo(BaseModel):
+    mail: str
+    password: str
 
 #ログイン試行
 
@@ -128,9 +129,6 @@ def get_login_list(db: Session = Depends(get_db)):
 #     test = crud.try_login(db)
 
 #     return test
-class UserInfo(BaseModel):
-    mail: str
-    password: str
 
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
@@ -138,13 +136,11 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
     can_login = crud.try_login(form,db)
 
     if can_login:
-        users = crud.search_userid(db, form.mail)
-        session['login'] = form.mail
+        users = crud.search_userid(db, form.email)
+        session['login'] = users
 
         return True
     return False
-
-    
   
 #新規会員登録
 @app.post('/register/')

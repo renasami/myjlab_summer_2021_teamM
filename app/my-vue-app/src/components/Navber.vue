@@ -16,7 +16,8 @@
 </ul>
 
 
-<a href="" class="btn"><span>+ Post Video</span></a>
+<a @click="createModal" class="btn"><span>+ Post Video</span></a>
+
 
 
 </div>
@@ -27,6 +28,15 @@
 
 
 <script>
+export default {
+  methods: {
+    createModal(){
+      console.log("createModal")
+      this.$emit('createModal')
+    }
+  }
+}
+
 </script>
 
 

@@ -45,6 +45,7 @@ def try_logout():
 def is_login():
     return 'login' in session
 
+#動画投稿機能
 def post_movie(db: Session, post: schemas.PostsCreate):
     db_post = posts.POSTSTable(USER_ID=post.user_id, THUMBNAIL_ID=post.thumbnail_id,
     CAPTION=post.caption, TITLE=post.title)
@@ -52,6 +53,9 @@ def post_movie(db: Session, post: schemas.PostsCreate):
     db.commit()
     db.refresh(db_post)
     return db_post
+
+
+
 
 # ログインを試行する
 # def try_login(form,db: Session):

@@ -29,7 +29,7 @@ templates = Jinja2Templates(directory="templates")
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files'
 
-
+# LIST =[]
 
 
 def get_db():
@@ -116,6 +116,16 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
+
+# @app.get('/User')
+# def get_login_list(db: Session = Depends(get_db)):
+#     user = crud.get_login_list(db)
+#     for row in user:
+#         d = row.__dict__
+#     typed = type(d)
+#     return d['MAIL'], typed
+
+
 #動画投稿機能
 @app.post('/posts/')
 def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
@@ -125,7 +135,10 @@ def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db
 @app.get('/likes/')
 def read_likes(db: Session = Depends(get_db)):
     likes = crud.get_likes(db)
+
     return likes
+
+
 
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定

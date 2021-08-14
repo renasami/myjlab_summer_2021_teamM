@@ -7,6 +7,15 @@ from sqlalchemy import desc
 # 全てのCRUD処理をここに記述。
 # CRUD名_テーブル名
 
+# @app.get('/User')
+# def get_login_list(db: Session = Depends(get_db)):
+#     user = crud.get_login_list(db)
+#     for row in user:
+#         d = row.__dict__
+#     return d['MAIL']
+
+LIST = []
+
 
 #select * from tasks
 def get_tasks(db: Session):
@@ -56,7 +65,13 @@ def post_movie(db: Session, post: schemas.PostsCreate):
 
 #いいね抽出
 def get_likes(db: Session):
-    return db.query(likes.LIKESTable).all()
+    getlikes = db.query(likes.LIKESTable).all()
+
+    for idx in range(len(getlikes)):
+        LIST.append(getlikes[idx].__dict__)
+
+
+    return LIST
 
 
 #ログインを試行する
@@ -67,9 +82,19 @@ def try_login(form,db: Session):
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
     userlen = len(USER_LOGIN_LIST)
+
+    for idx in range(len(USER_LOGIN_LIST)):
+        LIST.append(USER_LOGIN_LIST[idx].__dict__)
+
+
+
     print(userlen)
     if userlen == 0:
         return "wrong username or password"
+
+
+
+    
     for i in range(userlen):
         # print('ユーザーリストのmail' + USER_LOGIN_LIST[i].MAIL)
         # print('ユーザリストのpassword' +USER_LOGIN_LIST[i].PASSWORD)
@@ -110,8 +135,11 @@ def try_login(form,db: Session):
 def get_allposts(db: Session):
 
     allposts = db.query(posts.POSTSTable).all()
+    for idx in range(len(allposts)):
+        LIST.append(allposts[idx].__dict__)
 
-    return allposts
+
+    return LIST
 
 
 
@@ -120,6 +148,8 @@ def get_allposts(db: Session):
 def get_postAthome(db: Session):
 
     latestposts = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
+    for idx in range(len(latestposts)):
+        LIST.append(latestposts[idx])
 
     
-    return latestposts
+    return LIST

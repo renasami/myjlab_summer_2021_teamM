@@ -2,7 +2,10 @@
 <div class="card">
     <div v-for="(items, index) in groupedArray" :key="index">
         <li class='cards' v-for="(item, index) in items" :key="index">
-        {{ item }}
+        <div class='cards_inner'>
+        <div class='upper_video'></div>
+        <div class='lower_text'>{{ item }}</div>
+        </div>
         </li>
     </div>
 </div>
@@ -19,7 +22,8 @@ export default {
             "Video3",
             "Video4",
             "Video5",
-            "Video6"
+            "Video6",
+            "Video7"
         ]
      }
    },
@@ -46,17 +50,36 @@ computed: {
 
 <style scoped>
 .card {
-    width:82%;
-    position: absolute;
-    right: 0;
+  width:82%;
+  position: absolute;
+  right: 0;
 }
 
 .cards {
-    width:300px;
-    height:250px;
-    margin: 20px 20px;
-    box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
-    border-radius: 3px;
-    display: inline-block;
+  width:300px;
+  height:250px;
+  margin: 20px 20px;
+  display: inline-block;
+  box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.cards_inner {
+  margin: 0 auto;
+  width:95%;
+  height:95%;
+}
+
+.upper_video {
+  width:100%;
+  height:60%;
+  background-color:#F7F7F7;
+  box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.loxer_text {
+  width:100%;
+  height:40%;
 }
 </style>

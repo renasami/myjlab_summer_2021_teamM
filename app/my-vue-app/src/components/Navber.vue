@@ -5,14 +5,14 @@
 
 
 <img id='logo' alt="VG logo" src="./img/vglogo.svg"><br>
-<img id='profile_pic' alt="Profile pic" src="./img/profile.jpg">
-<h3>User Name</h3>
+<img id='profile_pic' alt="Profile pic" src="./img/Profile.png">
+<h3>Yutaka Miyaji</h3>
 
 <ul>
-            <li><a><router-link to="/home">Home</router-link></a></li>
-            <li><a><router-link to="/like">Like</router-link></a></li>
-            <li><a><router-link to="/profile">User Profile</router-link></a></li>
-            <li><a>Logout</a></li>
+            <li><a><router-link to="/home"><span class='router_text'>Home</span></router-link></a></li>
+            <li><a><router-link to="/like"><span class='router_text'>Like</span></router-link></a></li>
+            <li><a><router-link to="/profile"><span class='router_text'>User Profile</span></router-link></a></li>
+            <li><a><span class='router_text'>Logout</span></a></li>
 </ul>
 
 
@@ -35,6 +35,15 @@
 text-align: center;
 }
 
+#nav a.router-link-exact-active {
+    color: #CF2E92;
+    background: linear-gradient(to right, #CF2E92 5px, rgba(0, 0, 0, 0) 5px);
+}
+
+#nav .router_text {
+    margin-left: 40px;
+}
+
 .nav_inner {
     height: 93%;
     width: 95%;
@@ -48,7 +57,6 @@ text-align: center;
 }
 
 .nav_inner2 {
-    width:100%;
     height:100%;
     position:relative;
 }
@@ -60,16 +68,22 @@ text-align: center;
 }
 
 h3 {
-    margin-top:5px;
+    margin-top:0px;
 }
 
 ul {
+    width:100%;
     list-style:none;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 li {
     margin-top: 20px;
+    text-align:left;
+}
+
+a {
+    text-decoration: none;
 }
 
 #logo {
@@ -84,7 +98,6 @@ li {
     padding-top: 12px;
     padding-bottom: 12px;
     border-radius:100vh;
-    text-decoration: none;
     outline: none;
     /*背景の色と形状*/
     background: linear-gradient(270deg, #FFDD83 0%, #CF2E92 100%);

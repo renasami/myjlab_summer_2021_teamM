@@ -21,15 +21,11 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
     return db_task
 
-
 def get_login_list(db: Session):
     return db.query(users.USERSTable).all()
 
-
-
 def get_user_by_email(db: Session, mail: str):
     return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
-
 
 def create_user(db: Session, user: schemas.UsersCreate):
     db_user = users.USERSTable(MAIL=user.mail, PASSWORD=user.password)

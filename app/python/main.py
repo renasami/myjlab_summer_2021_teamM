@@ -507,14 +507,18 @@ def get_PostAthome(db: Session = Depends(get_db)):
 @app.get("/get_URL")
 def get_url(db: Session = Depends(get_db)):
     LIST = []
+    ID_LIST = []
     urlyoutube = crud.get_latestyoutube(db)
     print("=========================-")
     print(len(urlyoutube))
     for i in range(len(urlyoutube)):
         embedURL = "https://www.youtube.com/embed/" + urlyoutube[i]['YOUTUBE']
         LIST.append(embedURL)
+        movie_id = urlyoutube[i]['ID']
+        ID_LIST.append(movie_id)
     print(LIST)
-    return LIST
+    print(ID_LIST)
+    return LIST,ID_LIST
 
 # @app.get("/qr")
 # def make_qr():

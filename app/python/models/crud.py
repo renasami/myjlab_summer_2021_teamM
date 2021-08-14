@@ -29,16 +29,12 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
     return db_task
 
-
 def get_login_list(db: Session):
     print("=========================================")
     return db.query(users.USERSTable).all()
 
-
-
 def get_user_by_email(db: Session, mail: str):
     return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
-
 
 def create_user(db: Session, user: schemas.UsersCreate):
     db_user = users.USERSTable(MAIL=user.mail, PASSWORD=user.password)
@@ -108,6 +104,7 @@ def get_latest_post(db: Session):
     latest = db.query(posts.POSTSTable.ID).order_by(desc(posts.POSTSTable.ID)).first()
     return latest
 
+
 # ログインを試行する
 # def try_login(form,db: Session):
     # USER_LOGIN_LIST = get_login_list(db)
@@ -126,7 +123,7 @@ def try_login(form, db: Session):
     for idx in range(len(USER_LOGIN_LIST)):
         LIST.append(USER_LOGIN_LIST[idx].__dict__)
     
-    mail = form.email
+    mail = form.mail
     password = form.password
     print('入力されたメールアドレス'+ mail)
     print('入力されたパスワード' + password)
@@ -210,3 +207,17 @@ def get_postAthome(db: Session):
 
     
     return LIST
+
+def get_sessioninfo(db: Session):
+
+    sessioninfo = db.query(users.USERSTable.MAIL).all()
+
+    return sessioninfo
+
+
+
+def search_userid(db: Session, mail):
+
+    mail = db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
+
+    return mail

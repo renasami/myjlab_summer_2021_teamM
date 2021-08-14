@@ -16,7 +16,7 @@
     </div>
     </div>
     <router-view/> 
-    <Navber @createModal="openModal"/>
+    <Navber v-show="show" @createModal="openModal"/>
   </div>
 </template>
 <script>
@@ -31,7 +31,8 @@ export default {
     return{
       showContent: false,
       isEnter: false,
-      files:[]
+      files:[],
+      show: false,
     }
   },
   methods:{
@@ -63,7 +64,22 @@ export default {
         fetch("http://0.0.0.0:8000/posts/",{method: "POST",body: formData})
       })
     }
+  },
+  beforeCreate() {
+    
+  },
+  watch: {
+  '$route': function (to) {
+    console.log(to.name)
+    if(to.name != 'login' || to.name != 'register') {
+      this.show = true;
+      return 
+    }
+    if(to.name == 'login' || to.name == 'register'){
+      this.show = false;
+    }
   }
+}
 }
 </script>
 

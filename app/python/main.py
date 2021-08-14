@@ -15,10 +15,10 @@ from models import crud, tasks, schemas, comments, likes, posts, users   #テー
 from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
 from pathlib import Path
-
 from models.fromFrontClasses import LoginUserInfo
-import os, re, ast
-import shutil
+import os, re, ast, cv2, shutil
+from starlette.middleware.sessions import SessionMiddleware
+from fastapi.security import APIKeyCookie
 
 
 app=FastAPI()
@@ -52,7 +52,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins= origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -93,6 +93,16 @@ def get_user(db: Session = Depends(get_db)):
     USER_LOGIN_LIST = crud.get_login_list(db)
     return USER_LOGIN_LIST
 
+
+# @app.get("/searchforsession")
+# def search_session(db: Session = Depends(get_db)):
+#     mail = "kaisei@gmail.com"
+#     searchinfo = crud.search_mail(db, mail)
+
+#     return searchinfo
+
+
+
 #ユーザー一覧
 @app.get('/User')
 def get_login_list(db: Session = Depends(get_db)):
@@ -102,14 +112,11 @@ def get_login_list(db: Session = Depends(get_db)):
     return d['MAIL']
 
 #ログイン試行
-@app.post('/login')
-def login_try(db: Session = Depends(get_db)):
-    can_login = crud.try_login(db)
-    ok = crud.try_login(request.form, db)
+# @app.post('/login')
+# def login_try(db: Session = Depends(get_db)):
+#     can_login = crud.try_login(db)
+#     ok = crud.try_login(request.form, db)
 
-class UserInfo(BaseModel):
-    email: str
-    password: str
 
 #ログイン試行
 
@@ -118,9 +125,13 @@ class UserInfo(BaseModel):
 #     test = crud.try_login(db)
 
 #     return test
+class UserInfo(BaseModel):
+    mail: str
+    password: str
 
 @app.post('/login/')
 def login_try(form:UserInfo, db: Session = Depends(get_db)):
+
     print(form.mail, form.password)
     can_login = crud.try_login(form,db)
 
@@ -128,14 +139,22 @@ def login_try(form:UserInfo, db: Session = Depends(get_db)):
         users = crud.search_userid(db, form.email)
         session['login'] = users
         # session['login'] = users
+    print(form)
+    can_login = crud.try_login(form,db)
+
+    if can_login:
+        users = crud.search_userid(db, form.mail)
+        session['login'] = form.mail
         return True
     return False
+
+    
   
 #新規会員登録
-@app.post('/users/')
+@app.post('/register/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     db_user  = crud.get_user_by_email(db, mail=user.mail)
-    if db_user:
+    if db_user != None:
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
 
@@ -217,6 +236,16 @@ def read_comment(post_id: int, db: Session = Depends(get_db)):
         db_comment = 0
     return db_comment
 
+
+#動画サムネイル
+@app.get('/moviephoto/')
+def get_photo():
+    file = 'test1.mp4'
+    cap = cv2.VideoCapture(file)
+    cap.set(cv2.CAP_PROP_POS_MSEC, 1000)
+    res, img = cap.read()
+    cv2.imwrite('test.png', img)
+    
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
 # def get_movie():
@@ -422,8 +451,12 @@ def get_Allposts(db: Session = Depends(get_db)):
 def get_PostAthome(db: Session = Depends(get_db)):
 
     Latestposts = crud.get_postAthome(db)
-
-    return Latestposts
+    ret_arr = []
+    for n in range(len(Latestposts)):
+        ret_arr.append(Latestposts[n].__dict__)
+    print(type(ret_arr[0]))
+    print(type(ret_arr))
+    return ret_arr
 
 if __name__ == '__main__':
     import uvicorn

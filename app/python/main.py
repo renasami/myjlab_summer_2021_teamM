@@ -19,7 +19,7 @@ from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
 from pathlib import Path
 from models.fromFrontClasses import LoginUserInfo
-import os, re, ast, cv2, shutil
+import os, re, ast, cv2, shutil, qrcode
 from typing import Optional
 from fastapi.security import APIKeyCookie
 
@@ -40,7 +40,7 @@ templates = Jinja2Templates(directory="templates")
 
 # 動画の保存ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
-FILES_DIR = BASE_DIR + '/files'
+FILES_DIR = BASE_DIR + '/files/'
 
 
 
@@ -186,12 +186,19 @@ class PostInfo(BaseModel):
     caption: str
     title: str
 
-#YoutubeでURLにて投稿機能
+#YoutubeでURLにて投稿機能とqrコード作成機能
 @app.post('/up/')
 def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depends(get_db)):
     youtubeurl = form.youtube
     url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
-    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption)
+   
+
+    file_name = url + '.png'
+    img = youtubeurl
+    qrimg = qrcode.make(img)
+
+
+    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption), FileResponse(qrimg)
 
 #動画投稿機能
 @app.post('/posts/')
@@ -509,6 +516,14 @@ def get_url(db: Session = Depends(get_db)):
     print(LIST)
     return LIST
 
+# @app.get("/qr")
+# def make_qr():
+#     file_name = FILES_DIR +'test.png'
+#     qr = "https://www.youtube.com/watch?v=Fa1UPDtZBYY"
+#     img = qrcode.make(qr)
+#     img.save(file_name)
+
+#     return
 
 if __name__ == '__main__':
     import uvicorn

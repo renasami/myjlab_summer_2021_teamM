@@ -26,8 +26,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #231815;
+  margin-top: 0px;
   height: 100vh;
 }
 
@@ -40,12 +40,6 @@ export default {
 }
 
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-
+  color: #231815;
 }
 </style>

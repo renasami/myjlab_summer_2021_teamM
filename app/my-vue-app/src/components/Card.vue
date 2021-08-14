@@ -4,8 +4,12 @@
         <li class='cards' v-for="(item, index) in items" :key="index">
         <div class='cards_inner'>
         <div class='upper_video'></div>
-        <div class='lower_text'>{{ item }}</div>
-        </div>
+        <div class='lower_text'>
+          <div class="title">{{ item }}</div>
+          <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 17l5-5-5-5M19.8 12H9M10 3H4v18h6"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
+        </div></div>
         </li>
     </div>
 
@@ -54,6 +58,7 @@ computed: {
   width:82%;
   position: absolute;
   right: 0;
+  margin-top: 50px;
 }
 
 .cards {
@@ -61,7 +66,7 @@ computed: {
   height:250px;
   margin: 20px 20px;
   display: inline-block;
-  box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
+  /* box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2); */
   border-radius: 3px;
 }
 
@@ -79,8 +84,19 @@ computed: {
   border-radius: 3px;
 }
 
-.loxer_text {
+.lower_text {
   width:100%;
   height:40%;
+  margin-top:10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.title, .icon {
+  display: inline-block;
+}
+
+.title {
+  font-size: 1.2em;
 }
 </style>

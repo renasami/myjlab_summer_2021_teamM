@@ -1,7 +1,6 @@
 
 from sqlalchemy.orm import Session, session
 from . import tasks, schemas, comments, likes, posts, users #テーブルをつくったらここにモジュール追加
-import cv2
 from sqlalchemy import desc
 
 
@@ -59,30 +58,28 @@ def get_likes(db: Session):
     return db.query(likes.LIKESTable).all()
 
 
-# ログインを試行する
-# def try_login(form,db: Session):
-#     USER_LOGIN_LIST = get_login_list(db)
-#     mail = form.get('mail', '')
-#     password = form.get('pw', '')
-#     print('入力されたメールアドレス'+ mail)
-#     print('入力されたパスワード' + password)
-#     userlen = len(USER_LOGIN_LIST)
-#     if userlen == 0:
+#ログインを試行する
+def try_login(form,db: Session):
+    USER_LOGIN_LIST = get_login_list(db)
+    mail = form.email
+    password = form.password
+    print('入力されたメールアドレス'+ mail)
+    print('入力されたパスワード' + password)
+    userlen = len(USER_LOGIN_LIST)
+    print(userlen)
+    if userlen == 0:
+        return "wrong username or password"
+    for i in range(userlen):
+        print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
+        print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
+        if mail == USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
+            return True
+            session['login'] = users
+        else:
+            return "wrong username or password"
+        
+            
     
-#     for i in range(userlen):
-#         print('ユーザーリストのmail' + USER_LOGIN_LIST[i]['MAIL'])
-#         print('ユーザリストのpassword' +USER_LOGIN_LIST[i]['PASSWORD'])
-#         if mail != USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('存在しません。')
-
-#         elif mail == USER_LOGIN_LIST[i]['MAIL'] and password != USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('入力したパスワードが間違っています。')
-
-#         elif mail != USER_LOGIN_LIST[i]['MAIL'] and password == USER_LOGIN_LIST[i]['PASSWORD']:
-#             print('入力したメールアドレスが間違っています。')
-#         else:
-#             session['login'] = users
-#             return True
 
 
 

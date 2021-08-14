@@ -10,7 +10,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
+from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
+from models.fromFrontClasses import LoginUserInfo
 import os, re
 
 app=FastAPI()
@@ -42,7 +44,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -54,10 +56,13 @@ test_data = {
     "slot": "リールを回す遊び",
 }
 
-@app.get("/")
-async def index():
-    return {"message": "hello world"}
+class Data(BaseModel):
+    user: str
 
+
+@app.post("/")
+def main(data: Data):
+    return data
 
 @app.get("/data/")
 def read_data(key: str):
@@ -84,13 +89,18 @@ def get_user(db: Session = Depends(get_db)):
     return USER_LOGIN_LIST
 
 
+class UserInfo(BaseModel):
+    email: str
+    password: str
+
 #ログイン試行
-@app.post('/login')
-def login_try(db: Session = Depends(get_db)):
-    can_login = crud.try_login(db)
-    ok = crud.try_login(request.form, db)
-
-
+@app.post('/login/')
+def login_try(form:UserInfo, db: Session = Depends(get_db)):
+    print(form.email, form.password)
+    can_login = crud_try_login(form,db)
+    if can_login:
+        return True
+    return False
 #新規会員登録
 @app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):

@@ -54,13 +54,12 @@ def is_login():
 
 #動画投稿機能
 def post_movie(db: Session, post: schemas.PostsCreate):
-    db_post = posts.POSTSTable(USER_ID=post.user_id, THUMBNAIL_ID=post.thumbnail_id,
+    db_post = posts.POSTSTable(USER_ID=post.user_id, YOUTUBE=post.youtube,
     CAPTION=post.caption, TITLE=post.title)
     db.add(db_post)
     db.commit()
     db.refresh(db_post)
     return db_post
-
 
 #いいね全一覧
 def get_likes(db: Session):

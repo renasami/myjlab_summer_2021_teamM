@@ -76,7 +76,14 @@ export default {
   box-shadow: 0px 2px 6px 0 rgba(0,0,0,0.2);
   border-radius: 3px;
   background-color: white;
+  cursor: pointer;
+  transition-duration: 0.5s;
 }
+
+.cards:hover{
+        transform: scale(1.1);
+        transition-duration: 0.5s;
+      }
 
 .cards_inner {
   margin: 0 auto;

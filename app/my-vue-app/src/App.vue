@@ -30,6 +30,7 @@
 <script>
 import Navber from './components/Navber'
 //import axios from 'axios'
+
 export default {
   name: 'App',
   components: {
@@ -40,7 +41,7 @@ export default {
       showContent: false,
       isEnter: false,
       files:[],
-      show: true,
+      show: false,
     }
   },
   methods:{
@@ -73,8 +74,18 @@ export default {
       })
     }
   },
-  beforeCreate() {
-    
+  mounted() {
+    let cookies = document.cookie; //全てのcookieを取り出して
+    let cookiesArray = cookies.split(';'); // ;で分割し配列に
+    console.log(cookiesArray)
+    for(var c of cookiesArray){ //一つ一つ取り出して
+        var cArray = c.split('='); //さらに=で分割して配列に
+        if( cArray[0] == ' isLogin'){ // 取り出したいkeyと合致したら
+            if( cArray[1] == 'true'){
+              this.show = true;
+            }
+        }
+    }
   },
 //   watch: {
 //   '$route': function (to) {

@@ -10,6 +10,15 @@
 </template>
 
 <script>
+let cookies = document.cookie; //全てのcookieを取り出して
+let cookiesArray = cookies.split(';'); // ;で分割し配列に
+if (document.cookie == "" & location.pathname == "/like") location.href = "/login";
+for(var c of cookiesArray){ //一つ一つ取り出して
+    var cArray = c.split('='); //さらに=で分割して配列に
+    if( cArray[0] == ' isLogin' & location.pathname == "/profile"){ // 取り出したいkeyと合致したら
+        if(cArray[1] == "false") location.href = "/login"  // [key,value] 
+    }
+}
 </script>
 
 <style scoped>

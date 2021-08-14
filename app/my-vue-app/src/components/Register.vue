@@ -8,8 +8,17 @@
 </template>
 <script>
 import axios from "axios"
-import crypto from "crypto"
-const sha256 = crypto.createHash('sha256');
+// import crypto from "crypto"
+// const sha256 = crypto.createHash('sha256');
+let cookies = document.cookie; //全てのcookieを取り出して
+let cookiesArray = cookies.split(';'); // ;で分割し配列に
+
+for(var c of cookiesArray){ //一つ一つ取り出して
+    var cArray = c.split('='); //さらに=で分割して配列に
+    if( cArray[0] == ' isLogin'){ // 取り出したいkeyと合致したら
+        if(cArray[1] == "true" & location.pathname == "/register") location.href = "/home"  // [key,value] 
+    }
+}
 export default {
     name: 'Register',
     data() {
@@ -24,10 +33,13 @@ export default {
             if (!valid) {
                 return 
             }
-            sha256.update(this.password)
-            const hashedPassword = sha256.digest("hex")
-            await axios.post("http://0.0.0.0:8000/register/",{mail:this.name,password:hashedPassword}).then(result => {
+            // sha256.update(this.password)
+            // const hashedPassword = sha256.digest("hex")
+            await axios.post("http://0.0.0.0:8000/register/",{mail:this.name,password:this.password}).then(result => {
                 console.log(result)
+            }).catch(err => {
+                console.log(err)
+                alert("そのメールアドレスは使用されています。")
             })
             this.$router.push("/home")
         },

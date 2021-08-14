@@ -113,7 +113,7 @@ def get_latest_post(db: Session):
 #     print('入力されたパスワード' + password)
 #     userlen = len(USER_LOGIN_LIST)
 #     if userlen == 0:
-
+import time
 #ログインを試行する
 def try_login(form, db: Session):
     USER_LOGIN_LIST = get_login_list(db)
@@ -133,7 +133,7 @@ def try_login(form, db: Session):
     if userlen == 0:
         return "wrong username or password"
 
-    
+    time.sleep(0.5)  
     for i in range(userlen):
         print('ユーザーリストのmail: ' + LIST[i]['MAIL'])
         print('ユーザリストのpassword: ' + LIST[i]['PASSWORD'])

@@ -22,6 +22,7 @@ from models.fromFrontClasses import LoginUserInfo
 import os, re, ast, cv2, shutil, qrcode
 from typing import Optional
 from fastapi.security import APIKeyCookie
+import time
 
 
 # from starlette.middleware.sessions import SessionMiddleware
@@ -63,7 +64,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins= ["*"],
+    allow_origins= origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -156,7 +157,7 @@ def login_try(form:UserInfo, user_id :Optional[int] = Cookie(None),db: Session =
         print(users)
         # print(Cookie[0])
         # session['login'] = form.mail
-        return True, {"user_id" : users}
+        return True, {"user_id" : users[0][0]}
     return False
 
 
@@ -505,11 +506,12 @@ def get_PostAthome(db: Session = Depends(get_db)):
 
 #youtube URLの取得(最新20件)
 @app.get("/get_URL")
-def get_url(db: Session = Depends(get_db)):
+async def get_url(db: Session = Depends(get_db)):
     LIST = []
+    time.sleep(0.5)
     urlyoutube = crud.get_latestyoutube(db)
     print("=========================-")
-    print(len(urlyoutube))
+    print(urlyoutube[0])
     for i in range(len(urlyoutube)):
         embedURL = "https://www.youtube.com/embed/" + urlyoutube[i]['YOUTUBE']
         LIST.append(embedURL)

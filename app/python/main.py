@@ -1,21 +1,29 @@
 
 # from app.python.models.schemas import Users
-
 from models.schemas import *
-
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile
+from fastapi.responses import HTMLResponse, ORJSONResponse, RedirectResponse, FileResponse
+from fastapi.templating import Jinja2Templates
+from starlette.status import HTTP_302_FOUND
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from models import crud, tasks, schemas, comments, likes, posts, users   #テーブル作成したら随時追加
+from models.crud import try_login as crud_try_login
 from models.database import session, ENGINE
-import os, re
+
+from models.fromFrontClasses import LoginUserInfo
+import os, re, ast
+import shutil
+
 
 app=FastAPI()
 tasks.Base.metadata.create_all(bind=ENGINE)
 
+# テスト用のtemplates指定
+templates = Jinja2Templates(directory="templates")
 
 # 動画の保存ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
@@ -42,7 +50,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -54,10 +62,13 @@ test_data = {
     "slot": "リールを回す遊び",
 }
 
-@app.get("/")
-async def index():
-    return {"message": "hello world"}
+class Data(BaseModel):
+    user: str
 
+
+@app.post("/")
+def main(data: Data):
+    return data
 
 @app.get("/data/")
 def read_data(key: str):
@@ -91,12 +102,27 @@ def get_login_list(db: Session = Depends(get_db)):
         d = row.__dict__
     return d['MAIL']
 
+
 #ログイン試行
 @app.post('/login')
 def login_try(db: Session = Depends(get_db)):
     can_login = crud.try_login(db)
     ok = crud.try_login(request.form, db)
 
+class UserInfo(BaseModel):
+    email: str
+    password: str
+
+#ログイン試行
+@app.post('/login/')
+def login_try(form:UserInfo, db: Session = Depends(get_db)):
+    print(form.email, form.password)
+    can_login = crud_try_login(form,db)
+    if can_login:
+        session['login'] = users
+        return True
+    return False
+  
 #新規会員登録
 @app.post('/users/')
 def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
@@ -151,6 +177,121 @@ def read_like(user_id: int, db: Session = Depends(get_db)):
 #     renamedfile = os.rename(upfile, namefile)
 
 #     return renamedfile
+
+
+
+# @app.get("/fileupload")
+# async def fileupload(request: Request):
+#     '''docstring
+#     ファイルアップロード(初期表示)
+#     '''
+#     html_content = """
+#     <html>
+#         <head>
+#             <title>Some HTML in here</title>
+#         </head>
+#         <body>
+#             <h1>Look ma! HTML!</h1>
+#             <form method=post action="/fileupload/upload">
+#                 <p>アップロードするファイルを選択してください.</p>
+#                 <p><input type="file"></p>
+#                 <input type="submit" value="アップロード">
+#             <form>
+#         </body>
+#     </html
+#     """
+#     return HTMLResponse(content=html_content, status_code=200)
+
+# @app.post("/fileupload/upload")
+# async def image(file: UploadFile = File(...)):
+#     global upload_folder
+#     print("1")
+
+#     file_object = file.file
+
+#     print("2")
+
+#     upload_folder = open(os.path.join(upload_folder, file.filename), 'wb+')
+
+#     print("3")
+#     shutil.copyfileobj(file_object, upload_folder)
+
+#     print("4")
+
+#     upload_folder.close()
+
+#     print("5")
+
+#     return {'filename': file.filename}
+
+
+
+
+@app.get("/fileupload/filelist", response_class=ORJSONResponse)
+async def get_filelist(request: Request):
+    '''docstring
+    アップロードされたファイルの一覧を取得する
+    '''
+
+    def get_extention(filepath):
+        '''docstring
+        ファイルパスから拡張子を取得する
+        '''
+
+        ex = os.path.sqlitext(filepath)
+        return ex[len(ex)-1]
+
+    uploadedpath = "./uploads"
+    files = os.listdir(uploadedpath)
+    filelist = [{
+        "filename":f,
+        "filesize": os.path.getsize(os.path.join(uploadedpath, f)),
+        "extention": get_extention(f),
+    } for f in files if os.path.isfile(os.path.join(uploadedpath, f))]
+    return filelist
+
+
+
+
+
+
+
+
+# @app.post("/fileupload/upload")
+# async def fileupload_post(request: Request):
+#     '''docstring
+#     アップロードされたファイルを保存する
+#     '''
+
+#     form = await request.form()
+#     uploadedpath = "./uploads"
+#     files = os.listdir(uploadedpath)
+#     for formdata in form:
+#         uploadfile = form[formdata]
+#         path = os.path.join("./uploads", uploadfile.filename)
+#         fout = open(path, 'wb')
+#         while 1:
+#             chunk = await uploadfile.read(100000)
+#             if not chunk: break
+#             fout.write (chunk)
+#         fout.close()
+    
+#     return {"status": "OK"}
+
+@app.post("/fileupload/deletefile")
+async def deletefile_post(request: Request):
+    '''docstring
+    ファイルを削除する  
+    '''
+
+    form = await request.form()
+    for formdata in form:
+        formparams = form[formdata]
+        dictparams = ast.literal_eval(formparams)
+        os.remove(os.path.join("./uploads", dictparams.get('filename')))
+    response = RedirectResponse(url='/fileupload2', status_code=HTTP_302_FOUND)
+    return response
+
 
 
 # @app.get("/save_movie")

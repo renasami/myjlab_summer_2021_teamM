@@ -12,9 +12,8 @@ from datetime import datetime
 class USERSTable(Base):
     __tablename__ = 'USERS'
     ID = Column(Integer, primary_key=True, autoincrement=True)
-    NAME = Column(String(20)) 
-    PASSWORD = Column(String(1000), nullable=False) 
-    PASSWORD_CONFIRMATION = Column(String(1000), nullable=False)
+    NAME = Column(String(30)) 
+    PASSWORD = Column(String(1000)) 
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)
 

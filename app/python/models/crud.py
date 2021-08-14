@@ -65,12 +65,18 @@ def get_likes(db: Session):
 def get_user_like(db: Session, user_id: int):
     return db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
 
+#いいね投稿別一覧
+def get_post_like(db: Session, post_id: int):
+    return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == post_id).all()
+    
 #いいね機能
 def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
     db_like = likes.LIKESTable(USER_ID=user_id, POST_ID=post_id)
     db.add(db_like)
     db.commit()
     return db_like
+
+
 
 #コメント機能
 def post_comment(db: Session, comment: schemas.CommentsCreate):
@@ -84,6 +90,7 @@ def post_comment(db: Session, comment: schemas.CommentsCreate):
 #コメント投稿別一覧
 def get_post_comment(db: Session, post_id: int):
     return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
+
 
 # ログインを試行する
 # def try_login(form,db: Session):

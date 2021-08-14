@@ -54,7 +54,9 @@ def post_movie(db: Session, post: schemas.PostsCreate):
     db.refresh(db_post)
     return db_post
 
-
+#いいね抽出
+def get_likes(db: Session):
+    return db.query(likes.LIKESTable).all()
 
 
 # ログインを試行する

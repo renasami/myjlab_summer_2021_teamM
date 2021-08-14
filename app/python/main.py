@@ -104,6 +104,12 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
 def create_post_for_user(post: schemas.PostsCreate, db: Session = Depends(get_db)):
     return crud.post_movie(db=db, post=post)
 
+#いいね抽出
+@app.get('/likes/')
+def read_likes(db: Session = Depends(get_db)):
+    likes = crud.get_likes(db)
+    return likes
+
 # @app.get("/movie")
 # # 動画ファイルを受け取る upfileと仮定
 # def get_movie():

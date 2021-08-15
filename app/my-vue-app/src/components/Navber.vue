@@ -39,7 +39,6 @@ export default {
     },
     logout(){
         console.log("logout")
-        
         document.cookie = "isLogin=; expires=0";
         document.cookie = "isLogin=false"
         location.href="/login"

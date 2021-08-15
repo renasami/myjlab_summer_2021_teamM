@@ -239,8 +239,9 @@ def create_likes_for_user(
 @app.get("/users/{user_id}/likes")
 def read_like(user_id: int, db: Session = Depends(get_db)):
     db_like = crud.get_user_like(db, user_id=user_id)
+
     if db_like is None:
-        db_like = 0
+        db_like = []
     return db_like
 
 #いいね投稿別一覧表示

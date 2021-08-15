@@ -41,20 +41,49 @@ export default {
       return grouped_list
     }
   },
-  methods:{
-  },
+  
   mounted: function(){
-            // axiosでデータの受け渡し
-            this.axios.get('http://0.0.0.0:8000/get_URL').then(response => {
-              this.list = response.data
-              console.log(response.data)
-              })
-             .catch((e) => {
-            alert(e);
-          });
-          console.log(this.list)
-      }
-}
+        if(location.pathname == "/like"){
+          let cookies = document.cookie; //全てのcookieを取り出して 
+          let cookiesArray = cookies.split(';'); // ;で分割し配列に
+          let uid 
+          let likedList
+          for(var c of cookiesArray){
+            let cArray = c.split('=')
+            if(cArray[0] == ' userid'){ 
+              uid = cArray[1]
+            }
+          }
+        this.axios.get('http://0.0.0.0:8000/get_URL').then(response => {
+          this.list = response.data
+          console.log(response.data)
+          })
+        .catch((e) => {
+        alert(e);
+      });
+      this.axios.get(`http://0.0.0.0:8000/users/${uid}/likes`).then(response => {
+        response.data.forEach(res => {
+          for(var n = 0; n < this.list.length; n++){
+            if(this.list[n].movie_id == res.POST_ID){
+              likedList.push(this.list[n])
+            }
+          }
+        }); 
+        this.list = likedList
+        console.log(this.list)
+    })} else{
+      this.axios.get('http://0.0.0.0:8000/get_URL').then(response => {
+          this.list = response.data
+          console.log(response.data)
+          })
+        .catch((e) => {
+        alert(e);
+      });
+        
+     }
+    }
+  }
+
 
 
 

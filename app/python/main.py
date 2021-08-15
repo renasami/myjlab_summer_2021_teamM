@@ -503,25 +503,28 @@ def get_PostAthome(db: Session = Depends(get_db)):
 
 #     return embedURL
 
-
+#URLID_LIST
+#{
+# url:star,
+# movie_id: int
+#}
+#
+#
 #youtube URLの取得(最新20件)
 @app.get("/get_URL")
-async def get_url(db: Session = Depends(get_db)):
-    LIST = []
-    ID_LIST = []
+def get_url(db: Session = Depends(get_db)):
     time.sleep(0.5)
-
+    URLID_LIST = []
+    time.sleep(0.5)
     urlyoutube = crud.get_latestyoutube(db)
-    print("=========================-")
+    print("=========================")
     print(urlyoutube[0])
     for i in range(len(urlyoutube)):
-        embedURL = urlyoutube[i]['YOUTUBE']
-        LIST.append(embedURL)
+        embed_url = urlyoutube[i]['YOUTUBE']
         movie_id = urlyoutube[i]['ID']
-        ID_LIST.append(movie_id)
-    print(LIST)
-    print(ID_LIST)
-    return LIST,ID_LIST
+        URLID_LIST.append({"url":"https://www.youtube.com/embed/"+embed_url,"movie_id":movie_id,"youtube_id": "https://img.youtube.com/vi/" + embed_url +"/sddefault.jpg"})
+    
+    return URLID_LIST
 
 # @app.get("/qr")
 # def make_qr():

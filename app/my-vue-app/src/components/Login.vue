@@ -1,10 +1,13 @@
-<template height="100%">
+<template>
     <div id="login">
-        <h1> this is login page </h1>
+    <div class="login_inner">
+        <!-- <img id='logo' alt="VG logo" src="./img/vglogo-white.svg"><br> -->
+        <h1> Login Page </h1>
         <input type="text" id="username" v-model="name" placeholder="e-mail"> <br>
-        <input type="text" id="password" v-model="password" placeholder="password"> <br>
+        <input type="password" id="password" v-model="password" placeholder="password"> <br>
         <button type="submit" @click="login">ログイン</button><br>
-        <a href="/register">ユーザ登録はこちらから</a>
+        <a class='rgster' href="/register">ユーザ登録はこちらから</a>
+    </div>
     </div>
 </template>
 <script >
@@ -77,6 +80,81 @@ export default{
 }
 
 </script>
-<style lang="stylus" scoped>
+
+
+<style scoped>
+/* lang="stylus" */
+
+#login {
+    position:relative;
+    width: 100%;
+    height: 100vh;
+    /* background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); */
+     background: linear-gradient(-45deg, #184e68, #57ca85);
+    background-size: 200% 200%;
+    animation: gradient 8s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.login_inner {
+    position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    padding-bottom:50px;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    width:300px;
+    height:55px;
+    color: white;
+    text-align: left;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin-bottom: 15px;
+    border-radius: 3px;
+    padding-left: 10px;
+    font-size: 0.9em;
+}
+
+button {
+    width:310px;
+    height: 53px;
+    color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: transparent;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+}
+
+button:hover, .rgster:hover {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.rgster {
+    font-size: 0.75em;
+    color: white;
+    text-decoration: none;
+}
 
 </style>

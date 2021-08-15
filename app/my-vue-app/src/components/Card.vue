@@ -2,9 +2,9 @@
 <div class="card">
 <component-children v-bind:variable="list" />
     <div v-for="(items, index) in groupedArray" :key="index">
-        <li class='cards' v-for="(item,itemIndex) in items" :key="item.id">
+        <li class='cards' v-for="item in items" :key="item.id">
           <div class='cards_inner'>
-          <Cardmin v-bind:ttl="item" :index="index*10+itemIndex" :id="index*10+itemIndex" />    
+          <Cardmin v-bind:ttl="item" :index="item.id" :url="item.url" :youtube="item.youtube_id" />    
           </div>
         </li>
     </div>
@@ -24,17 +24,7 @@ export default {
     },
    data: function () {
      return {
-        list: [
-          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
-          'https://www.youtube.com/embed/AFJ7tYwHK4',
-          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
-          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
-          'https://www.youtube.com/embed/AFJ7tYwHK4',
-          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
-          'https://www.youtube.com/embed/Z_EK0Zt1pXU',
-          'https://www.youtube.com/embed/AFJ7tYwHK4',
-          'https://www.youtube.com/embed/FGtLSiyuhec&t=511s',
-          ],
+        list: [],
      }
    },
   computed: {
@@ -55,7 +45,10 @@ export default {
   },
   mounted: function(){
             // axiosでデータの受け渡し
-            this.axios.get('http://0.0.0.0:8000/get_URL').then(response => this.list = response.data)
+            this.axios.get('http://0.0.0.0:8000/get_URL').then(response => {
+              this.list = response.data
+              console.log(response.data)
+              })
              .catch((e) => {
             alert(e);
           });

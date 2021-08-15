@@ -1,17 +1,33 @@
 <template>
     <div class="cardmin">
-
-                <iframe class='upper_video'
-                width="100%" 
-                height="100%" 
-                v-bind:src="ttl"
-                title="YouTube video player" 
-                frameborder="0" 
-                allow="accelerometer; 
-                autoplay; clipboard-write;
-                encrypted-media; gyroscope; 
-                picture-in-picture" allowfullscreen></iframe>
-
+            <iframe @click="sambnail = !sambnail"
+            v-if="sambnail" 
+            class='upper_video'
+            width="120%" 
+            height="150%" 
+            v-bind:src="url"
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; 
+            autoplay; clipboard-write;
+            encrypted-media; gyroscope; 
+            picture-in-picture" allowfullscreen></iframe>
+            <div v-else
+            @click="sambnail = !sambnail"
+            class='upper_video'
+            width="100%" 
+            height="100%" 
+            v-bind:src="url"
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; 
+            autoplay; clipboard-write;
+            encrypted-media; gyroscope; 
+            picture-in-picture" allowfullscreen>
+                <img v-bind:src="youtube"
+                width="70%" 
+                height="50%"/>
+            </div>                
         <div class='lower_text'>
             <div class="title">{{ index }} </div>
             <div class="sub-title">{{ ind }}</div>
@@ -27,14 +43,14 @@
         
     </div>
 </template>
-
 <script>
+//
  export default {
     name: 'Cardmin',
     data(){
         return{
             buttonState:false,
-            count: 0
+            sambnail : false,
         }
     },
     method:{
@@ -44,7 +60,7 @@
             this.buttonState[index] = !this.buttonState;
         }
     },
-    props:  ["ttl","index"],
+    props:  ["url","index","youtube"],
     mounted: function() {
     // <p>Hello</p>が出力される
     console.log(this.$refs);

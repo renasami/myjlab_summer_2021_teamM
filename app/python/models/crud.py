@@ -75,8 +75,12 @@ def get_user_like(db: Session, user_id: int):
     return db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
 
 #いいね投稿別一覧
-def get_post_like(db: Session, post_id: int):
-    return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == post_id).all()
+def get_post_like(db: Session, postid: int):
+    return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == postid).count()
+
+# def cnt_get_post_like(db: Session, post_id: int):
+#     cnt = get_post_like(db: Session, post_id)
+#     return cnt
     
 #いいね機能
 def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):

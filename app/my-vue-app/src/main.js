@@ -11,6 +11,7 @@ console.log('fas')
 Vue.use(VueAxios, axios)
 Vue.use(Vuetify)
 
+
 new Vue({
   el: '#app',
   router,

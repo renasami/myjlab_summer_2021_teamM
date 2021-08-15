@@ -72,7 +72,13 @@ def get_likes(db: Session):
 
 #いいねuser別一覧
 def get_user_like(db: Session, user_id: int):
-    return db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
+    alluserlike = db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
+    
+    for idx in range(len(alluserlike)):
+       LIST.append(alluserlike[idx].__dict__)
+
+
+    return LIST
 
 #いいね投稿別一覧
 def get_post_like(db: Session, postid: int):
@@ -241,9 +247,19 @@ def get_youtube(db: Session, postid):
     for idx in range(len(Oneyoutube)):
         LIST.append(Oneyoutube[idx].__dict__)
 
+    return LIST
+
 def get_latestyoutube(db: Session):
     youtube = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
     for idx in range(len(youtube)):
         LIST.append(youtube[idx].__dict__)
+
+    return LIST
+
+def get_mylikeyoutube(db: Session, post_id):
+    LIST = []
+    youtube = db.query(posts.POSTSTable.USER_ID, posts.POSTSTable.CAPTION, posts.POSTSTable.TITLE,posts.POSTSTable.YOUTUBE).order_by(desc(posts.POSTSTable.CREATED_AT)).all() 
+    for idx in range(len(youtube)):
+        LIST.append(youtube[idx])
 
     return LIST

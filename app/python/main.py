@@ -461,20 +461,52 @@ def cnt_getlike(button: Likeinfo ,db: Session = Depends(get_db)):
     return records
 
 
-#自分のいいねした動画取得 未完、 youtubeURLを
-@app.get('/get_mylike')
-def get_mylike(button: MyLikeinfo,  db: Session = Depends(get_db)):
-    user_id = button.user_id
-    return crud.get_user_like(db, user_id)
-
+#自分のいいねした投稿を返す
 
 # @app.get('/get_mylike')
-# def get_mylike(db: Session = Depends(get_db)):
-#     # user_id = button.user_id
+# def get_Mylike(db: Session = Depends(get_db)):
+#     mylikelist = []
+#     myyoutubelist = []
 #     user_id = 1
-#     userlike = crud.get_user_like(db, user_id)
+#     useralllike = crud.get_user_like(db, user_id)
     
-    # return
+    
+#     for idx in range(len(useralllike)):
+#        mylikelist.append(useralllike[idx]["POST_ID"])
+
+
+#     for i in range(len(mylikelist)):
+#         mylikepost = crud.get_mylikeyoutube(db, mylikelist[i])
+
+#     # for x in range(len(mylikelist)):
+#     #     youtubeurl = mylikelist[x]["YOUTUBE"].
+
+#     return mylikepost
+
+
+
+@app.get('/get_mylike')
+def get_Mylike(db: Session = Depends(get_db)):
+    mylikelist = []
+    myyoutubelist = []
+    user_id = 1
+    useralllike = crud.get_user_like(db, user_id)
+    
+    
+    for idx in range(len(useralllike)):
+       mylikelist.append(useralllike[idx]["POST_ID"])
+
+
+    for i in range(len(mylikelist)):
+        myyoutube_url = crud.get_mylikeyoutube(db, mylikelist[i])
+        print(i)
+        myyoutubelist.append(myyoutube_url) 
+# 
+
+    return myyoutube_url
+
+
+
 
 #いいね機能
 @app.post('/users/{user_id}/likes/')

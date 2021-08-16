@@ -15,3 +15,6 @@ https://qiita.com/kouchanne/items/417bad58633cc4262012
 <DBコンテナにテーブルを作る方法>
 1. バックエンドのコンテナに入る
 2. python -m createdatabase
+
+<api test>
+  http://localhost:8080/api-test

@@ -6,6 +6,7 @@ import Register from '../components/Register'
 import Home from '../components/Home'
 import Like from '../components/Like'
 import Profile from '../components/Profile'
+import ApiTest from '../components/ApiTest'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: Profile
+  },
+  {
+    path: '/api-test',
+    name: 'api-test',
+    component:ApiTest
   }
 ]
 

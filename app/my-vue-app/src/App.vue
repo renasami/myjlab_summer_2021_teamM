@@ -71,7 +71,7 @@ export default {
       console.log(this.files)
       this.isEnter = false;
     },
-    sendFile: function(this.files){
+    sendFile: function(){
       if(this.files.length < 1) return
       this.files.forEach(file => {
         let formData = new FormData();

@@ -11,3 +11,7 @@ we are at [myjlab](https://www.myjlab.org/)
 <参考>
 環境編
 https://qiita.com/kouchanne/items/417bad58633cc4262012
+
+<DBコンテナにテーブルを作る方法>
+1. バックエンドのコンテナに入る
+2. python -m createdatabase

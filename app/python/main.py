@@ -2,7 +2,7 @@
 # from app.python.models.schemas import Users
 from tempfile import NamedTemporaryFile
 from typing import Optional
-
+from starlette.websockets import WebSocket
 from starlette import status
 from models.schemas import *
 from fastapi import FastAPI, Depends, HTTPException, Request, File, UploadFile, Cookie
@@ -34,7 +34,7 @@ app=FastAPI()
 
 # app.include_router(auth.router, prefix="/auth")
 tasks.Base.metadata.create_all(bind=ENGINE)
-
+clients = {}
 
 # テスト用のtemplates指定
 templates = Jinja2Templates(directory="templates")
@@ -194,12 +194,13 @@ def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depe
     url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
    
 
-    file_name = url + '.png'
-    img = youtubeurl
-    qrimg = qrcode.make(img)
+    # file_name = url + '.png'
+    # img = youtubeurl
+    # qrimg = qrcode.make(img)
 
 
-    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption), FileResponse(qrimg)
+    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption)
+    # return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption), FileResponse(qrimg)
 
 #動画投稿機能
 @app.post('/posts/')
@@ -346,96 +347,10 @@ def get_photo():
 
 
 
-@app.get("/fileupload/filelist", response_class=ORJSONResponse)
-async def get_filelist(request: Request):
-    '''docstring
-    アップロードされたファイルの一覧を取得する
-    '''
-
-    def get_extention(filepath):
-        '''docstring
-        ファイルパスから拡張子を取得する
-        '''
-
-        ex = os.path.sqlitext(filepath)
-        return ex[len(ex)-1]
-
-    uploadedpath = "./uploads"
-    files = os.listdir(uploadedpath)
-    filelist = [{
-        "filename":f,
-        "filesize": os.path.getsize(os.path.join(uploadedpath, f)),
-        "extention": get_extention(f),
-    } for f in files if os.path.isfile(os.path.join(uploadedpath, f))]
-    return filelist
-
-
-# @app.post("/fileupload/upload")
-# async def fileupload_post(request: Request):
-#     '''docstring
-#     アップロードされたファイルを保存する
-#     '''
-
-#     form = await request.form()
-#     uploadedpath = "./uploads"
-#     files = os.listdir(uploadedpath)
-#     for formdata in form:
-#         uploadfile = form[formdata]
-#         path = os.path.join("./uploads", uploadfile.filename)
-#         fout = open(path, 'wb')
-#         while 1:
-#             chunk = await uploadfile.read(100000)
-#             if not chunk: break
-#             fout.write (chunk)
-#         fout.close()
-    
-#     return {"status": "OK"}
-
-@app.post("/fileupload/deletefile")
-async def deletefile_post(request: Request):
-    '''docstring
-    ファイルを削除する  
-    '''
-
-    form = await request.form()
-    for formdata in form:
-        formparams = form[formdata]
-        dictparams = ast.literal_eval(formparams)
-        os.remove(os.path.join("./uploads", dictparams.get('filename')))
-    response = RedirectResponse(url='/fileupload2', status_code=HTTP_302_FOUND)
-    return response
 
 
 
-# @app.get("/save_movie")
-# # 動画ファイルをfilesディレクトリに保存する
-# def save_movie(user_id, renamedfile, post_id):
 
-#     frame_rate = 24.0 #フレームレート
-#     size = (640, 480) #動画の画面サイズ
-
-#     fmt = cv2.VideoWrite_fourcc('m', 'p', '4', 'v') #ファイル形式指定(ここではmp4)
-
-#     #指定したディレクトリ、名前、フレームレート、ファイル形式、動画の画面サイズで動画を保存 
-#     writer = cv2.VideoWriter('./files/' + renamedfile + '.mp4', fmt, frame_rate, size) 
-
-#     ret, frame = video.read()
-#     writer.write(frame) #画像を1フレーム分として書き込み
-
-#     writer.release() #ファイルを閉じる
-
-@app.post("/save_movie_info")
-def save_file_info(movie: schemas.MoviesSend, db: Session = Depends(get_db)):
-    # # 動画ファイル情報を保存
-    # file_id = exec('''
-    #     INSERT INTO MOVIES (USER_ID, MOVIE, POST_ID)
-    #     VALUES(?,?,?)''',
-    #     user_id, movie, post_id
-    # )
-
-    fileinfo = crud.post_movie(db=db, movie=movie)
-
-    return fileinfo
 
 
 
@@ -536,9 +451,137 @@ def get_url(db: Session = Depends(get_db)):
 
 #     return
 
+
+class CreateLikeinfo(BaseModel):
+    postid: int
+    user_id: int
+
+
+class Likeinfo(BaseModel):
+    postid: int
+
+class MyLikeinfo(BaseModel):
+    user_id: int
+
+
+#いいね数取得
+@app.get('/get_cntlike')
+def cnt_getlike(button: Likeinfo ,db: Session = Depends(get_db)):
+    postid = button.postid
+    # postid=7
+    records = crud.get_post_like(db, postid)
+
+
+    return records
+
+
+#自分のいいねした投稿を返す
+
+# @app.get('/get_mylike')
+# def get_Mylike(db: Session = Depends(get_db)):
+#     mylikelist = []
+#     myyoutubelist = []
+#     user_id = 1
+#     useralllike = crud.get_user_like(db, user_id)
+    
+    
+#     for idx in range(len(useralllike)):
+#        mylikelist.append(useralllike[idx]["POST_ID"])
+
+
+#     for i in range(len(mylikelist)):
+#         mylikepost = crud.get_mylikeyoutube(db, mylikelist[i])
+
+#     # for x in range(len(mylikelist)):
+#     #     youtubeurl = mylikelist[x]["YOUTUBE"].
+
+#     return mylikepost
+
+
+
+@app.get('/get_mylike')
+def get_Mylike(db: Session = Depends(get_db)):
+    mylikelist = []
+    myyoutubelist = []
+    user_id = 1
+    useralllike = crud.get_user_like(db, user_id)
+    
+    
+    for idx in range(len(useralllike)):
+       mylikelist.append(useralllike[idx]["POST_ID"])
+
+
+    for i in range(len(mylikelist)):
+        userPOST = crud.get_mylikeyoutube(db, mylikelist[i])
+        print(i)
+        myyoutubelist.append(userPOST) 
+
+   #ROW OBJECTになってしまっているためうごかない 
+   #DBから帰ってくるデータの型をmaなどのライブラリで
+   #特殊なオブジェクトから配列で帰ってくるように変更するまで保留
+    for x in range(len(mylikelist)):
+        TrueyoutubeURL =  "https://www.youtube.com/embed/" + myyoutubelist[0][0]["YOUTUBE"]
+        # myyoutubelist[0][0]["YOUTUBE"] = TrueyoutubeURL
+        myyoutubelist[0][0]["YOUTUBE"] = "11"
+    # youtubeURL = myyoutubelist[0][0]["YOUTUBE"]
+
+
+    return myyoutubelist
+
+
+
+
+
+#いいね機能
+@app.post('/users/{user_id}/likes/')
+def create_likes_for_user(button: CreateLikeinfo ,like: schemas.LikesCreate,db: Session = Depends(get_db)):
+    user_id= button.user_id
+    post_id= button.post_id
+    return crud.create_user_like(db=db, like=like, user_id=user_id, post_id=post_id)
+
+# いいね機能テストコード
+# @app.post('/users/{user_id}/likes/')
+# def create_likes_for_user(like: schemas.LikesCreate,db: Session = Depends(get_db)):
+#     user_id=1
+#     post_id=1
+#     return crud.create_user_like(db=db, like=like, user_id=user_id, post_id=post_id)
+
+
+
+# @app.post('/post_like')
+# def post_like(button: CreateLikeinfo, likes=schemas.LikesCreate,db: Session = Depends(get_db)):
+#     user_id = button.user_id
+#     postid = button.postid
+
+#     return crud.create_user_like(db=db, user_id=user_id, likes=likes, postid=postid)
+
+
+# @app.websocket("/ws")
+# async def websocket_endpoint(ws: WebSocket):
+#     await ws.accept
+#     #クライアントを識別するためのIDを取得
+#     key = ws.headers.get('sec-websocket-key')
+#     clients[key] = ws
+#     try:
+#         while True:
+#             # クライアントからメッセージを受信, 
+#             # data = await ws.receive_text()
+#             receivelike = await crud.create_user_like(db=db)
+
+#             # 接続中のクライアントそれぞれにメッセージを送信(ブロードキャスト)
+#             for client in clients.values():
+#                 await cnt_getlike()
+#     except:
+#         await ws.close()
+#         #接続切れた場合、当該クライアントを削除する
+#         del clients[key]
+
+
+
+
+
+
+
 if __name__ == '__main__':
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0",port=8000,reload=True)
-
-
-
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

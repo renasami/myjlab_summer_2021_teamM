@@ -193,12 +193,13 @@ def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depe
     url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
    
 
-    file_name = url + '.png'
-    img = youtubeurl
-    qrimg = qrcode.make(img)
+    # file_name = url + '.png'
+    # img = youtubeurl
+    # qrimg = qrcode.make(img)
 
 
-    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption), FileResponse(qrimg)
+    return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption)
+    # return crud.post_movie(db=db, post=post, url=url, userid=form.userid, title=form.title, caption=form.caption), FileResponse(qrimg)
 
 #動画投稿機能
 @app.post('/posts/')
@@ -498,12 +499,22 @@ def get_Mylike(db: Session = Depends(get_db)):
 
 
     for i in range(len(mylikelist)):
-        myyoutube_url = crud.get_mylikeyoutube(db, mylikelist[i])
+        userPOST = crud.get_mylikeyoutube(db, mylikelist[i])
         print(i)
-        myyoutubelist.append(myyoutube_url) 
-# 
+        myyoutubelist.append(userPOST) 
 
-    return myyoutube_url
+   #ROW OBJECTになってしまっているためうごかない 
+   #DBから帰ってくるデータの型をmaなどのライブラリで
+   #特殊なオブジェクトから配列で帰ってくるように変更するまで保留
+    for x in range(len(mylikelist)):
+        TrueyoutubeURL =  "https://www.youtube.com/embed/" + myyoutubelist[0][0]["YOUTUBE"]
+        # myyoutubelist[0][0]["YOUTUBE"] = TrueyoutubeURL
+        myyoutubelist[0][0]["YOUTUBE"] = "11"
+    # youtubeURL = myyoutubelist[0][0]["YOUTUBE"]
+
+
+    return myyoutubelist
+
 
 
 

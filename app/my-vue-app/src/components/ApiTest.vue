@@ -26,6 +26,11 @@
             <button @click="getData">Get</button>
         </div>
         <hr/>
+        <p>
+            エンドポイントを'/name'の形式で入力するとそこに対するget/postの処理が行えます。<br/>
+            postは配列/jsonのみ対応。keyを全て空白にすることで送る配列で遅れます。<br/>
+            jsonのvalueを配列にしたいときは手打ちで。あとで配列もひとつずつ入力できるようにします。
+        </p>
     </div>
 </template>
 <script>

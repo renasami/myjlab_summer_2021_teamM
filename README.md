@@ -16,5 +16,5 @@ https://qiita.com/kouchanne/items/417bad58633cc4262012
 1. バックエンドのコンテナに入る
 2. python -m createdatabase
 
-<api test>
+<apiのテスト方法>
   http://localhost:8080/api-test

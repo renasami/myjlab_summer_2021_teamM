@@ -21,7 +21,10 @@
         </div>
         <hr/>
         <br>
-        <h2> get method</h2>
+        <div>
+            <h2> get method</h2>
+            <button @click="getData">Get</button>
+        </div>
         <hr/>
     </div>
 </template>
@@ -36,33 +39,50 @@ export default {
             values: [],
             forms: [],
             postJson: {},
+            postArry:[]
         }
     },
     methods:{
         createJSON(keys,values,forms){
-            keyCount = 0
+            let keyCount = 0
             keys.forEach(ke => {
-                if (!ke) keyCount++;
+                if (ke) {
+                    keyCount++
+                    console.log(ke)
+                }
             })
             if(keyCount == 0){
                 alert("今回は配列を送信します。")
+                this.postArry = values
+                this.axios.post("http://0.0.0.0:8080"+this.endpoint,this.postArry)
+                .then(response => alert(response.data)).catch(error =>alert(error.message))
             }
             if(keyCount != keys.length){
                 alert("keyに抜けがあります")
+                return 
             }
+            forms.forEach(index => {
+                this.postJson[keys[index]] = values[index]
+            })
+            console.log(this.postJson)
+            this.axios.post("http://0.0.0.0:8080"+this.endpoint,this.postJson)
+                .then(response => alert(response.data)).catch(error =>alert(error.message))
         },
         submit(endpoint){
             if(!endpoint){
                 alert("エンドポイント入力しろハゲ")
             }
-            createJSON(this.keys,this.values,this.forms)
+            this.createJSON(this.keys,this.values,this.forms)
             console.log(endpoint)
         },
         createNewDataFrom(){
-            this.forms.push("")
+            this.forms.push(this.forms.length)
             this.keys.push("")
             this.values.push("")
             console.log(this.keys,this.values)
+        },
+        getData(){
+            this.axios.get('http://0.0.0.0:8000'+this.endpoint).then(result => alert(result)).catch(error => alert(error))
         }
     }
 }

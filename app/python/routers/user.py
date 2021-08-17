@@ -46,3 +46,7 @@ def create_user(user: schemas.UsersCreate, db: Session = Depends(get_db)):
     if db_user != None:
         raise HTTPException(status_code=400, detail="このメールアドレスは会員登録が完了しています")
     return crud.create_user(db=db, user=user)
+
+
+
+#そいえばログアウト処理バックエンドにないね

@@ -13,6 +13,10 @@ router = APIRouter()
 #ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files/'
+class MyPostData(BaseModel):
+    name: str
+    mean: str
+
 
 class PostInfo(BaseModel):
     # thumbnail_id: str

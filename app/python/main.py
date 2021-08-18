@@ -577,6 +577,12 @@ def create_likes_for_user(button: CreateLikeinfo ,like: schemas.LikesCreate,db: 
 #         del clients[key]
 
 
+@app.get('/checkValue')
+def chackVal(db: Session = Depends(get_db)):
+    val = db.query(users.USERSTable).one().toDict()
+    checkVal = type(val)
+    return val["PASSWORD"]
+
 
 
 

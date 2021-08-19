@@ -6,3 +6,4 @@ peewee
 python-jose
 opencv-python
 opencv-contrib-python
+shutil

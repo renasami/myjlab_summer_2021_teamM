@@ -24,10 +24,10 @@ class COMMENTSTable(Base):
 
     def toDict(self):
         return {
-            'ID':self.ID
-            'POST_ID':self.POST_ID
-            'USER_ID':self.USER_ID
-            'COMMENTS':self.COMMENTS
-            'CREATED_AT':self.CREATED_AT
+            'ID':self.ID,
+            'POST_ID':self.POST_ID,
+            'USER_ID':self.USER_ID,
+            'COMMENTS':self.COMMENTS,
+            'CREATED_AT':self.CREATED_AT,
             'UPDATED_AT':self.UPDATED_AT
         }

@@ -1,13 +1,26 @@
+
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.orm import relationship
-from .database import Base
+# from .database import Base
 import datetime
 # from datetime import datetime
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+import sqlalchemy
 
 # テーブル定義(DBのモデル)
 # class テーブル名Table(Base):
     # __tablename__ = 'テーブル名'
     # 定義されている全てのカラムを記述
+
+class BaseBase(object):
+    def toDict(self):
+        model = {}
+        for column in self.__table__.columns:
+            model[column.name] = str(getattr(self, column.name))
+        return model
+
+Base = sqlalchemy.ext.declarative.declarative_base(cls=BaseBase)
 
 
 class USERSTable(Base):
@@ -17,16 +30,3 @@ class USERSTable(Base):
     CREATED_AT = Column(DateTime, default=datetime.datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.datetime.now(), onupdate=datetime.datetime.now(), nullable=False)
     MAIL = Column(String(100))
-
-    def __repr__(self):
-        return f'<USERTable {self.ID} {self.PASSWORD} {self.CREATED_AT} {self.UPDATED_AT} {self.MAIL}>'
-
-
-    def toDict(self):
-        return {
-            'ID':self.ID,
-            'PASSWORD':self.PASSWORD,
-            'CREATED_AT':self.CREATED_AT,
-            'UPDATED_AT':self.UPDATED_AT,
-            'MAIL':self.MAIL
-        } 

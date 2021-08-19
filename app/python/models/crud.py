@@ -264,4 +264,12 @@ def get_mylikeyoutube(db: Session, post_id):
 
     return LIST
 
+def get_mylikeyoutubeURL(db: Session):
+    URLlist = []
+    numOfrecords = db.query(posts.POSTSTable).query.count()
+    for iter in range(numOfrecords):
+        url = db.query(users.USERSTable).filter(posts.POSTSTable.ID == iter+1).one().toDict()
+        url["YOUTUBE"] = "https://www.youtube.com/embed/" + url["YOUTUBE"]
+        URLlist.append(url["YOUTUBE"])
+        return URLlist
 

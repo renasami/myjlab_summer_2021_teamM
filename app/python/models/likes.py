@@ -14,3 +14,15 @@ class LIKESTable(Base):
     ID = Column(Integer, primary_key=True, autoincrement=True)
     POST_ID = Column(Integer) 
     USER_ID = Column(Integer)
+
+
+    def __repr__(self):
+        return f'<LIKESTable {self.ID} {self.POST_ID} {self.USER_ID}>'
+
+
+    def toDict(self):
+        return {
+            'ID':self.ID,
+            'POST_ID':self.POST_ID,
+            'USER_ID':self.USER_ID
+        }

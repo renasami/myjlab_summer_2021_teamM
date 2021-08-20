@@ -3,7 +3,6 @@
 Todo:
     * クラスがBaseを全て継承していてIDやDictなど共通項が多いためBaseを継承したTableBaseClassの作成。
     クラスがくどい。
-    * クラスに__repr__しか書いてないのは何か意図があってのこと?__str__も追記したほうがわかりやすくなるかと↑が終わってからだけど
 
 """
 
@@ -46,7 +45,6 @@ class UsersTable(Base):
         属性の名前 (:obj:`属性の型`): 属性の説明.
 
     """
-    #復元意図があるからreperなのかな
     def __repr__(self):
         return f'<USERTable {self.ID} {self.PASSWORD} {self.CREATED_AT} {self.UPDATED_AT} {self.MAIL}>'
 
@@ -119,7 +117,7 @@ class CommentsTable(Base):
     コメント情報の保存のためのクラス
 
     Attributes:
-        ID (int): 基本的にautoincrementだと思われる
+        ID (int): autoincrement
         POST_ID(int): 投稿のid (=PostTable[ID])
         USER_ID(int): コメントしたユーザのID (=UsersTable[ID])
         COMMENTS(str):コメント内容、上限100文字
@@ -142,14 +140,13 @@ class CommentsTable(Base):
         }
 
 #投稿
-class PostTable(Base):
+class PostsTable(Base):
     __tablename__ = 'POSTS'
     ID = Column(Integer, primary_key=True, autoincrement=True)
     USER_ID = Column(Integer)
-    YOUTUBE = Column(String(100))
+    YOUTUBE = Column(String(200))
     CAPTION = Column(String(200)) 
     TITLE = Column(String(30))
-    YOUTUBE = Column(String(100))
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)
 
@@ -158,14 +155,13 @@ class PostTable(Base):
     投稿情報のためのクラス
 
     Attributes:
-        ID (int): 基本的にautoincrementだと思われる
+        ID (int): autoincrement
         USER_ID(int): 投稿したユーザのID (=UsersTable[ID])
-        YOUTUBE(str):youtubeのurl TODO:確実に100文字じゃ足りない
-        CAPTION(str):サムネのurl TODO:同上
+        YOUTUBE(str):youtubeの動画の固有id 
+        CAPTION(str):サムネのpath
         TITLE(str):タイトル、上限30文字
-        YOUTUBE(str):youtubeのurl TODO:消せ
-        CREATED_AT(datetime):作成日
-        UPDATED_AT(datetime):更新日
+        CREATED_AT(datetime):作成日 default nowにしてある
+        UPDATED_AT(datetime):更新日 default nowにしてある
     """
 
 

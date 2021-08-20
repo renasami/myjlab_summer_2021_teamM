@@ -7,12 +7,6 @@ from sqlalchemy import desc
 # 全てのCRUD処理をここに記述。
 # CRUD名_テーブル名
 
-# @app.get('/User')
-# def get_login_list(db: Session = Depends(get_db)):
-#     user = crud.get_login_list(db)
-#     for row in user:
-#         d = row.__dict__
-#     return d['MAIL']
 
 LIST = []
 

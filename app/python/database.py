@@ -1,4 +1,4 @@
-from sqlalchemy import Session
+
 from models.database import session, ENGINE
 def get_db():
     try:

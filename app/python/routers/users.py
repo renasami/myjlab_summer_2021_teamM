@@ -11,6 +11,14 @@ class UserInfo(BaseModel):
     mail: str
     password: str
 
+@router.get("/")
+def user_test():
+    return "Hello, user api!"
+@router.post("/")
+def user_post_test(test:UserInfo):
+    print(test)
+    resp = "mail: " + test.mail + " pas: " + test.password + " is successfuly post"
+    return resp
 
 #ユーザ-一覧
 @router.get('/user')

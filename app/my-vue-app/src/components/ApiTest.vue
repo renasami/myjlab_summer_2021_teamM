@@ -23,7 +23,7 @@
         <br>
         <div>
             <h2> get method</h2>
-            <button @click="getData">Get</button>
+            <button @click="getData(endpoint)">Get</button>
         </div>
         <hr/>
         <p>
@@ -31,6 +31,15 @@
             postは配列/jsonのみ対応。keyを全て空白にすることで送る配列で送れます。<br/>
             jsonのvalueを配列にしたいときは手打ちで。あとで配列もひとつずつ入力できるようにします。
         </p>
+        <hr/>
+        <div>
+            <h2> result </h2>
+            <p> {{ result }}</p>
+            <h2>post data</h2>
+            <p>{{ postJson }}</p>
+            <h2>result data</h2>
+            <p> {{ result.data }}</p>
+        </div>
     </div>
 </template>
 <script>
@@ -44,7 +53,8 @@ export default {
             values: [],
             forms: [],
             postJson: {},
-            postArry:[]
+            postArry:[],
+            result: ""
         }
     },
     methods:{
@@ -59,8 +69,8 @@ export default {
             if(keyCount == 0){
                 alert("今回は配列を送信します。")
                 this.postArry = values
-                this.axios.post("http://0.0.0.0:8080"+this.endpoint,this.postArry)
-                .then(response => alert(response.data)).catch(error =>alert(error.message))
+                this.axios.post("http://0.0.0.0:8000"+this.endpoint,this.postArry)
+                .then(response => this.result = response).catch(error => this.result = error)
             }
             if(keyCount != keys.length){
                 alert("keyに抜けがあります")
@@ -70,12 +80,13 @@ export default {
                 this.postJson[keys[index]] = values[index]
             })
             console.log(this.postJson)
-            this.axios.post("http://0.0.0.0:8080"+this.endpoint,this.postJson)
-                .then(response => alert(response.data)).catch(error =>alert(error.message))
+            this.axios.post("http://0.0.0.0:8000"+this.endpoint,this.postJson)
+                .then(response => this.result = response).catch(error => this.result = error)
         },
         submit(endpoint){
             if(!endpoint){
                 alert("エンドポイント入力しろハゲ")
+                return
             }
             this.createJSON(this.keys,this.values,this.forms)
             console.log(endpoint)
@@ -86,8 +97,12 @@ export default {
             this.values.push("")
             console.log(this.keys,this.values)
         },
-        getData(){
-            this.axios.get('http://0.0.0.0:8000'+this.endpoint).then(result => alert(result)).catch(error => alert(error))
+        getData(endpoint){
+            if(!endpoint){
+                alert("エンドポイント入力しろハゲ")
+                return
+            }
+            this.axios.get('http://0.0.0.0:8000'+this.endpoint).then(result => this.result = result).catch(error => this.result = error)
         }
     }
 }

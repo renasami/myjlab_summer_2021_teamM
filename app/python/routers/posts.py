@@ -1,7 +1,10 @@
+
 import os, cv2
+
+from fastapi.datastructures import UploadFile
 import time
 import pathlib
-from fastapi import APIRouter, Depends,Cookie
+from fastapi import APIRouter, Depends,Cookie,File, UploadFile
 from pathlib import Path
 from models import schemas,crud
 from pydantic.main import BaseModel

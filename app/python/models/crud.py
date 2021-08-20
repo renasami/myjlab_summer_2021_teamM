@@ -11,10 +11,11 @@ from sqlalchemy import desc
 LIST = []
 
 
-#select * from tasks
+#select * from tasks tasksテーブルの全件抽出
 def get_tasks(db: Session):
     return db.query(tasks.TestTasksTable).all()
 
+#insert into tasks (name, content) values (name, content);
 def create_task(db: Session, task: schemas.TestTaskCreate):
     db_task = tasks.TestTasksTable(name=task.name, content=task.content)
     db.add(db_task)
@@ -23,13 +24,16 @@ def create_task(db: Session, task: schemas.TestTaskCreate):
 
     return db_task
 
+# Usersテーブルの全件抽出 DBに登録されているすべてのユーザ情報取得　開発を楽にするためのもの
 def get_login_list(db: Session):
     print("=========================================")
     return db.query(users.USERSTable).all()
 
+# メールアドレスを指定してユーザ情報を取得 開発を楽にするためのもの
 def get_user_by_email(db: Session, mail: str):
     return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
 
+# ユーザ登録機能　開発者を楽にするためのもの
 def create_user(db: Session, user: schemas.UsersCreate):
     db_user = users.USERSTable(MAIL=user.mail, PASSWORD=user.password)
     db.add(db_user)
@@ -46,7 +50,7 @@ def try_logout():
 def is_login():
     return 'login' in session
 
-#動画投稿機能
+#動画投稿機能 開発を楽にするためのもの
 def post_movie(db: Session, post: schemas.PostsCreate, url: str, userid: int, caption: str, title: str):
     db_post = posts.POSTSTable(USER_ID=userid, YOUTUBE=url,
     CAPTION=caption, TITLE=title)
@@ -55,7 +59,7 @@ def post_movie(db: Session, post: schemas.PostsCreate, url: str, userid: int, ca
     db.refresh(db_post)
     return db_post
 
-#いいね全一覧
+#likesテーブルの全件抽出　開発を楽にするためのもの
 def get_likes(db: Session):
     getlikes = db.query(likes.LIKESTable).all()
 
@@ -64,7 +68,7 @@ def get_likes(db: Session):
 
     return LIST
 
-#いいねuser別一覧
+#ユーザIDを指定してそのユーザのいいねした情報をlikesテーブルから取得。のちにユーザごとのいいねした動画表示機能に合わせて使う。
 def get_user_like(db: Session, user_id: int):
     alluserlike = db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
     
@@ -74,22 +78,19 @@ def get_user_like(db: Session, user_id: int):
 
     return LIST
 
-#いいね投稿別一覧
+# 投稿を指定していいね数取得 いいね数表示機能のときに使う
 def get_post_like(db: Session, postid: int):
     return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == postid).count()
 
-# def cnt_get_post_like(db: Session, post_id: int):
-#     cnt = get_post_like(db: Session, post_id)
-#     return cnt
     
-#いいね機能
+# 投稿にいいねをする機能
 def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
     db_like = likes.LIKESTable(USER_ID=user_id, POST_ID=post_id)
     db.add(db_like)
     db.commit()
     return db_like
 
-#コメント機能
+# 投稿にコメントをする機能
 def post_comment(db: Session, comment: schemas.CommentsCreate):
     db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
     COMMENTS=comment.comments)
@@ -98,25 +99,16 @@ def post_comment(db: Session, comment: schemas.CommentsCreate):
     db.refresh(db_comment)
     return db_comment
 
-#コメント投稿別一覧
+# コメント表示機能 指定した投稿のコメントを全件取得
 def get_post_comment(db: Session, post_id: int):
     return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
 
-#現在の最新の投稿を取り出す
+#現在の最新の投稿を取り出す サンプルコード
 def get_latest_post(db: Session):
     latest = db.query(posts.POSTSTable.ID).order_by(desc(posts.POSTSTable.ID)).first()
     return latest
 
 
-# ログインを試行する
-# def try_login(form,db: Session):
-    # USER_LOGIN_LIST = get_login_list(db)
-#     mail = form.get('mail', '')
-#     password = form.get('pw', '')
-#     print('入力されたメールアドレス'+ mail)
-#     print('入力されたパスワード' + password)
-#     userlen = len(USER_LOGIN_LIST)
-#     if userlen == 0:
 import time
 #ログインを試行する
 def try_login(form, db: Session):
@@ -151,42 +143,12 @@ def try_login(form, db: Session):
                 continue
             else:
                 return True
-                # result = True
-            # if mail == LIST[i]['MAIL'] and password == LIST[i]['PASSWORD']:
-            #     result = True
-            #     break
-            #     # return True
-            #     # session['login'] = users
-            # else:
-            #     result = False
-            #     # return "wrong username or password"
-        
-
-    
-
-
-
-# def register_try():
-#     res = {}
-#     res['mail'] = request.form.get('mail')
-#     res['pw'] = request.form.get('pw')
-
-#     exec('''
-#     INSERT INTO USERS (MAIL, PASSWORD)
-#     VALUES(?, ?)''',
-#     res['mail'], res['pw'])
-
-
-# @app.route('/logout')
-# def logout():
-#     user.try_logout()
-#     return msg('ログアウトしました')
 
 
 
 
 
-#全ての投稿の情報を表示する
+#全ての投稿の情報を表示する 辞書化して返している
 # select * from POSTS 
 def get_allposts(db: Session):
 
@@ -199,7 +161,7 @@ def get_allposts(db: Session):
 
 
 
-# 最新の20件の投稿を表示する 
+# 最新の20件の投稿を表示する 辞書化して返している
 # select * from POSTS limit 20;
 def get_postAthome(db: Session):
 
@@ -210,14 +172,9 @@ def get_postAthome(db: Session):
     
     return LIST
 
-def get_sessioninfo(db: Session):
-
-    sessioninfo = db.query(users.USERSTable.MAIL).all()
-
-    return sessioninfo
 
 
-
+# メールアドレスを指定してユーザidを取得
 def search_userid(db: Session, mail):
 
     mail = db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
@@ -226,7 +183,7 @@ def search_userid(db: Session, mail):
 
 
 
-
+# 投稿テーブルからの全件抽出　辞書化して返している
 def get_allyoutube(db: Session):
 
     youtube = db.query(posts.POSTSTable).all()
@@ -235,6 +192,7 @@ def get_allyoutube(db: Session):
 
     return LIST
 
+# 指定した投稿の情報を取得 辞書化して返している
 def get_youtube(db: Session, postid):
 
     Oneyoutube = db.query(posts.POSTSTable).filter(posts.POSTSTable.ID == postid).all()
@@ -243,6 +201,7 @@ def get_youtube(db: Session, postid):
 
     return LIST
 
+# 最新20件の投稿の情報を取得 辞書化して返している
 def get_latestyoutube(db: Session):
     youtube = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
     for idx in range(len(youtube)):
@@ -250,6 +209,8 @@ def get_latestyoutube(db: Session):
 
     return LIST
 
+
+# 最新順にユーザid, キャプション,タイトル,ユーチューブの動画固有idを取得 辞書化して返している
 def get_mylikeyoutube(db: Session, post_id):
     LIST = []
     youtube = db.query(posts.POSTSTable.USER_ID, posts.POSTSTable.CAPTION, posts.POSTSTable.TITLE,posts.POSTSTable.YOUTUBE).order_by(desc(posts.POSTSTable.CREATED_AT)).all() 
@@ -258,6 +219,7 @@ def get_mylikeyoutube(db: Session, post_id):
 
     return LIST
 
+# 動画固有idをyoutubeの埋め込みidに変換する関数
 def get_mylikeyoutubeURL(db: Session):
     URLlist = []
     numOfrecords = db.query(posts.POSTSTable).query.count()

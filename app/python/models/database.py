@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 #DBの接続先 いじっちゃだめ
 
-host = "db_container:3306"
+host = "db:3306"
 db_name = "vue-fastapi-db"
 user = "fastapi"
 password = "secret"

@@ -12,56 +12,56 @@ LIST = []
 
 
 #select * from tasks tasksテーブルの全件抽出
-def get_tasks(db: Session):
-    return db.query(tasks.TestTasksTable).all()
+async def get_tasks(db: Session):
+    return await db.query(tasks.TestTasksTable).all()
 
 #insert into tasks (name, content) values (name, content);
-def create_task(db: Session, task: schemas.TestTaskCreate):
+async def create_task(db: Session, task: schemas.TestTaskCreate):
     db_task = tasks.TestTasksTable(name=task.name, content=task.content)
     db.add(db_task)
     db.commit()
-    db.refresh(db_task)
+    await db.refresh(db_task)
 
     return db_task
 
 # Usersテーブルの全件抽出 DBに登録されているすべてのユーザ情報取得　開発を楽にするためのもの
-def get_login_list(db: Session):
+async def get_login_list(db: Session):
     print("=========================================")
-    return db.query(users.USERSTable).all()
+    return await db.query(users.USERSTable).all()
 
 # メールアドレスを指定してユーザ情報を取得 開発を楽にするためのもの
-def get_user_by_email(db: Session, mail: str):
-    return db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
+async def get_user_by_email(db: Session, mail: str):
+    return await db.query(users.USERSTable).filter(users.USERSTable.MAIL == mail).first()
 
 # ユーザ登録機能　開発者を楽にするためのもの
-def create_user(db: Session, user: schemas.UsersCreate):
+async def create_user(db: Session, user: schemas.UsersCreate):
     db_user = users.USERSTable(MAIL=user.mail, PASSWORD=user.password)
     db.add(db_user)
     db.commit()
-    db.refresh(db_user)
+    await db.refresh(db_user)
     return db_user
 
 
 #ログアウト
-def try_logout():
-    session.pop('login', None)
+async def try_logout():
+    await session.pop('login', None)
 
 # ログインしているかの確認 --- (*2)
-def is_login():
-    return 'login' in session
+async def is_login():
+    return await 'login' in session
 
 #動画投稿機能 開発を楽にするためのもの
-def post_movie(db: Session, post: schemas.PostsCreate, url: str, userid: int, caption: str, title: str):
+async def post_movie(db: Session, post: schemas.PostsCreate, url: str, userid: int, caption: str, title: str):
     db_post = posts.POSTSTable(USER_ID=userid, YOUTUBE=url,
     CAPTION=caption, TITLE=title)
     db.add(db_post)
     db.commit()
-    db.refresh(db_post)
+    await db.refresh(db_post)
     return db_post
 
 #likesテーブルの全件抽出　開発を楽にするためのもの
-def get_likes(db: Session):
-    getlikes = db.query(likes.LIKESTable).all()
+async def get_likes(db: Session):
+    getlikes = await db.query(likes.LIKESTable).all()
 
     for idx in range(len(getlikes)):
         LIST.append(getlikes[idx].__dict__)
@@ -69,8 +69,8 @@ def get_likes(db: Session):
     return LIST
 
 #ユーザIDを指定してそのユーザのいいねした情報をlikesテーブルから取得。のちにユーザごとのいいねした動画表示機能に合わせて使う。
-def get_user_like(db: Session, user_id: int):
-    alluserlike = db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
+async def get_user_like(db: Session, user_id: int):
+    alluserlike = await db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
     
     for idx in range(len(alluserlike)):
        LIST.append(alluserlike[idx].__dict__)
@@ -79,44 +79,44 @@ def get_user_like(db: Session, user_id: int):
     return LIST
 
 # 投稿を指定していいね数取得 いいね数表示機能のときに使う
-def get_post_like(db: Session, postid: int):
-    return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == postid).count()
+async def get_post_like(db: Session, postid: int):
+    return await db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == postid).count()
 
     
 # 投稿にいいねをする機能
-def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
-    db_like = likes.LIKESTable(USER_ID=user_id, POST_ID=post_id)
+async def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
+    db_like = await likes.LIKESTable(USER_ID=user_id, POST_ID=post_id)
     db.add(db_like)
     db.commit()
     return db_like
 
 # 投稿にコメントをする機能
-def post_comment(db: Session, comment: schemas.CommentsCreate):
+async def post_comment(db: Session, comment: schemas.CommentsCreate):
     db_comment = comments.COMMENTSTable(POST_ID=comment.post_id, USER_ID=comment.user_id,
     COMMENTS=comment.comments)
     db.add(db_comment)
     db.commit()
-    db.refresh(db_comment)
+    await db.refresh(db_comment)
     return db_comment
 
 # コメント表示機能 指定した投稿のコメントを全件取得
-def get_post_comment(db: Session, post_id: int):
-    return db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
+async def get_post_comment(db: Session, post_id: int):
+    return await db.query(comments.COMMENTSTable).filter(comments.COMMENTSTable.POST_ID == post_id).all()
 
 #現在の最新の投稿を取り出す サンプルコード
-def get_latest_post(db: Session):
-    latest = db.query(posts.POSTSTable.ID).order_by(desc(posts.POSTSTable.ID)).first()
+async def get_latest_post(db: Session):
+    latest = await db.query(posts.POSTSTable.ID).order_by(desc(posts.POSTSTable.ID)).first()
     return latest
 
 
 import time
 #ログインを試行する
-def try_login(form, db: Session):
-    USER_LOGIN_LIST = get_login_list(db)
+async def try_login(form, db: Session):
+    USER_LOGIN_LIST = await get_login_list(db)
 
     # データ型をリスト内辞書に変換
-    for idx in range(len(USER_LOGIN_LIST)):
-        LIST.append(USER_LOGIN_LIST[idx].__dict__)
+    for user in USER_LOGIN_LIST:
+        LIST.append(user.__dict__)
     
     mail = form.mail
     password = form.password
@@ -150,11 +150,11 @@ def try_login(form, db: Session):
 
 #全ての投稿の情報を表示する 辞書化して返している
 # select * from POSTS 
-def get_allposts(db: Session):
+async def get_allposts(db: Session):
 
-    allposts = db.query(posts.POSTSTable).all()
-    for idx in range(len(allposts)):
-        LIST.append(allposts[idx].__dict__)
+    allposts = await db.query(posts.POSTSTable).all()
+    for post in allposts:
+        LIST.append(post.__dict__)
 
 
     return LIST
@@ -163,11 +163,11 @@ def get_allposts(db: Session):
 
 # 最新の20件の投稿を表示する 辞書化して返している
 # select * from POSTS limit 20;
-def get_postAthome(db: Session):
+async def get_postAthome(db: Session):
 
-    latestposts = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
-    for idx in range(len(latestposts)):
-        LIST.append(latestposts[idx].__dict__)
+    latestposts = await db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
+    for latest in latestposts:
+        LIST.append(latest.__dict__)
 
     
     return LIST
@@ -175,56 +175,56 @@ def get_postAthome(db: Session):
 
 
 # メールアドレスを指定してユーザidを取得
-def search_userid(db: Session, mail):
+async def search_userid(db: Session, mail):
 
-    mail = db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
+    mail = await db.query(users.USERSTable.ID).filter(users.USERSTable.MAIL == mail).all()
 
     return mail
 
 
 
 # 投稿テーブルからの全件抽出　辞書化して返している
-def get_allyoutube(db: Session):
+async def get_allyoutube(db: Session):
 
-    youtube = db.query(posts.POSTSTable).all()
-    for idx in range(len(youtube)):
-        LIST.append(youtube[idx].__dict__)
+    youtube = await db.query(posts.POSTSTable).all()
+    for ytb in youtube:
+        LIST.append(ytb.__dict__)
 
     return LIST
 
 # 指定した投稿の情報を取得 辞書化して返している
-def get_youtube(db: Session, postid):
+async def get_youtube(db: Session, postid):
 
-    Oneyoutube = db.query(posts.POSTSTable).filter(posts.POSTSTable.ID == postid).all()
-    for idx in range(len(Oneyoutube)):
-        LIST.append(Oneyoutube[idx].__dict__)
+    Oneyoutube = await db.query(posts.POSTSTable).filter(posts.POSTSTable.ID == postid).all()
+    for ytb in Oneyoutube:
+        LIST.append(ytb.__dict__)
 
     return LIST
 
 # 最新20件の投稿の情報を取得 辞書化して返している
-def get_latestyoutube(db: Session):
-    youtube = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
-    for idx in range(len(youtube)):
-        LIST.append(youtube[idx].__dict__)
+async def get_latestyoutube(db: Session):
+    youtube = await db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
+    for ytb in youtube:
+        LIST.append(ytb.__dict__)
 
     return LIST
 
 
 # 最新順にユーザid, キャプション,タイトル,ユーチューブの動画固有idを取得 辞書化して返している
-def get_mylikeyoutube(db: Session, post_id):
+async def get_mylikeyoutube(db: Session, post_id):
     LIST = []
-    youtube = db.query(posts.POSTSTable.USER_ID, posts.POSTSTable.CAPTION, posts.POSTSTable.TITLE,posts.POSTSTable.YOUTUBE).order_by(desc(posts.POSTSTable.CREATED_AT)).all() 
-    for idx in range(len(youtube)):
-        LIST.append(youtube[idx])
+    youtube = await db.query(posts.POSTSTable.USER_ID, posts.POSTSTable.CAPTION, posts.POSTSTable.TITLE,posts.POSTSTable.YOUTUBE).order_by(desc(posts.POSTSTable.CREATED_AT)).all() 
+    for ytb in youtube:
+        LIST.append(ytb.__dict__)
 
     return LIST
 
 # 動画固有idをyoutubeの埋め込みidに変換する関数
-def get_mylikeyoutubeURL(db: Session):
+async def get_mylikeyoutubeURL(db: Session):
     URLlist = []
-    numOfrecords = db.query(posts.POSTSTable).query.count()
+    numOfrecords = await db.query(posts.POSTSTable).query.count()
     for iter in range(numOfrecords):
-        url = db.query(users.USERSTable).filter(posts.POSTSTable.ID == iter+1).one().toDict()
+        url = await db.query(users.USERSTable).filter(posts.POSTSTable.ID == iter+1).one().toDict()
         url["YOUTUBE"] = "https://www.youtube.com/embed/" + url["YOUTUBE"]
         URLlist.append(url["YOUTUBE"])
         return URLlist

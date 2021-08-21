@@ -34,7 +34,6 @@ export default {
   methods: {
     createModal(){
       console.log("createModal")
-      
       this.$emit('createModal')
     },
     logout(){

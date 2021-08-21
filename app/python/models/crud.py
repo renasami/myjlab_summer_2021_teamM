@@ -72,11 +72,21 @@ def get_likes(db: Session):
 
 #いいねuser別一覧
 def get_user_like(db: Session, user_id: int):
-    return db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
+    alluserlike = db.query(likes.LIKESTable).filter(likes.LIKESTable.USER_ID == user_id).all()
+    
+    for idx in range(len(alluserlike)):
+       LIST.append(alluserlike[idx].__dict__)
+
+
+    return LIST
 
 #いいね投稿別一覧
-def get_post_like(db: Session, post_id: int):
-    return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == post_id).all()
+def get_post_like(db: Session, postid: int):
+    return db.query(likes.LIKESTable).filter(likes.LIKESTable.POST_ID == postid).count()
+
+# def cnt_get_post_like(db: Session, post_id: int):
+#     cnt = get_post_like(db: Session, post_id)
+#     return cnt
     
 #いいね機能
 def create_user_like(db: Session, like:schemas.LikesCreate, user_id: int, post_id: int):
@@ -237,9 +247,29 @@ def get_youtube(db: Session, postid):
     for idx in range(len(Oneyoutube)):
         LIST.append(Oneyoutube[idx].__dict__)
 
+    return LIST
+
 def get_latestyoutube(db: Session):
     youtube = db.query(posts.POSTSTable).order_by(desc(posts.POSTSTable.CREATED_AT)).limit(20).all() 
     for idx in range(len(youtube)):
         LIST.append(youtube[idx].__dict__)
 
     return LIST
+
+def get_mylikeyoutube(db: Session, post_id):
+    LIST = []
+    youtube = db.query(posts.POSTSTable.USER_ID, posts.POSTSTable.CAPTION, posts.POSTSTable.TITLE,posts.POSTSTable.YOUTUBE).order_by(desc(posts.POSTSTable.CREATED_AT)).all() 
+    for idx in range(len(youtube)):
+        LIST.append(youtube[idx])
+
+    return LIST
+
+def get_mylikeyoutubeURL(db: Session):
+    URLlist = []
+    numOfrecords = db.query(posts.POSTSTable).query.count()
+    for iter in range(numOfrecords):
+        url = db.query(users.USERSTable).filter(posts.POSTSTable.ID == iter+1).one().toDict()
+        url["YOUTUBE"] = "https://www.youtube.com/embed/" + url["YOUTUBE"]
+        URLlist.append(url["YOUTUBE"])
+        return URLlist
+

@@ -15,6 +15,7 @@
         </div>
 
       </div>
+      
       <button class='cancel-button' @click="closeModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
       </button>
@@ -40,8 +41,11 @@ export default {
     return{
       showContent: false,
       isEnter: false,
-      files:[],
+      files:"",
+      //files: [],
       show: false,
+      caption:"",
+      title:"",
     }
   },
   methods:{
@@ -61,8 +65,10 @@ export default {
       console.log("dragg")
     },
     dropFile: function(event) {
-      console.log(event.dataTransfer.files)
-      this.files = [...event.dataTransfer.files]
+      console.log(event.dataTransfer.types.includes("text/uri-list"))
+      //this.files = [...event.dataTransfer.files]
+      this.files = event.dataTransfer.getData('text');
+      console.log(this.files)
       this.isEnter = false;
     },
     sendFile: function(){
@@ -70,8 +76,8 @@ export default {
       this.files.forEach(file => {
         let formData = new FormData();
         formData.append("post",file)
-        fetch("http://0.0.0.0:8000/posts/",{method: "POST",body: formData})
       })
+      fetch("http://0.0.0.0:8000/up/",{method: "POST",body: this.files})
     }
   },
   mounted() {
@@ -114,7 +120,9 @@ export default {
   position:relative;
   box-shadow: 0px 2px 6px 0 rgba(82, 81, 80, 0.5);
 }
-
+.form{
+  border: 1px #363124;
+}
 .drop_area {
   color: #444;
   font-weight: bold;

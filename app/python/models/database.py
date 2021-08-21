@@ -5,16 +5,16 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 #DBの接続先 いじっちゃだめ
 
-# host = "db:3306"
-# db_name = "vue-fastapi-db"
-# user = "fastapi"
-# password = "secret"
+host = "db:3306"
+db_name = "vue-fastapi-db"
+user = "fastapi"
+password = "secret"
 
 
-host = "host.docker.internal:3307"
-db_name = "vue_fastapi_db"
-user = "root"
-password = "myjdbroot"
+# host = "host.docker.internal:3307" 
+# db_name = "vue_fastapi_db"
+# user = "root"
+# password = "myjdbroot"
 
 DATABASE = 'mariadb://%s:%s@%s/%s?charset=utf8' % (
     user,

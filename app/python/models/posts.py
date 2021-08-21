@@ -16,7 +16,6 @@ class POSTSTable(Base):
     YOUTUBE = Column(String(100))
     CAPTION = Column(String(200)) 
     TITLE = Column(String(30))
-    YOUTUBE = Column(String(100))
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)
 

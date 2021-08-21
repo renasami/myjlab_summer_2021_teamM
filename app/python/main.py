@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.cors import CORSMiddleware
 
-from models.dbSchemas import * #テーブル作成したら随時追加
+import models.dbSchemas  as md
 from models.database import ENGINE
 
 import auth
@@ -18,7 +18,7 @@ app.include_router(posts.router, prefix="/posts")
 app.include_router(reactions.router, prefix="/reactions")
 app.include_router(users.router, prefix="/users")
 
-TestTasksTable.Base.metadata.create_all(bind=ENGINE)
+md.Base.metadata.create_all(bind=ENGINE)
 clients = {}
 
 # テスト用のtemplates指定

@@ -1,11 +1,11 @@
 
 from sqlalchemy.orm import Session, session #テーブルをつくったらここにモジュール追加
-from dbSchemas import UsersTable as users 
-from dbSchemas import LikesTable as likes
-from dbSchemas import CommentsTable as comments #
-from dbSchemas import PostTable as posts
-from dbSchemas import TestTasksTable as tasks 
-import schemas
+from models.dbSchemas import UsersTable as users 
+from models.dbSchemas  import LikesTable as likes
+from models.dbSchemas  import CommentsTable as comments #
+from models.dbSchemas  import PostTable as posts
+from models.dbSchemas  import TestTasksTable as tasks 
+import models.schemas as schemas
 from sqlalchemy import desc
 
 

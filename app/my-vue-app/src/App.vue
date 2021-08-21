@@ -22,24 +22,43 @@
       <button class='upload-button' @click="sendFile">Upload</button>
     </div>
     </div>
+
+
+
+    <!-- コメントポップアップ -->
+    <div id='overlay_comment' v-show='showCommentContent'>
+      <h1>Comment</h1>
+    </div>
+    <!-- コメントポップアップ -->
+
+
+
     <router-view/> 
     <Navber v-show="show" @createModal="openModal"/>
+    <Comment v-show="showCommentContent"/>
   </div>
 </template>
 
 
 <script>
 import Navber from './components/Navber'
+import Comment from './components/Comment'
 //import axios from 'axios'
 
 export default {
   name: 'App',
   components: {
-  Navber
+  Navber,
+  Comment
   },
   data() {
     return{
       showContent: false,
+      
+      
+      showCommentContent: false, //コメントポップアップ用
+
+
       isEnter: false,
       files:"",
       //files: [],
@@ -52,6 +71,13 @@ export default {
     openModal: function(){
       this.showContent = true
     },
+    
+
+    openCommentModal: function(){ //コメントポップアップ用
+      this.showCommentContent = true
+    }, 
+
+
     closeModal: function(){
       this.showContent = false
     },
@@ -176,5 +202,18 @@ export default {
   border-radius: 100vh;
   margin-bottom: 1em;
   font-size: 16px;
+}
+
+#overlay_comment{
+  z-index:1;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background-color:rgba(82, 81, 80, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

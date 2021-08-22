@@ -30,9 +30,8 @@ async def create_task(db: Session, task: schemas.TestTaskCreate):
     return db_task
 
 # Usersテーブルの全件抽出 DBに登録されているすべてのユーザ情報取得　開発を楽にするためのもの
-async def get_login_list(db: Session):
-    print("=========================================")
-    return await db.query(users).all()
+def get_login_list(db: Session):
+    return db.query(users).all()
 
 # メールアドレスを指定してユーザ情報を取得 開発を楽にするためのもの
 async def get_user_by_email(db: Session, mail: str):

@@ -35,7 +35,7 @@
 
     <router-view/> 
     <Navber v-show="show" @createModal="openModal"/>
-    <Comment v-show="showCommentContent"/>
+    <Comment v-show="showCommentContent" @createModal="openCommentModal"/>
   </div>
 </template>
 
@@ -43,7 +43,7 @@
 <script>
 import Navber from './components/Navber'
 import Comment from './components/Comment'
-//import axios from 'axios'
+import "./store/index.js"
 
 export default {
   name: 'App',
@@ -74,7 +74,9 @@ export default {
     
 
     openCommentModal: function(){ //コメントポップアップ用
+      if(this.$store.getters('popupComment') == true){
       this.showCommentContent = true
+      }
     }, 
 
 

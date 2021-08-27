@@ -32,42 +32,42 @@
             <div class="title">{{ index }} </div>
             <div class="sub-title">{{ ind }}</div>
             <div class="line"></div>
-
             <div class="icon">
-                <div class='like_button'>
-                    <button @click="buttonState = !buttonState"><svg v-bind:class="{ after_button: buttonState }"  xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                </div>
-                </div>
+                    <button @click="buttonState = !buttonState" ><svg v-bind:class="{ after_button: buttonState }" xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+                    <button @click="commentButton"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></button>
+            </div>
         </div>
         
     </div>
 </template>
 <script>
-//
+import "../store/index.js"
+
  export default {
     name: 'Cardmin',
     data(){
         return{
-            buttonState:false,
-            sambnail : false,
+            buttonState: false,
+            sambnail: false,
         }
     },
-    method:{
-        //いいねで変更
-        changeState:function(index){
+    methods:{
+        changeState: function(index){
             console.log('Change state')
             this.buttonState[index] = !this.buttonState;
+        },
+        commentButton: function(){
+          this.$store.state.comment = true
         }
     },
     props:  ["url","index","youtube"],
     mounted: function() {
-    // <p>Hello</p>が出力される
     console.log(this.$refs);
     console.log(this.$$refs.id)
   }
  }
 </script>
+
 <style scoped>
 .card {
   width:80%;
@@ -112,7 +112,6 @@ button {
     border: none;
     background-color: transparent;
 }
-
 
 .title {
   font-size: 1.2em;

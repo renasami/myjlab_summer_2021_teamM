@@ -24,7 +24,7 @@ export default {
     },
    data: function () {
      return {
-        list: [],
+        list: ['1','2','3'],
      }
    },
   computed: {

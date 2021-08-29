@@ -3,13 +3,14 @@
 Todo:
     * クラスがBaseを全て継承していてIDやDictなど共通項が多いためBaseを継承したTableBaseClassの作成。
     クラスがくどい。
+    * クラスに__repr__しか書いてないのは何か意図があってのこと?__str__も追記したほうがわかりやすくなるかと↑が終わってからだけど
 
 """
 
 
 from .database import Base
 from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-import datetime
+from datetime import datetime
 # テーブル定義(DBのモデル)
 # class テーブル名Table(Base):
     # __tablename__ = 'テーブル名'
@@ -29,8 +30,8 @@ class UsersTable(Base):
     __tablename__ = 'USERS'
     ID = Column(Integer, primary_key=True, autoincrement=True) 
     PASSWORD = Column(String(1000)) 
-    CREATED_AT = Column(DateTime, default=datetime.datetime.now(), nullable=False)
-    UPDATED_AT = Column(DateTime, default=datetime.datetime.now(), onupdate=datetime.datetime.now(), nullable=False)
+    CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
+    UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)
     MAIL = Column(String(100))
     """UsresTable
 
@@ -45,6 +46,7 @@ class UsersTable(Base):
         属性の名前 (:obj:`属性の型`): 属性の説明.
 
     """
+    #復元意図があるからreperなのかな
     def __repr__(self):
         return f'<USERTable {self.ID} {self.PASSWORD} {self.CREATED_AT} {self.UPDATED_AT} {self.MAIL}>'
 
@@ -117,7 +119,7 @@ class CommentsTable(Base):
     コメント情報の保存のためのクラス
 
     Attributes:
-        ID (int): autoincrement
+        ID (int): 基本的にautoincrementだと思われる
         POST_ID(int): 投稿のid (=PostTable[ID])
         USER_ID(int): コメントしたユーザのID (=UsersTable[ID])
         COMMENTS(str):コメント内容、上限100文字
@@ -140,13 +142,14 @@ class CommentsTable(Base):
         }
 
 #投稿
-class PostsTable(Base):
+class PostTable(Base):
     __tablename__ = 'POSTS'
     ID = Column(Integer, primary_key=True, autoincrement=True)
     USER_ID = Column(Integer)
-    YOUTUBE = Column(String(200))
+    YOUTUBE = Column(String(100))
     CAPTION = Column(String(200)) 
     TITLE = Column(String(30))
+    YOUTUBE = Column(String(100))
     CREATED_AT = Column(DateTime, default=datetime.now(), nullable=False)
     UPDATED_AT = Column(DateTime, default=datetime.now(), onupdate=datetime.now(), nullable=False)
 
@@ -155,13 +158,14 @@ class PostsTable(Base):
     投稿情報のためのクラス
 
     Attributes:
-        ID (int): autoincrement
+        ID (int): 基本的にautoincrementだと思われる
         USER_ID(int): 投稿したユーザのID (=UsersTable[ID])
-        YOUTUBE(str):youtubeの動画の固有id 
-        CAPTION(str):サムネのpath
+        YOUTUBE(str):youtubeのurl TODO:確実に100文字じゃ足りない
+        CAPTION(str):サムネのurl TODO:同上
         TITLE(str):タイトル、上限30文字
-        CREATED_AT(datetime):作成日 default nowにしてある
-        UPDATED_AT(datetime):更新日 default nowにしてある
+        YOUTUBE(str):youtubeのurl TODO:消せ
+        CREATED_AT(datetime):作成日
+        UPDATED_AT(datetime):更新日
     """
 
 

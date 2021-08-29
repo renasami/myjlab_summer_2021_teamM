@@ -72,7 +72,7 @@ export default {
         this.list = likedList
         console.log(this.list)
     })} else{
-      this.axios.get('http://0.0.0.0:8000/get_URL').then(response => {
+      this.axios.get('http://0.0.0.0:8000/posts/get_URL').then(response => {
           this.list = response.data
           console.log(response.data)
           })

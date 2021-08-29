@@ -64,6 +64,12 @@ def create_post_for_user(form:PostInfo, db: Session = Depends(get_db), post: Upl
     # print(test)
     #return crud.post_movie(db=db, post=post)
 
+@router.post('/upload')
+def upload_movie(user_id:int,form:PostInfo, db: Session = Depends(get_db)):
+    print(user_id, form.youtube, form.caption, form.title)
+    crud.post_movie(db, form.youtube, user_id, form.caption, form.title)
+    return "success"
+
 
 #動画サムネイル
 @router.get('/moviephoto/')
@@ -122,7 +128,7 @@ def get_url(db: Session = Depends(get_db)):
     time.sleep(0.5)
     urlyoutube = crud.get_latestyoutube(db)
     print("=========================")
-    print(urlyoutube[0])
+    print(urlyoutube)
     for i in range(len(urlyoutube)):
         embed_url = urlyoutube[i]['YOUTUBE']
         movie_id = urlyoutube[i]['ID']

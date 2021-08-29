@@ -1,4 +1,3 @@
-
 import os, cv2
 
 from fastapi.datastructures import UploadFile
@@ -6,7 +5,7 @@ import time
 import pathlib
 from fastapi import APIRouter, Depends,Cookie,File, UploadFile
 from pathlib import Path
-from models import schemas,crud
+from models import schemas,crud,dbSchemas
 from pydantic.main import BaseModel
 from sqlalchemy.orm import Session, session
 from tempfile import NamedTemporaryFile
@@ -46,7 +45,8 @@ def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depe
 
 #動画投稿機能
 @router.post('/posts/')
-def create_post_for_user( form:PostInfo, db: Session = Depends(get_db), post: UploadFile = File(...)):
+def create_post_for_user(form:PostInfo, db: Session = Depends(get_db), post: UploadFile = File(...)):
+    print(form)
     crud.post_movie(db, form.title, form.caption, session['login'])
     post_id = db
     try:

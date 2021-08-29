@@ -31,7 +31,7 @@ class UsersCreate(BaseModel):
 
 class Users(UsersBase):
 
-    mail: str
+    mail: str 
     password: str
     created_at: datetime
     updated_at: datetime

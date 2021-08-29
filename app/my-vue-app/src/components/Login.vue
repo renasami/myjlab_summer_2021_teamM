@@ -41,7 +41,7 @@ export default{
             }
             // sha256.update(this.password)
             // const hashedPassword = sha256.digest("hex")
-            axios.post('http://0.0.0.0:8000/login/',{mail:this.name,password:this.password}).then(result => {
+            axios.post('http://0.0.0.0:8000/users/login/',{mail:this.name,password:this.password}).then(result => {
                     if(!result.data[0]){
                         alert('ユーザー名、もしくはパスワードが間違っています。')
                         return 

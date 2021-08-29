@@ -6,7 +6,7 @@
 
 <img id='logo' alt="VG logo" src="./img/vglogo.svg"><br>
 <img id='profile_pic' alt="Profile pic" src="./img/Profile.png">
-<h3>Yutaka Miyaji</h3>
+<h3>{{ username }}</h3>
 
 <ul>
 
@@ -31,6 +31,11 @@
 <script>
 
 export default {
+    data(){
+        return{
+            username:'yutakamiyaji'
+        }
+    },
   methods: {
     createModal(){
       console.log("createModal")
@@ -42,7 +47,18 @@ export default {
         document.cookie = "isLogin=false"
         location.href="/login"
     }
-  }
+  },
+  mounted: function() {
+      let cookies = document.cookie; //全てのcookieを取り出して
+        let cookiesArray = cookies.split(';');
+        console.log(cookiesArray)
+        for(var c of cookiesArray){
+            let cArray = c.split('=')
+            if(cArray[0] == ' username'){ 
+                this.username = cArray[1]
+            }
+        }
+  } 
 }
 
 </script>

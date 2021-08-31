@@ -11,6 +11,18 @@ from models.database import ENGINE
 import auth
 from routers import posts, reactions,users 
 
+origins = [
+    "http://localhost:8080",
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins= origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 app=FastAPI()
 
 app.include_router(auth.router, prefix="/auth")
@@ -26,18 +38,6 @@ templates = Jinja2Templates(directory="templates")
 
 
 
-origins = [
-    "http://localhost:8080",
-    "*"
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins= origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
 
 
 

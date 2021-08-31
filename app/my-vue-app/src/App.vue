@@ -102,14 +102,15 @@ export default {
         "caption": this.youtubeCaption,
         "title": this.youtubeTitle,
       })
-      this.axios.post("http://0.0.0.0:8000/posts/upload",{
-        userid:this.user_id,
-        youtube: this.youtubeUrl,
-        caption: this.youtubeCaption,
-        title: this.youtubeTitle,
-      }).then(result => console.log(result))
-        .catch(e => alert(`${e}の理由により失敗しました`))
-    },
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://0.0.0.0:8000/posts/upload');
+      xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+      xhr.send({
+        "userid":Number(this.user_id),
+        "youtube": this.youtubeUrl,
+        "caption": this.youtubeCaption,
+        "title": this.youtubeTitle,
+      })},
 
     closeModal: function(){
       this.showContent = false

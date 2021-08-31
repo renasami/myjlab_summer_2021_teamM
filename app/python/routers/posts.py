@@ -65,9 +65,9 @@ def create_post_for_user(form:PostInfo, db: Session = Depends(get_db), post: Upl
     #return crud.post_movie(db=db, post=post)
 
 @router.post('/upload')
-def upload_movie(user_id:int,form:PostInfo, db: Session = Depends(get_db)):
-    print(user_id, form.youtube, form.caption, form.title)
-    crud.post_movie(db, form.youtube, user_id, form.caption, form.title)
+def upload_movie(form:PostInfo, db: Session = Depends(get_db)):
+    print(form.userid, form.youtube, form.caption, form.title)
+    crud.post_movie(db, form.youtube, form.userid, form.caption, form.title)
     return "success"
 
 

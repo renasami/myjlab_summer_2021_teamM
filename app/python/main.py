@@ -16,6 +16,7 @@ origins = [
     "*"
 ]
 
+app=FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins= origins,
@@ -23,7 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-app=FastAPI()
 
 app.include_router(auth.router, prefix="/auth")
 app.include_router(posts.router, prefix="/posts")

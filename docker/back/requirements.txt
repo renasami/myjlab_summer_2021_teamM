@@ -6,4 +6,6 @@ peewee
 python-jose
 opencv-python
 opencv-contrib-python
+python-multipart
+jinja2
 shutil

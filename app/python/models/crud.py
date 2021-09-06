@@ -254,6 +254,7 @@ def get_youtube(db: Session, postid):
     return LIST
 
 def get_latestyoutube(db: Session):
+    LIST = []
     youtube = db.query(posts).order_by(desc(posts.CREATED_AT)).limit(20).all() 
     for ytb in youtube:
         LIST.append(ytb.__dict__)

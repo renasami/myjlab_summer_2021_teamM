@@ -124,8 +124,9 @@ def get_url(db: Session = Depends(get_db)):
     URLID_LIST = []
     time.sleep(0.5)
     urlyoutube = crud.get_latestyoutube(db)
+    print(len(urlyoutube))
     print("=========================")
-    print(urlyoutube[0])
+    print(urlyoutube)
     for i in range(len(urlyoutube)):
         embed_url = urlyoutube[i]['YOUTUBE']
         movie_id = urlyoutube[i]['ID']

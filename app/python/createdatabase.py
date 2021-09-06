@@ -1,10 +1,11 @@
 from sqlalchemy import create_engine
 # from models.tasks import Base
 # from models.test import Base
-from models.users import Base
-from models.posts import Base
-from models.likes import Base
-from models.comments import Base
+# from models.users import Base
+# from models.posts import Base
+# from models.likes import Base
+# from models.comments import Base
+from models.dbSchemas import Base
 
 # dbコンテナにテーブルをつくるときに back_container上のターミナルで"python -m createdatabase"とうつと
 # dbコンテナにテーブルが作成される

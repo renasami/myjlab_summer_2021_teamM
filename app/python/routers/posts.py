@@ -11,7 +11,10 @@ from sqlalchemy.orm import Session, session
 from tempfile import NamedTemporaryFile
 from database import get_db
 import shutil
+
+#追加要素
 router = APIRouter()
+
 #ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files/'

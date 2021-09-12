@@ -57,7 +57,7 @@ def is_login():
     return 'login' in session
 
 #動画投稿機能
-def post_movie(db: Session, post: schemas.PostsCreate, url: str, userid: int, caption: str, title: str):
+def post_movie(db: Session, url: str, userid: int, caption: str, title: str):
     db_post = posts(USER_ID=userid, YOUTUBE=url,
     CAPTION=caption, TITLE=title)
     db.add(db_post)
@@ -254,7 +254,11 @@ def get_youtube(db: Session, postid):
     return LIST
 
 def get_latestyoutube(db: Session):
+    LIST.clear()
     youtube = db.query(posts).order_by(desc(posts.CREATED_AT)).limit(20).all() 
+    print(youtube)
+    if len(youtube) == 0:
+        return []
     for ytb in youtube:
         LIST.append(ytb.__dict__)
 

@@ -33,7 +33,7 @@
 export default {
     data(){
         return{
-            username:'yutakamiyaji'
+            username:''
         }
     },
   methods: {

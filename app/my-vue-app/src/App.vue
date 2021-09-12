@@ -1,26 +1,39 @@
 <template height="100%">
   <div id="app">
     <div id="overlay" v-show="showContent">
-    <div id="content">
-      <div class="drop_area" 
-      @dragenter="dragEnter"
-      @dragLeave="dragLeave"
-      @dragover.prevent
-      @drop.prevent="dropFile" 
-      :class="{enter:isEnter}">
-        
-        <div class="content-inner">
-        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
-        <p>Drag & Drop Videos</p>
+      <div class="content">
+        <div>
+        <button @click="changePostType" class="upload-button" v-if="uploadType == 'youtube'">自作動画の投稿</button>
+        <button @click="changePostType" class="upload-button" v-if="uploadType == 'own'">youtubeの投稿</button>
         </div>
+        <div v-if="uploadType == 'youtube'" class="drop_area">
+          <input id="url" v-model="youtubeUrl"/><br>
+          <input id="ttl" v-model="youtubeTitle"/><br>
+          <textarea  id="caption" v-model="youtubeCaption"/>
+        </div>
+        <div v-if="uploadType == 'own'"
+        class="drop_area" 
+        @dragenter="dragEnter"
+        @dragLeave="dragLeave"
+        @dragover.prevent
+        @drop.prevent="dropFile" 
+        :class="{enter:isEnter}">
+          
+          <div class="content-inner">
+            
+          <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#ffdd83" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21H4a2 2 0 0 1-2-2V5c0-1.1.9-2 2-2h5l2 3h9a2 2 0 0 1 2 2v2M19 15v6M16 18h6"/></svg>
+          <p>Drag & Drop Videos</p>
+          </div>
 
+        </div>
+        
+        <button class='cancel-button' @click="closeModal">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button class='upload-button' v-if="uploadType == 'own'" @click="sendFile">Upload Your Video</button>
+        <button class='upload-button' v-if="uploadType == 'youtube'" @click="sendYoutube">Upload Youtube</button>
       </div>
       
-      <button class='cancel-button' @click="closeModal">
-        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-      <button class='upload-button' @click="sendFile">Upload</button>
-    </div>
     </div>
 
 
@@ -54,11 +67,12 @@ export default {
   data() {
     return{
       showContent: false,
-      
-      
       showCommentContent: false, //コメントポップアップ用
-
-
+      user_id:"",
+      uploadType:"own",
+      youtubeUrl:"",
+      youtubeCaption:"",
+      youtubeTitle:"",
       isEnter: false,
       files:"",
       //files: [],
@@ -71,12 +85,32 @@ export default {
     openModal: function(){
       this.showContent = true
     },
-    
+    changePostType: function(){
+      if(this.uploadType == "own"){
+        this.uploadType = "youtube"
+      }else{
+        this.uploadType = "own"
+      }
+    },
 
     openCommentModal: function(){ //コメントポップアップ用
       this.showCommentContent = true
     }, 
-
+    sendYoutube: function(){
+      console.log({"userid":this.user_id,
+        "youtube": this.youtubeUrl,
+        "caption": this.youtubeCaption,
+        "title": this.youtubeTitle,
+      })
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://0.0.0.0:8000/posts/upload');
+      xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+      xhr.send({
+        "userid":Number(this.user_id),
+        "youtube": this.youtubeUrl,
+        "caption": this.youtubeCaption,
+        "title": this.youtubeTitle,
+      })},
 
     closeModal: function(){
       this.showContent = false
@@ -117,6 +151,9 @@ export default {
               this.show = true;
             }
         }
+        if(cArray[0] == ' userid'){
+          this.user_id = cArray[1];
+        }
     }
   },
 
@@ -137,7 +174,7 @@ export default {
   justify-content: center;
 
 }
-#content{
+.content{
   z-index:2;
   width:30%;
   padding: 1em;

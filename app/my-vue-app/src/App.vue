@@ -74,9 +74,7 @@ export default {
     
 
     openCommentModal: function(){ //コメントポップアップ用
-      if(this.$store.getters('popupComment') == true){
       this.showCommentContent = true
-      }
     }, 
 
 

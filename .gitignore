@@ -4,3 +4,17 @@ python/files/*.mp4
 app/.DS_Store
 TrainingCamp.pem
 auth_keys.py
+app/my-vue-app/con.txt
+
+"site": "myj-videogram",
+
+{
+  "hosting": {
+    "site": "myj-videogram",
+
+    "public": "public",
+    ...
+  }
+}
+
+firebase deploy --only hosting:myj-videogram

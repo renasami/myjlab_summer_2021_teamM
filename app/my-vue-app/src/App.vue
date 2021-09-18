@@ -2,14 +2,12 @@
   <div id="app">
     <div id="overlay" v-show="showContent">
       <div class="content">
-        <div>
-        <button @click="changePostType" class="upload-button" v-if="uploadType == 'youtube'">自作動画の投稿</button>
-        <button @click="changePostType" class="upload-button" v-if="uploadType == 'own'">youtubeの投稿</button>
-        </div>
-        <div v-if="uploadType == 'youtube'" class="drop_area">
-          <input id="url" v-model="youtubeUrl"/><br>
-          <input id="ttl" v-model="youtubeTitle"/><br>
-          <textarea  id="caption" v-model="youtubeCaption"/>
+        <div v-if="uploadType == 'youtube'" class="drop_area center">
+          <div>
+            <input id="url" v-model="youtubeUrl" placeholder="URL"/><br>
+            <input id="ttl" v-model="youtubeTitle" placeholder="タイトル"/><br>
+            <textarea  id="caption" v-model="youtubeCaption"/>
+          </div>
         </div>
         <div v-if="uploadType == 'own'"
         class="drop_area" 
@@ -32,6 +30,10 @@
         </button>
         <button class='upload-button' v-if="uploadType == 'own'" @click="sendFile">Upload Your Video</button>
         <button class='upload-button' v-if="uploadType == 'youtube'" @click="sendYoutube">Upload Youtube</button>
+        <div>
+          <button @click="changePostType" class="post-change" v-if="uploadType == 'youtube'">自作動画の投稿</button>
+          <button @click="changePostType" class="post-change" v-if="uploadType == 'own'">Youtubeの投稿</button>
+        </div>
       </div>
       
     </div>
@@ -237,8 +239,8 @@ export default {
   padding: 10px 30px;
   border: none;
   border-radius: 100vh;
-  margin-bottom: 1em;
   font-size: 16px;
+  margin-top: 0.5em;
 }
 
 #overlay_comment{
@@ -253,4 +255,23 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-change{
+  background-color: transparent;
+  border: none;
+  text-decoration: underline;
+  font-size: 0.8em;
+  margin: 0.5em 0 1em 0;
+}
+
+.post-change:hover{
+  color: #777;
+}
+
 </style>

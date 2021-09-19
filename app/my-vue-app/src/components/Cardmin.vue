@@ -29,8 +29,8 @@
                 height="50%"/>
             </div>                
         <div class='lower_text'>
-            <div class="title">{{ index }} </div>
-            <div class="sub-title">{{ ind }}</div>
+            <div class="title">{{ title }} </div>
+            <div class="sub-title">{{ caption }}</div>
             <div class="line"></div>
 
             <div class="icon">
@@ -60,7 +60,7 @@
             this.buttonState[index] = !this.buttonState;
         }
     },
-    props:  ["url","index","youtube"],
+    props:  ["id","uid","title","caption","url","likedNumber"],
     mounted: function() {
     // <p>Hello</p>が出力される
     console.log(this.$refs);

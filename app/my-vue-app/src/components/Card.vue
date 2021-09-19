@@ -4,7 +4,13 @@
     <div v-for="(items, index) in groupedArray" :key="index">
         <li class='cards' v-for="item in items" :key="item.id">
           <div class='cards_inner'>
-          <Cardmin v-bind:ttl="item" :index="item.id" :url="item.url" :youtube="item.youtube_id" />    
+          <Cardmin 
+          :id="item.id"
+          :uid="item.uid"
+          :title="item.title"
+          :caption="item.caption"
+          :url="item.url"
+          :likedNumber="item.likedNumber"/>    
           </div>
         </li>
     </div>
@@ -14,8 +20,8 @@
 
 <script>
 import Cardmin from './Cardmin.vue'
-//import axios from 'axios';
-//axios.get('http://0.0.0.0:8000/latestposts').then(result => console.log(result.data))
+
+
 
 export default {
     name: 'Card',
@@ -24,9 +30,10 @@ export default {
     },
    data: function () {
      return {
-        list: [],
+        list: this.posts,
      }
    },
+   props:["posts"],
   computed: {
     groupedArray() {
       const base = this.list.length
@@ -42,18 +49,10 @@ export default {
     }
   },
   
-  mounted: function(){
+  mounted: async function(){
         if(location.pathname == "/like"){
-          let cookies = document.cookie; //全てのcookieを取り出して 
-          let cookiesArray = cookies.split(';'); // ;で分割し配列に
           let uid 
           let likedList
-          for(var c of cookiesArray){
-            let cArray = c.split('=')
-            if(cArray[0] == ' userid'){ 
-              uid = cArray[1]
-            }
-          }
         this.axios.get('http://0.0.0.0:8000/posts/get_URL').then(response => {
           this.list = response.data
           console.log(response.data)

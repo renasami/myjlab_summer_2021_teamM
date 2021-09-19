@@ -58,7 +58,7 @@
 <script>
 import Navber from './components/Navber'
 import Comment from './components/Comment'
-
+import store from './store'
 //import axios from 'axios'
 
 export default {
@@ -79,7 +79,7 @@ export default {
       isEnter: false,
       files:"",
       //files: [],
-      showNav: true,
+      showNav: false,
       caption:"",
       title:"",
     }
@@ -144,6 +144,7 @@ export default {
     }
   },
   mounted() {
+    this.showNav = store.state.isLogin
     let cookies = document.cookie; //全てのcookieを取り出して
     let cookiesArray = cookies.split(';'); // ;で分割し配列に
     console.log(cookiesArray)

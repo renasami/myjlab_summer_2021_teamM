@@ -1,26 +1,51 @@
 <template>
     <div>
-        <Card/>
+        <Card :posts="postsList" />
     </div>
 </template>
 
 <script>
 import Card from './Card'
-// let cookies = document.cookie; //全てのcookieを取り出して
-// let cookiesArray = cookies.split(';'); // ;で分割し配列に
-// if (document.cookie == "" & location.pathname == "/home") location.href = "/login";
-// for(var c of cookiesArray){
-//     let cArray = c.split('=')
-//     if(cArray[0] == ' isLogin' & location.pathname == "/home"){ 
-//         if(cArray[1] == "false") location.href = "/login" 
-//     }
-// }
+import {db} from '../firebase'
+import { collection, query, getDocs } from "firebase/firestore";
+function postObj(id,uid,title,caption,url,likedNumber){
+  this.id = id;
+  this.uid = uid;
+  this.title = title;
+  this.caption = caption;
+  this.url = url;
+  this.likedNumber = likedNumber;
+}
 
 export default {
     name: 'Home',
+    data() {
+      return {
+        postsList:[]
+      }
+    },
     components: {
         Card
     },
+    methods: {
+      getPostData: async function(){
+        const posts = collection(db, "videogram/v1/posts");
+        const q = query(posts)
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          const obj = new postObj(doc.id, 
+                        doc.data().userId.id,
+                        doc.data().title,
+                        doc.data().caption,
+                        doc.data().url,
+                        doc.data().likedNumber)
+          this.postsList.push(obj)
+        });
+      }
+    },
+    mounted: function() {
+      this.getPostData()
+    }
 }
 </script>
 

@@ -17,6 +17,7 @@ export const toStore = () => {
     user.onAuthStateChanged(u =>{
         if (user) {
             console.log(user)
+            store.commit("setIsLogin",true)
             store.commit("setUsername",u.displayName)
             //@よりも前を切り出し
             if(!u.displayName) store.commit("setUsername", u.email.substring(0,u.email.indexOf("@")))

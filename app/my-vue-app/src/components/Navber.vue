@@ -45,10 +45,8 @@ export default {
       this.$emit('createModal')
     },
     logout(){
-        console.log("logout")
-        document.cookie = "isLogin=; expires=0";
-        document.cookie = "isLogin=false"
-        location.href="/login"
+        store.commit("setIsLogin",false);
+        this.$router.push("/login")
     }
   },
   mounted: function() {

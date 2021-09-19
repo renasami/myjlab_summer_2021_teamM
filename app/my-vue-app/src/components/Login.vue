@@ -14,7 +14,7 @@
 //axios.defaults.withCredentials = true;
 import axios from "axios"
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
+import store from '../store'
 //import crypto from "crypto"
 //const sha256 = crypto.createHash('sha256');
 let cookies = document.cookie; //全てのcookieを取り出して
@@ -31,7 +31,7 @@ export default{
     data() {
         return {
             name: "test@test.com",
-            password: "test123User",
+            password: "123TestTest",
             dialog: false,
         }
     },
@@ -61,13 +61,13 @@ export default{
         firebaseLogin: function() {
             const auth = getAuth();
             signInWithEmailAndPassword(auth,this.name,this.password)
-            .then( rt => {
-                console.log(rt)
-                alert("sucsess")
+            .then( res => {
+                console.log(res)
+                store.commit('user',res)
+                this.$router.push("/home")
             }
             )
             .catch(
-
             )
         },
         valid() {

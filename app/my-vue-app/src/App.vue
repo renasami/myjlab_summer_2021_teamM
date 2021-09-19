@@ -49,7 +49,7 @@
 
 
     <router-view/> 
-    <Navber v-show="show" @createModal="openModal"/>
+    <Navber v-show="showNav" @createModal="openModal"/>
     <Comment v-show="showCommentContent"/>
   </div>
 </template>
@@ -58,6 +58,7 @@
 <script>
 import Navber from './components/Navber'
 import Comment from './components/Comment'
+
 //import axios from 'axios'
 
 export default {
@@ -78,7 +79,7 @@ export default {
       isEnter: false,
       files:"",
       //files: [],
-      show: false,
+      showNav: true,
       caption:"",
       title:"",
     }
@@ -150,7 +151,7 @@ export default {
         var cArray = c.split('='); //さらに=で分割して配列に
         if( cArray[0] == 'isLogin'){ // 取り出したいkeyと合致したら
             if( cArray[1] == 'true'){
-              this.show = true;
+              this.showNav = true;
             }
         }
         if(cArray[0] == ' userid'){

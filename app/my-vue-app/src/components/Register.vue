@@ -55,6 +55,7 @@ export default {
             .then(result => {
                 alert("sucsecc")
                 console.log(result)
+                this.$router.push("/home")
             })
             .catch(e=>{
                 console.log(e)

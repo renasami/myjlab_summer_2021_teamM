@@ -29,7 +29,10 @@
 
 
 <script>
-
+import {getAuth} from 'firebase/auth'
+const auth = getAuth()
+const user = auth.currentUser
+console.log(user)
 export default {
     data(){
         return{
@@ -38,7 +41,6 @@ export default {
     },
   methods: {
     createModal(){
-      console.log("createModal")
       this.$emit('createModal')
     },
     logout(){
@@ -49,15 +51,15 @@ export default {
     }
   },
   mounted: function() {
-      let cookies = document.cookie; //全てのcookieを取り出して
-        let cookiesArray = cookies.split(';');
-        console.log(cookiesArray)
-        for(var c of cookiesArray){
-            let cArray = c.split('=')
-            if(cArray[0] == ' username'){ 
-                this.username = cArray[1]
-            }
-        }
+    //   let cookies = document.cookie; //全てのcookieを取り出して
+    //     let cookiesArray = cookies.split(';');
+    //     console.log(cookiesArray)
+    //     for(var c of cookiesArray){
+    //         let cArray = c.split('=')
+    //         if(cArray[0] == ' username'){ 
+    //             this.username = cArray[1]
+    //         }
+    //     }
   } 
 }
 

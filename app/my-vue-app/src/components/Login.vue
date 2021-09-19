@@ -5,14 +5,16 @@
         <h1> Login Page </h1>
         <input type="text" id="username" v-model="name" placeholder="e-mail"> <br>
         <input type="password" id="password" v-model="password" placeholder="password"> <br>
-        <button type="submit" @click="login">ログイン</button><br>
-        <a class='rgster' href="/register">ユーザ登録はこちらから</a>
+        <button type="submit" @click="firebaseLogin">ログイン</button><br>
+        <router-link class='rgster' to="/register">ユーザ登録はこちらから</router-link>
     </div>
     </div>
 </template>
 <script >
 //axios.defaults.withCredentials = true;
 import axios from "axios"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 //import crypto from "crypto"
 //const sha256 = crypto.createHash('sha256');
 let cookies = document.cookie; //全てのcookieを取り出して
@@ -28,8 +30,8 @@ export default{
     name: "Login",
     data() {
         return {
-            name: "kaisei@gmail.com",
-            password: "kaiseiota",
+            name: "test@test.com",
+            password: "test123User",
             dialog: false,
         }
     },
@@ -55,6 +57,18 @@ export default{
                     document.cookie = `userid=${result.data[1]["user_id"]}`;
                     location.href="/home"
                 })
+        },
+        firebaseLogin: function() {
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth,this.name,this.password)
+            .then( rt => {
+                console.log(rt)
+                alert("sucsess")
+            }
+            )
+            .catch(
+
+            )
         },
         valid() {
             if (/\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?|\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu.test(this.name)) {

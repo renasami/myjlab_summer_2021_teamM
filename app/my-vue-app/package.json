@@ -5,12 +5,15 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "watch":"yarn build --watch",
+    "lint": "vue-cli-service lint",
+    "start": "yarn build && firebase emulators:start --import=./data --export-on-exit"
   },
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.16.0",
     "crypto": "^1.0.1",
+    "firebase": "^9.0.2",
     "firebase-tools": "^9.18.0",
     "loadash": "^1.0.0",
     "sass-loader": "10.1.1",

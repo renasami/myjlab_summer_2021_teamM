@@ -4,15 +4,16 @@
         <h1> Register Page </h1>
         <input type="text" id="username" v-model="name" placeholder="e-mail"> <br>
         <input type="password" id="password" v-model="password" placeholder="password"> <br>
-        <button type="submit" @click="register">登録</button><br>
-        <a class='rgster' href="/login">ログインはこちらから</a>
+        <button type="submit" @click="registerFirebase">登録</button><br>
+        <router-link class='rgster' to="/login">ログインはこちらから</router-link>
+
     </div>
     </div>
 </template>
 <script>
 import axios from "axios"
-// import crypto from "crypto"
-// const sha256 = crypto.createHash('sha256');
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 let cookies = document.cookie; //全てのcookieを取り出して
 let cookiesArray = cookies.split(';'); // ;で分割し配列に
 
@@ -28,6 +29,7 @@ export default {
         return {
             name: "",
             password: "",
+            auth: getAuth(),
         }
     },
     methods: {
@@ -45,6 +47,19 @@ export default {
                 alert("そのメールアドレスは使用されています。")
             })
             this.$router.push("/home")
+        },
+        registerFirebase: function(){
+            console.log("hello")
+            const valid = this.valid();
+            if(!valid) return
+            createUserWithEmailAndPassword(this.auth, this.name, this.password)
+            .then(result => {
+                alert("sucsecc")
+                console.log(result)
+            })
+            .catch(e=>{
+                console.log(e)
+            })
         },
         valid() {
             if (/\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?|\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu.test(this.name)) {

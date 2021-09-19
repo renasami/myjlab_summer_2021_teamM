@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card :posts="postsList" />
+        <Card :posts="postsList" @openCommentModal="openCommentModal"/>
     </div>
 </template>
 
@@ -15,6 +15,8 @@ function postObj(id,uid,title,caption,url,likedNumber){
   this.caption = caption;
   this.url = url;
   this.likedNumber = likedNumber;
+  this.isLike = false;
+  this.comment = []
 }
 
 export default {
@@ -41,6 +43,10 @@ export default {
                         doc.data().likedNumber)
           this.postsList.push(obj)
         });
+      },
+      openCommentModal:function(info){
+        console.log("home")
+        this.$emit("openCommentModal",info);
       }
     },
     mounted: function() {

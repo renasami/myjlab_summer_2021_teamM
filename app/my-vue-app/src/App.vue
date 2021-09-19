@@ -42,13 +42,14 @@
 
     <!-- コメントポップアップ -->
     <div id='overlay_comment' v-show='showCommentContent'>
-      <h1>Comment</h1>
+      <Comment :info="info"
+      @closeCommentModal="closeCommentModal"/>
     </div>
     <!-- コメントポップアップ -->
 
 
 
-    <router-view/> 
+    <router-view class="routerView" @openCommentModal="openCommentModal"/> 
     <Navber v-show="showNav" @createModal="openModal"/>
     <Comment v-show="showCommentContent"/>
   </div>
@@ -65,10 +66,11 @@ export default {
   name: 'App',
   components: {
   Navber,
-  Comment
+  Comment,
   },
   data() {
     return{
+      info:{},//コメントポップアップ用info
       showContent: false,
       showCommentContent: false, //コメントポップアップ用
       user_id:"",
@@ -96,9 +98,13 @@ export default {
       }
     },
 
-    openCommentModal: function(){ //コメントポップアップ用
+    openCommentModal: function(info){ //コメントポップアップ用
+      this.info = info
       this.showCommentContent = true
     }, 
+    closeCommentModal: function(){
+      this.showCommentContent = false
+    },
     sendYoutube: function(){
       console.log({"userid":this.user_id,
         "youtube": this.youtubeUrl,
@@ -145,20 +151,7 @@ export default {
   },
   mounted() {
     this.showNav = store.state.isLogin
-    let cookies = document.cookie; //全てのcookieを取り出して
-    let cookiesArray = cookies.split(';'); // ;で分割し配列に
-    console.log(cookiesArray)
-    for(var c of cookiesArray){ //一つ一つ取り出して
-        var cArray = c.split('='); //さらに=で分割して配列に
-        if( cArray[0] == 'isLogin'){ // 取り出したいkeyと合致したら
-            if( cArray[1] == 'true'){
-              this.showNav = true;
-            }
-        }
-        if(cArray[0] == ' userid'){
-          this.user_id = cArray[1];
-        }
-    }
+    //ログインしていない時の処理を追記する
   },
 
 }

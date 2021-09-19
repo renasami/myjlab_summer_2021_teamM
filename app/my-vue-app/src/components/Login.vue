@@ -13,6 +13,7 @@
 <script >
 //axios.defaults.withCredentials = true;
 import axios from "axios"
+import store from "../store"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../firebase"
 
@@ -49,9 +50,11 @@ export default{
         },
         firebaseLogin: function() {
             signInWithEmailAndPassword(auth,this.name,this.password)
-            .then(
+            .then(result => {
+                console.log("result",result._tokenResponse.localId);
+                store.commit("setUserId",result._tokenResponse.localId)
                 this.$router.push("/home")
-            )
+            })
             .catch(
             )
         },

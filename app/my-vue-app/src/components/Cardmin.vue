@@ -1,5 +1,5 @@
 <template>
-    <div class="cardmin">
+    <div class="cardmin" >
             <iframe @click="sambnail = !sambnail"
             v-if="sambnail" 
             class='upper_video'
@@ -24,47 +24,50 @@
             autoplay; clipboard-write;
             encrypted-media; gyroscope; 
             picture-in-picture" allowfullscreen>
-                <img v-bind:src="youtube"
+                <!-- <img v-bind:src='uid' -->
+                <img
+                src="http://img.youtube.com/vi/ZAGJraxImGQ/sddefault.jpg"
                 width="70%" 
                 height="50%"/>
             </div>                
-        <div class='lower_text'>
-            <div class="title">{{ title }} </div>
-            <div class="sub-title">{{ caption }}</div>
-            <div class="line"></div>
+          <div class='lower_text'>
+              <div class="title">{{ title }} </div>
+              <div class="sub-title">{{ caption }}</div>
+              <div class="line"></div>
 
-            <div class="icon">
-                <div class='like_button'>
-                    <button @click="buttonState = !buttonState"><svg v-bind:class="{ after_button: buttonState }"  xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                </div>
-                </div>
-        </div>
-        
+              <div class="icon">
+                  <div class='like_button'>
+                      <button @click="like(index)"><svg v-bind:class="{ after_button: isLike }"  xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+                      <button @click="openCommentModal(index)"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#231815" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></button>
+                  </div>
+              </div>
+          </div>
     </div>
 </template>
 <script>
-//
  export default {
     name: 'Cardmin',
     data(){
         return{
-            buttonState:false,
+            buttonState:this.isLike,
             sambnail : false,
         }
     },
     method:{
         //いいねで変更
-        changeState:function(index){
+        changeState:function(){
             console.log('Change state')
-            this.buttonState[index] = !this.buttonState;
-        }
+            this.buttonState = !this.buttonState;
+        },
+        openCommentModal:function(){
+          console.log('Open comment modal')
+          //this.$emit('openCommentModal')
+        },
     },
-    props:  ["id","uid","title","caption","url","likedNumber"],
+    props:  ["id","uid","title","caption","url","likedNumber","isLike","comment","index","like","openCommentModal"],
     mounted: function() {
     // <p>Hello</p>が出力される
-    console.log(this.$refs);
-    console.log(this.$$refs.id)
+    console.log(this);
   }
  }
 </script>

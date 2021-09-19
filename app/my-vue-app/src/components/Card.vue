@@ -2,7 +2,7 @@
 <div class="card">
 <component-children v-bind:variable="list" />
     <div v-for="(items, index) in groupedArray" :key="index">
-        <li class='cards' v-for="item in items" :key="item.id">
+        <li class='cards' v-for="(item,itemInd) in items" :key="itemInd+index">
           <div class='cards_inner'>
           <Cardmin 
           :id="item.id"
@@ -10,7 +10,12 @@
           :title="item.title"
           :caption="item.caption"
           :url="item.url"
-          :likedNumber="item.likedNumber"/>    
+          :likedNumber="item.likedNumber"
+          :isLike="item.isLike"
+          :comment="item.comment"
+          :index="itemInd+index"
+          :like="like"
+          :openCommentModal="openCommentModal"/>    
           </div>
         </li>
     </div>
@@ -34,6 +39,15 @@ export default {
      }
    },
    props:["posts"],
+   methods:{
+      like:function(index){
+        this.list[index].isLike = !this.list[index].isLike
+      },
+      openCommentModal:function(index){
+        console.log("card")
+        this.$emit("openCommentModal",this.list[index])
+      }  
+   },
   computed: {
     groupedArray() {
       const base = this.list.length

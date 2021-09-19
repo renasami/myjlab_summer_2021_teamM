@@ -8,11 +8,15 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
       user:'',
+      userId:'',
       isLogin: false
     },
     mutations: {
         setUsername (state, input) {
           state.user = input
+        },
+        setUserId (state, input) {
+            state.userId = input
         },
         setIsLogin (state, input) {
             state.isLogin = input

@@ -6,7 +6,6 @@
         <input type="password" id="password" v-model="password" placeholder="password"> <br>
         <button type="submit" @click="registerFirebase">登録</button><br>
         <router-link class='rgster' to="/login">ログインはこちらから</router-link>
-
     </div>
     </div>
 </template>

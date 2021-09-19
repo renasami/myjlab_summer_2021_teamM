@@ -1,52 +1,51 @@
-[debug] [2021-09-19T07:00:26.928Z] ----------------------------------------------------------------------
-[debug] [2021-09-19T07:00:26.930Z] Command:       /Users/ren/.nodebrew/node/v14.16.0/bin/node /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/.bin/firebase emulators:start --import=./data --export-on-exit
-[debug] [2021-09-19T07:00:26.930Z] CLI Version:   9.18.0
-[debug] [2021-09-19T07:00:26.930Z] Platform:      darwin
-[debug] [2021-09-19T07:00:26.930Z] Node Version:  v14.16.0
-[debug] [2021-09-19T07:00:26.931Z] Time:          Sun Sep 19 2021 16:00:26 GMT+0900 (日本標準時)
-[debug] [2021-09-19T07:00:26.931Z] ----------------------------------------------------------------------
+[debug] [2021-09-19T07:06:52.357Z] ----------------------------------------------------------------------
+[debug] [2021-09-19T07:06:52.358Z] Command:       /Users/ren/.nodebrew/node/v14.16.0/bin/node /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/.bin/firebase emulators:start --import=./data --export-on-exit
+[debug] [2021-09-19T07:06:52.359Z] CLI Version:   9.18.0
+[debug] [2021-09-19T07:06:52.359Z] Platform:      darwin
+[debug] [2021-09-19T07:06:52.359Z] Node Version:  v14.16.0
+[debug] [2021-09-19T07:06:52.360Z] Time:          Sun Sep 19 2021 16:06:52 GMT+0900 (日本標準時)
+[debug] [2021-09-19T07:06:52.360Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2021-09-19T07:00:26.978Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2021-09-19T07:00:26.978Z] > authorizing via signed-in user (drrr0502@gmail.com)
+[debug] [2021-09-19T07:06:52.409Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-09-19T07:06:52.409Z] > authorizing via signed-in user (drrr0502@gmail.com)
 [info] i  emulators: Starting emulators: auth, firestore, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, hosting, storage"}}
-[debug] [2021-09-19T07:00:26.996Z] [hub] writing locator at /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/hub-myjlab-summer-tem-m.json
+[debug] [2021-09-19T07:06:52.428Z] [hub] writing locator at /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/hub-myjlab-summer-tem-m.json
+[info] i  firestore: Importing data from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata"}}
 [warn] ⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file. {"metadata":{"emulator":{"name":"firestore"},"message":"Did not find a Cloud Firestore rules file specified in a firebase.json config file."}}
 [warn] ⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"firestore"},"message":"The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
-[debug] [2021-09-19T07:00:27.049Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
-[debug] [2021-09-19T07:00:27.049Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2021-09-19T07:00:27.050Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/Users/ren/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/Users/ren/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[debug] [2021-09-19T07:06:52.482Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-09-19T07:06:52.482Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-09-19T07:06:52.482Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/Users/ren/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080,"--seed_from_export","/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/Users/ren/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--seed_from_export\",\"/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
 [info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
-[debug] [2021-09-19T07:00:28.766Z] Sep 19, 2021 4:00:28 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
-INFO: Started WebSocket server on ws://localhost:58450
- {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:00:28 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://localhost:58450\n"}}
-[debug] [2021-09-19T07:00:28.783Z] API endpoint: http://localhost:8080 {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:8080"}}
-[debug] [2021-09-19T07:00:28.783Z] 
-If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+[debug] [2021-09-19T07:06:54.189Z] Sep 19, 2021 4:06:54 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:60562
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:06:54 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://localhost:60562\n"}}
+[debug] [2021-09-19T07:06:54.208Z] API endpoint: http://localhost:8080
+ {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:8080\n"}}
+[debug] [2021-09-19T07:06:54.208Z] If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
 
    export FIRESTORE_EMULATOR_HOST=localhost:8080
 
 Dev App Server is now running.
 
- {"metadata":{"emulator":{"name":"firestore"},"message":"\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\n"}}
-[debug] [2021-09-19T07:00:30.662Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2021-09-19T07:00:31.021Z] Temp file directory for storage emulator: /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/firebase/storage/blobs"}}
-[debug] [2021-09-19T07:00:32.170Z] > refreshing access token with scopes: []
-[debug] [2021-09-19T07:00:32.171Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- <request body omitted>
-[debug] [2021-09-19T07:00:32.412Z] <<< HTTP RESPONSE 200 {"date":"Sun, 19 Sep 2021 07:00:32 GMT","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
-[debug] [2021-09-19T07:00:32.463Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/sites 
-[debug] [2021-09-19T07:00:33.593Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/sites 200
-[debug] [2021-09-19T07:00:33.593Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/sites {"sites":[{"name":"projects/917822943614/sites/myj-videogram","defaultUrl":"https://myj-videogram.web.app","appId":"1:917822943614:web:be518919882849e5fd432f","type":"USER_SITE"},{"name":"projects/917822943614/sites/myjlab-summer-tem-m","defaultUrl":"https://myjlab-summer-tem-m.web.app","type":"DEFAULT_SITE"}]}
-[debug] [2021-09-19T07:00:33.593Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/webApps/-/config [none]
-[debug] [2021-09-19T07:00:34.916Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/webApps/-/config 200
-[debug] [2021-09-19T07:00:34.916Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/webApps/-/config {"projectId":"myjlab-summer-tem-m","appId":"1:917822943614:web:be518919882849e5fd432f","databaseURL":"https://myjlab-summer-tem-m-default-rtdb.asia-southeast1.firebasedatabase.app","storageBucket":"myjlab-summer-tem-m.appspot.com","locationId":"us-central","apiKey":"AIzaSyAhPERjK_3C8mZGlmLKAe6N8WO0P1tHqvE","authDomain":"myjlab-summer-tem-m.firebaseapp.com","messagingSenderId":"917822943614","measurementId":"G-02LZZZ2LK1"}
+ {"metadata":{"emulator":{"name":"firestore"},"message":"If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\n"}}
+[info] i  auth: Importing config from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/auth_export/config.json {"metadata":{"emulator":{"name":"database"},"message":"Importing config from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/auth_export/config.json"}}
+[info] i  auth: Importing accounts from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/auth_export/accounts.json {"metadata":{"emulator":{"name":"database"},"message":"Importing accounts from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/auth_export/accounts.json"}}
+[debug] [2021-09-19T07:06:56.154Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-09-19T07:06:56.482Z] Temp file directory for storage emulator: /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/firebase/storage/blobs"}}
+[debug] [2021-09-19T07:06:57.625Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/sites 
+[debug] [2021-09-19T07:06:58.832Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/sites 200
+[debug] [2021-09-19T07:06:58.832Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/sites {"sites":[{"name":"projects/917822943614/sites/myj-videogram","defaultUrl":"https://myj-videogram.web.app","appId":"1:917822943614:web:be518919882849e5fd432f","type":"USER_SITE"},{"name":"projects/917822943614/sites/myjlab-summer-tem-m","defaultUrl":"https://myjlab-summer-tem-m.web.app","type":"DEFAULT_SITE"}]}
+[debug] [2021-09-19T07:06:58.833Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/webApps/-/config [none]
+[debug] [2021-09-19T07:07:01.405Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/webApps/-/config 200
+[debug] [2021-09-19T07:07:01.405Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/myjlab-summer-tem-m/webApps/-/config {"projectId":"myjlab-summer-tem-m","appId":"1:917822943614:web:be518919882849e5fd432f","databaseURL":"https://myjlab-summer-tem-m-default-rtdb.asia-southeast1.firebasedatabase.app","storageBucket":"myjlab-summer-tem-m.appspot.com","locationId":"us-central","apiKey":"AIzaSyAhPERjK_3C8mZGlmLKAe6N8WO0P1tHqvE","authDomain":"myjlab-summer-tem-m.firebaseapp.com","messagingSenderId":"917822943614","measurementId":"G-02LZZZ2LK1"}
 [info] i  hosting: Serving hosting files from: dist {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: \u001b[1mdist\u001b[22m"}}
 [info] ✔  hosting: Local server: http://localhost:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: \u001b[4m\u001b[1mhttp://localhost:5000\u001b[22m\u001b[24m"}}
-[debug] [2021-09-19T07:00:35.080Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
-[debug] [2021-09-19T07:00:35.080Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
-[debug] [2021-09-19T07:00:35.081Z] Starting Emulator UI with command {"binary":"node","args":["/Users/ren/.cache/firebase/emulators/ui-v1.6.3/server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/ren/.cache/firebase/emulators/ui-v1.6.3/server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
+[debug] [2021-09-19T07:07:01.467Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-09-19T07:07:01.468Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"ui"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2021-09-19T07:07:01.468Z] Starting Emulator UI with command {"binary":"node","args":["/Users/ren/.cache/firebase/emulators/ui-v1.6.3/server.bundle.js"],"optionalArgs":[],"joinArgs":false} {"metadata":{"emulator":{"name":"ui"},"message":"Starting Emulator UI with command {\"binary\":\"node\",\"args\":[\"/Users/ren/.cache/firebase/emulators/ui-v1.6.3/server.bundle.js\"],\"optionalArgs\":[],\"joinArgs\":false}"}}
 [info] i  ui: Emulator UI logging to ui-debug.log {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI logging to \u001b[1mui-debug.log\u001b[22m"}}
-[debug] [2021-09-19T07:00:35.208Z] Web / API server started at localhost:4000
+[debug] [2021-09-19T07:07:01.581Z] Web / API server started at localhost:4000
  {"metadata":{"emulator":{"name":"ui"},"message":"Web / API server started at localhost:4000\n"}}
 [info] 
 ┌─────────────────────────────────────────────────────────────┐
@@ -70,3 +69,134 @@ Dev App Server is now running.
 
 Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
  
+[debug] [2021-09-19T07:07:03.771Z] Sep 19, 2021 4:07:03 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:03 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:03.827Z] Sep 19, 2021 4:07:03 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:03 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:03.861Z] Sep 19, 2021 4:07:03 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:03 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2021-09-19T07:07:06.554Z] Sep 19, 2021 4:07:06 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:06 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:10.452Z] Sep 19, 2021 4:07:10 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:10 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:11.206Z] Sep 19, 2021 4:07:11 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:11 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2021-09-19T07:07:11.285Z] Sep 19, 2021 4:07:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:11 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:11.296Z] Sep 19, 2021 4:07:11 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:11 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2021-09-19T07:07:12.391Z] Sep 19, 2021 4:07:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2021-09-19T07:07:12.466Z] Sep 19, 2021 4:07:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:12 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:12.476Z] Sep 19, 2021 4:07:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
+INFO: Connected to new websocket client
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:12 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2021-09-19T07:07:13.504Z] Sep 19, 2021 4:07:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:13.656Z] Sep 19, 2021 4:07:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:13 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:16.493Z] Sep 19, 2021 4:07:16 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:16 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:41.752Z] Received signal SIGHUP 1
+[info]  
+[info] i  emulators: Received SIGHUP for the first time. Starting a clean shutdown. 
+[info] i  emulators: Please wait for a clean shutdown or send the SIGHUP signal again to stop right now. 
+[info] i  Automatically exporting data using --export-on-exit "./data" please wait for the export to finish... 
+[debug] [2021-09-19T07:07:41.760Z] >>> HTTP REQUEST GET http://localhost:4400/  
+ 
+[debug] [2021-09-19T07:07:41.763Z] Error: write EIO
+    at afterWriteDispatched (internal/stream_base_commons.js:156:25)
+    at writeGeneric (internal/stream_base_commons.js:147:3)
+    at WriteStream.Socket._writeGeneric (net.js:785:11)
+    at WriteStream.Socket._write (net.js:797:8)
+    at writeOrBuffer (internal/streams/writable.js:358:12)
+    at WriteStream.Writable.write (internal/streams/writable.js:303:10)
+    at Console.log (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/winston/lib/winston/transports/console.js:79:23)
+    at Console._write (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/winston-transport/index.js:103:17)
+    at doWrite (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/readable-stream/lib/_stream_writable.js:428:64)
+    at writeOrBuffer (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/readable-stream/lib/_stream_writable.js:417:5)
+    at Console.Writable.write (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/readable-stream/lib/_stream_writable.js:334:11)
+    at DerivedLogger.ondata (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/winston/node_modules/readable-stream/lib/_stream_readable.js:681:20)
+    at DerivedLogger.emit (events.js:327:22)
+    at DerivedLogger.EventEmitter.emit (domain.js:467:12)
+    at addChunk (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/winston/node_modules/readable-stream/lib/_stream_readable.js:298:12)
+    at readableAddChunk (/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/winston/node_modules/readable-stream/lib/_stream_readable.js:280:11)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2021-09-19T07:07:41.769Z] <<< HTTP RESPONSE 200 {"x-powered-by":"Express","vary":"Origin","content-type":"application/json; charset=utf-8","content-length":"51","etag":"W/\"33-oH/trvejIfIDSf4TmVsVpTRuDDU\"","date":"Sun, 19 Sep 2021 07:07:41 GMT","connection":"keep-alive","keep-alive":"timeout=5"}
+[info] i  Found running emulator hub for project myjlab-summer-tem-m at http://localhost:4400 
+[info] i  Exporting data to: /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data 
+[debug] [2021-09-19T07:07:41.772Z] >>> HTTP REQUEST POST http://localhost:4400/_admin/export  
+ {"path":"/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data"}
+[info] i  emulators: Received export request. Exporting data to /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data. 
+[debug] [2021-09-19T07:07:41.778Z] >>> HTTP REQUEST POST http://localhost:8080/emulator/v1/projects/myjlab-summer-tem-m:export  
+ {"database":"projects/myjlab-summer-tem-m/databases/(default)","export_directory":"firebase-export-1632035261777rTaS7J","export_name":"firestore_export"}
+[debug] [2021-09-19T07:07:41.793Z] Sep 19, 2021 4:07:41 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:07:41 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2021-09-19T07:07:41.870Z] <<< HTTP RESPONSE 200 {"content-type":"application/json","content-length":"4"}
+[debug] [2021-09-19T07:07:41.870Z] Exporting auth users in Project myjlab-summer-tem-m to firebase-export-1632035261777rTaS7J/auth_export/accounts.json
+[debug] [2021-09-19T07:07:41.876Z] Exporting project config in Project myjlab-summer-tem-m to firebase-export-1632035261777rTaS7J/auth_export/accounts.json
+[debug] [2021-09-19T07:07:41.886Z] >>> HTTP REQUEST POST http://localhost:9199/internal/export  
+ {"path":"firebase-export-1632035261777rTaS7J/storage_export"}
+[debug] [2021-09-19T07:07:41.891Z] <<< HTTP RESPONSE 200 {"x-powered-by":"Express","vary":"Origin","access-control-expose-headers":"content-type,x-firebase-storage-version,x-goog-upload-url,x-goog-upload-status,x-goog-upload-command,x-gupload-uploadid,x-goog-upload-header-content-length,x-goog-upload-header-content-type,x-goog-upload-protocol,x-goog-upload-status,x-goog-upload-chunk-granularity,x-goog-upload-control-url","content-type":"text/plain; charset=utf-8","content-length":"2","etag":"W/\"2-nOO9QiTIwXgNtWtBJezz8kv3SLc\"","date":"Sun, 19 Sep 2021 07:07:41 GMT","connection":"keep-alive","keep-alive":"timeout=5"}
+[debug] [2021-09-19T07:07:41.891Z] hubExport: swapping firebase-export-1632035261777rTaS7J with /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data
+[info] ✔  emulators: Export complete. 
+[debug] [2021-09-19T07:07:41.899Z] <<< HTTP RESPONSE 200 {"x-powered-by":"Express","vary":"Origin","content-type":"application/json; charset=utf-8","content-length":"16","etag":"W/\"10-MxB4y4MLcx6QDsp8b8vgp7iFMFo\"","date":"Sun, 19 Sep 2021 07:07:41 GMT","connection":"keep-alive","keep-alive":"timeout=5"}
+[info] ✔  Export complete 
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  ui: Stopping Emulator UI {"metadata":{"emulator":{"name":"ui"},"message":"Stopping Emulator UI"}}
+[warn] ⚠  Emulator UI has exited upon receiving signal: SIGINT 
+[info] i  hosting: Stopping Hosting Emulator {"metadata":{"emulator":{"name":"hosting"},"message":"Stopping Hosting Emulator"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2021-09-19T07:07:41.907Z] *** shutting down gRPC server since JVM is shutting down {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down"}}
+[debug] [2021-09-19T07:07:41.908Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[debug] [2021-09-19T07:07:41.914Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[debug] [2021-09-19T07:07:59.266Z] ----------------------------------------------------------------------
+[debug] [2021-09-19T07:07:59.268Z] Command:       /Users/ren/.nodebrew/node/v14.16.0/bin/node /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/node_modules/.bin/firebase emulators:start --import=./data --export-on-exit
+[debug] [2021-09-19T07:07:59.268Z] CLI Version:   9.18.0
+[debug] [2021-09-19T07:07:59.268Z] Platform:      darwin
+[debug] [2021-09-19T07:07:59.268Z] Node Version:  v14.16.0
+[debug] [2021-09-19T07:07:59.269Z] Time:          Sun Sep 19 2021 16:07:59 GMT+0900 (日本標準時)
+[debug] [2021-09-19T07:07:59.269Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-09-19T07:07:59.317Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-09-19T07:07:59.317Z] > authorizing via signed-in user (drrr0502@gmail.com)
+[info] i  emulators: Starting emulators: auth, firestore, hosting, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, firestore, hosting, storage"}}
+[warn] ⚠  emulators: It seems that you are running multiple instances of the emulator suite for project myjlab-summer-tem-m. This may result in unexpected behavior. 
+[debug] [2021-09-19T07:07:59.337Z] [hub] writing locator at /var/folders/19/b3y5swk53mzbj1vjsrhwvzp00000gn/T/hub-myjlab-summer-tem-m.json
+[info] i  firestore: Importing data from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata"}}
+[warn] ⚠  firestore: Did not find a Cloud Firestore rules file specified in a firebase.json config file. {"metadata":{"emulator":{"name":"firestore"},"message":"Did not find a Cloud Firestore rules file specified in a firebase.json config file."}}
+[warn] ⚠  firestore: The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration. {"metadata":{"emulator":{"name":"firestore"},"message":"The emulator will default to allowing all reads and writes. Learn more about this option: https://firebase.google.com/docs/emulator-suite/install_and_configure#security_rules_configuration."}}
+[debug] [2021-09-19T07:07:59.399Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2021-09-19T07:07:59.399Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2021-09-19T07:07:59.400Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/Users/ren/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080,"--seed_from_export","/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/Users/ren/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--seed_from_export\",\"/Users/ren/myjlab/myjlab_summer_2021_teamM/app/my-vue-app/data/firestore_export/firestore_export.overall_export_metadata\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2021-09-19T07:08:00.944Z] Sep 19, 2021 4:08:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:60997
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Sep 19, 2021 4:08:00 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://localhost:60997\n"}}
+[debug] [2021-09-19T07:08:00.963Z] API endpoint: http://localhost:8080 {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://localhost:8080"}}
+[debug] [2021-09-19T07:08:00.963Z] 
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=localhost:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\n"}}

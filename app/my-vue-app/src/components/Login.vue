@@ -13,19 +13,10 @@
 <script >
 //axios.defaults.withCredentials = true;
 import axios from "axios"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {auth} from "../firebase"
 import store from '../store'
-//import crypto from "crypto"
-//const sha256 = crypto.createHash('sha256');
-let cookies = document.cookie; //全てのcookieを取り出して
-let cookiesArray = cookies.split(';'); // ;で分割し配列に
 
-for(let c of cookiesArray){ //一つ一つ取り出して
-    var cArray = c.split('='); //さらに=で分割して配列に
-    if( cArray[0] == ' isLogin'){ // 取り出したいkeyと合致したら
-        if(cArray[1] == "true" & location.pathname == "/login") location.href = "/home"  // [key,value] 
-    }
-}
 export default{
     name: "Login",
     data() {
@@ -41,8 +32,6 @@ export default{
             if (!valid) {
                 return 
             }
-            // sha256.update(this.password)
-            // const hashedPassword = sha256.digest("hex")
             axios.post('http://0.0.0.0:8000/users/login/',{mail:this.name,password:this.password}).then(result => {
                     if(!result.data[0]){
                         alert('ユーザー名、もしくはパスワードが間違っています。')
@@ -59,7 +48,6 @@ export default{
                 })
         },
         firebaseLogin: function() {
-            const auth = getAuth();
             signInWithEmailAndPassword(auth,this.name,this.password)
             .then( res => {
                 console.log(res)

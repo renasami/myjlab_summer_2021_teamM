@@ -29,10 +29,12 @@
 
 
 <script>
-import {getAuth} from 'firebase/auth'
-const auth = getAuth()
-const user = auth.currentUser
-console.log(user)
+import { app } from '../firebase'
+import { getAuth } from 'firebase/auth'
+const user = getAuth()
+app
+
+
 export default {
     data(){
         return{
@@ -51,15 +53,15 @@ export default {
     }
   },
   mounted: function() {
-    //   let cookies = document.cookie; //全てのcookieを取り出して
-    //     let cookiesArray = cookies.split(';');
-    //     console.log(cookiesArray)
-    //     for(var c of cookiesArray){
-    //         let cArray = c.split('=')
-    //         if(cArray[0] == ' username'){ 
-    //             this.username = cArray[1]
-    //         }
-    //     }
+   if(user){
+    user.onAuthStateChanged(user =>{
+        if (user) {
+            console.log(user); 
+            this.username = user.displayName
+            if(!user.displayName) this.username = user.email.substring(0,user.email.indexOf("@"))
+        }
+    });
+    }
   } 
 }
 

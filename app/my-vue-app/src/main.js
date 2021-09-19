@@ -12,9 +12,6 @@ import Vuetify from 'vuetify'
 Vue.config.productionTip = false
 
 
-
-
-
 // let functions = firebase.default.app().functions("asia-northeast1");
 // let db = firebase.default.firestore();
 

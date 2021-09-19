@@ -8,14 +8,6 @@ const store = new Vuex.Store({
     state: {
       user:'',
     },
-    methods: {
-        user (state,user) {
-            state.user = user;
-        },
-        logOut (user) {
-            this.user = null;
-        }
-    }
   })
 
 export default store

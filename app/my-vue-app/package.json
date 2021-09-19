@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "watch":"yarn build --watch",
+    "watch": "yarn build --watch",
     "lint": "vue-cli-service lint",
     "start": "yarn build && firebase emulators:start --import=./data --export-on-exit"
   },
@@ -22,7 +22,8 @@
     "vue-cookies": "^1.7.4",
     "vue-router": "^3.5.2",
     "vuetify": "^2.5.8",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

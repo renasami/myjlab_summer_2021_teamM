@@ -29,10 +29,9 @@
 
 
 <script>
-import { app } from '../firebase'
-import { getAuth } from 'firebase/auth'
-const user = getAuth()
-app
+import store from "../store"
+import {toStore} from '../scripts/userInfoToStore'
+
 
 
 export default {
@@ -53,15 +52,8 @@ export default {
     }
   },
   mounted: function() {
-   if(user){
-    user.onAuthStateChanged(user =>{
-        if (user) {
-            console.log(user); 
-            this.username = user.displayName
-            if(!user.displayName) this.username = user.email.substring(0,user.email.indexOf("@"))
-        }
-    });
-    }
+    toStore()
+    this.username = store.state.user
   } 
 }
 

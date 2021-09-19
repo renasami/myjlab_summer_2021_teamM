@@ -15,7 +15,7 @@
 import axios from "axios"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../firebase"
-import store from '../store'
+
 
 export default{
     name: "Login",
@@ -49,11 +49,8 @@ export default{
         },
         firebaseLogin: function() {
             signInWithEmailAndPassword(auth,this.name,this.password)
-            .then( res => {
-                console.log(res)
-                store.commit('user',res)
+            .then(
                 this.$router.push("/home")
-            }
             )
             .catch(
             )

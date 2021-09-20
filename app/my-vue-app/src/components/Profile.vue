@@ -2,22 +2,43 @@
 <div class='profile'>
      <div class="profile_inner">
          <img class='profile_img' src="./img/Profile.png"><br>
+         <h3>{{ username }}</h3>
          <input type="text" id="name" name="name" placeholder="User Name"><br>
          <input type="text" id="password" name="name" placeholder="Password"><br>
+         <input type="text" id="image" name="name" placeholder="new Image URL"><br>
          <a href="" class="btn"><span>完了</span></a>
      </div>
 </div>
 </template>
 
 <script>
-let cookies = document.cookie; //全てのcookieを取り出して
-let cookiesArray = cookies.split(';'); // ;で分割し配列に
-if (document.cookie == "" & location.pathname == "/like") location.href = "/login";
-for(var c of cookiesArray){ //一つ一つ取り出して
-    var cArray = c.split('='); //さらに=で分割して配列に
-    if( cArray[0] == ' isLogin' & location.pathname == "/profile"){ // 取り出したいkeyと合致したら
-        if(cArray[1] == "false") location.href = "/login"  // [key,value] 
+import store from "../store"
+import { db } from '../firebase'
+import {getDocs,where,collection,query} from 'firebase/firestore'
+
+export default {
+    name: "Profile",
+    data() {
+        return {
+            username:"",
+            fas:"fas",
+            imgsrc: "",
+        }
+    },
+    methods: {
+        changeUserImage:async function(){
+            const q = query(collection(db,'videogram/v1/users'),where("uid","==",store.state.userId))
+            const docs = await getDocs(q)
+            if(docs.empty || docs.docs[0].image == undefined) return
+            store.commit("setState","imgsrc",docs.docs[0].image)
+            this.imgsrc = docs.docs[0].image
+        }
+    },
+    mounted: function() {
+        this.changeUserImage()
+        this.username = store.state.user
     }
+
 }
 </script>
 
@@ -48,6 +69,9 @@ for(var c of cookiesArray){ //一つ一つ取り出して
 }
 
 #password {
+    margin-top: 10px;
+}
+#image {
     margin-top: 10px;
 }
 

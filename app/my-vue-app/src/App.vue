@@ -169,6 +169,8 @@ export default {
   mounted() {
     this.showNav = store.state.isLogin
     //ログインしていない時の処理を追記する
+    if(store.state.isLogin == false && location.pathname == "/")this.$router.push("/login")
+     if(store.state.isLogin == true && location.pathname == "/")this.$router.push("/home")
   },
 
 }

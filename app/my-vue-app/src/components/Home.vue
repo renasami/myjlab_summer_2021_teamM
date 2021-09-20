@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Card :posts="postsList" @openCommentModal="openCommentModal"/>
+        <Card :posts="postsList" types="home" @openCommentModal="openCommentModal"/>
     </div>
 </template>
 
@@ -8,17 +8,7 @@
 import Card from './Card'
 import {db} from '../firebase'
 import { collection, query, getDocs } from "firebase/firestore";
-function postObj(id,uid,title,caption,url,likedNumber){
-  this.id = id;
-  this.uid = uid;
-  this.title = title;
-  this.samb = `${url.replace("https://www.youtube.com/embed/","https://img.youtube.com/vi/")}/maxresdefault.jpg`
-  this.caption = caption;
-  this.url = url;
-  this.likedNumber = likedNumber;
-  this.isLike = false;
-  this.comment = []
-}
+import { postObj } from "./type/postObj"
 
 export default {
     name: 'Home',

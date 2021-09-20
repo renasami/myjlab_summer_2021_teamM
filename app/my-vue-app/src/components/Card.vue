@@ -44,7 +44,7 @@ export default {
         userPrimarykey:""
      }
    },
-   props:["posts"],
+   props:["posts","types"],
    methods:{
       like:async function(index){
         //userのlikeに対しての処理
@@ -64,7 +64,8 @@ export default {
           image:this.userData.image,
           uid:this.userData.uid,
           like: this.likedList
-        }).then(response => console.log(response,this.likedList))
+        })
+        store.commit("setState","likedList",this.likedList)
       },
       openCommentModal:function(index){
         this.$emit("openCommentModal",this.list[index])
@@ -72,7 +73,7 @@ export default {
    },
   computed: {
     groupedArray() {
-      const base = this.list.length
+      const base = this.list?.length
       const split_cnt = 3       // 何個ずつに分割するか
       const grouped_list = []
       for (let i=0; i<Math.ceil(base/split_cnt); i++) {
@@ -91,6 +92,9 @@ export default {
             if(item.id == liked) this.list[index].isLike = true
           })
         })
+        if(this.types == "like"){
+          console.log("fas")
+        }
       }
       
     },

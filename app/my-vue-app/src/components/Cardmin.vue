@@ -46,7 +46,7 @@
 </template>
 <script>
  export default {
-    name: 'Cardmin',
+    name:"Cardmin",
     data(){
         return{
             buttonState:this.isLike,

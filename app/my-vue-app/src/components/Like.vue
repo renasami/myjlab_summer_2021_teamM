@@ -1,31 +1,57 @@
 <template>
     <div>
-        <Card/>
+        <Card types="like"  @openCommentModal="openCommentModal" :posts="likedPostList"/>
     </div>
 </template>
 <script>
-
-window.onload = function(){
-    let cookies = document.cookie; //全てのcookieを取り出して
-let cookiesArray = cookies.split(';'); // ;で分割し配列に
-    console.log(location.href)
-    if (document.cookie == "" & location.pathname == "/like") location.href = "/login";
-    for(var c of cookiesArray){ //一つ一つ取り出して
-        var cArray = c.split('='); //さらに=で分割して配列に
-        if( cArray[0] == ' isLogin'){
-            if(cArray[1] == " false" & location.pathname == "/like"){
-                location.href = "/login";
-                return
-            }  // [key,value] 
-        }
-    }
-}
 import Card from './Card.vue'
+import store from '../store'
+import {db} from '../firebase'
+import { collection, query, getDocs, where } from "firebase/firestore";
+import { postObj } from "./type/postObj"
+
 export default {
-    name:"like"  ,
+    name:"Like"  ,
     components:{
         Card
     },
+    data(){
+        return{
+            likedPostList: [],
+            likedIdList:[]
+        }
+    },
+    methods:{
+        openCommentModal:function(info){
+        this.$emit("openCommentModal",info);
+      },
+      getPostData: async function(){
+        let postData = []
+        const posts = collection(db, "videogram/v1/posts");
+        const q = query(posts)
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          const obj = new postObj(doc.id, 
+                        doc.data().userId.id,
+                        doc.data().title,
+                        doc.data().caption,
+                        doc.data().url,
+                        doc.data().likedNumber)
+          postData.push(obj)
+        });
+        
+        this.likedIdList.forEach((liked) =>{
+            postData.forEach((post)=>{
+                if(post.id == liked) this.likedPostList.push(post)
+            })
+        })
+      },
+    },  
+    mounted:async function() {
+      const q = query(collection(db,"videogram/v1/users"),where("uid","==",store.state.userId))
+      await getDocs(q).then(ret =>ret.docs[0]).then(res => {this.likedIdList = res.data().like})
+      this.getPostData()
+    }
 }
 
 </script>

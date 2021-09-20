@@ -41,6 +41,7 @@ export default {
     },
     mounted: function() {
       this.getPostData()
+      this.$emit("change")
     }
 }
 </script>

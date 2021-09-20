@@ -10,18 +10,10 @@
     </div>
 </template>
 <script>
-import axios from "axios"
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
-let cookies = document.cookie; //全てのcookieを取り出して
-let cookiesArray = cookies.split(';'); // ;で分割し配列に
-
-for(var c of cookiesArray){ //一つ一つ取り出して
-    var cArray = c.split('='); //さらに=で分割して配列に
-    if( cArray[0] == ' isLogin'){ // 取り出したいkeyと合致したら
-        if(cArray[1] == "true" & location.pathname == "/register") location.href = "/home"  // [key,value] 
-    }
-}
+import {db} from "../firebase"
+import {addDoc,collection} from "firebase/firestore"
+import store from "../store"
 export default {
     name: 'Register',
     data() {
@@ -32,33 +24,22 @@ export default {
         }
     },
     methods: {
-        register: async function(){
-            const valid = this.valid()
-            if (!valid) {
-                return 
-            }
-            // sha256.update(this.password)
-            // const hashedPassword = sha256.digest("hex")
-            await axios.post("http://0.0.0.0:8000/register/",{mail:this.name,password:this.password}).then(result => {
-                console.log(result)
-            }).catch(err => {
-                console.log(err)
-                alert("そのメールアドレスは使用されています。")
-            })
-            this.$router.push("/home")
-        },
         registerFirebase: function(){
-            console.log("hello")
             const valid = this.valid();
             if(!valid) return
             createUserWithEmailAndPassword(this.auth, this.name, this.password)
             .then(result => {
-                alert("sucsecc")
-                console.log(result)
-                this.$router.push("/home")
+                addDoc(collection(db, "videogram/v1/users"), {
+                 email:this.name,
+                 image:"",
+                 like:[],
+                 uid:result.user.uid,
             })
-            .catch(e=>{
-                console.log(e)
+                this.$router.push("/login")
+            })
+            .catch(()=>{
+                store.commit("setUserId","")
+                store.commit("setIsLogin",false)   
             })
         },
         valid() {

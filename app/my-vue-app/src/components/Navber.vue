@@ -30,6 +30,7 @@
 
 <script>
 import store from "../store"
+import { getAuth, signOut } from "firebase/auth";
 import {toStore} from '../scripts/userInfoToStore'
 
 
@@ -45,8 +46,14 @@ export default {
       this.$emit('createModal')
     },
     logout(){
+        const auth = getAuth()
+        signOut(auth).then().catch(err=>{alert(err)});
         store.commit("setIsLogin",false);
+        store.commit("setUserId",null);
+        store.commit("setUsername",null);
+        this.$emit("closeModal")
         this.$router.push("/login")
+        location.reload()
     }
   },
   mounted: function() {

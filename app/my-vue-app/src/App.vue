@@ -50,8 +50,8 @@
 
 
 
-    <router-view class="routerView" @openCommentModal="openCommentModal"/> 
-    <Navber v-show="showNav" @createModal="openModal"/>
+    <router-view class="routerView" @openCommentModal="openCommentModal"  @createModal="openModal"/> 
+    <Navber v-show="showNav" @change="change" @closeModal="closeModal"/>
   </div>
 </template>
 
@@ -91,6 +91,9 @@ export default {
   methods:{
     openModal: function(){
       this.showContent = true
+    },
+    change: function() {
+      this.showNav = false
     },
     changePostType: function(){
       if(this.uploadType == "own"){
@@ -153,7 +156,6 @@ export default {
       console.log(event.dataTransfer.types.includes("text/uri-list"))
       //this.files = [...event.dataTransfer.files]
       this.files = event.dataTransfer.getData('text');
-      console.log(this.files)
       this.isEnter = false;
     },
     sendFile: function(){
@@ -167,11 +169,7 @@ export default {
   },
   mounted() {
     this.showNav = store.state.isLogin
-    //ログインしていない時の処理を追記する
-    if(store.state.isLogin == false && location.pathname == "/")this.$router.push("/login")
-     if(store.state.isLogin == true && location.pathname == "/")this.$router.push("/home")
   },
-
 }
 </script>
 

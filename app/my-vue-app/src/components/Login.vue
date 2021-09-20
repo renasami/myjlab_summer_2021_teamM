@@ -12,7 +12,6 @@
 </template>
 <script >
 //axios.defaults.withCredentials = true;
-import axios from "axios"
 import store from "../store"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../firebase"
@@ -22,41 +21,26 @@ export default{
     name: "Login",
     data() {
         return {
-            name: "test@test.com",
-            password: "123TestTest",
+            name: "",
+            password: "",
             dialog: false,
         }
     },
     methods: {
-        login: function(){
-            const valid = this.valid()
-            if (!valid) {
-                return 
-            }
-            axios.post('http://0.0.0.0:8000/users/login/',{mail:this.name,password:this.password}).then(result => {
-                    if(!result.data[0]){
-                        alert('ユーザー名、もしくはパスワードが間違っています。')
-                        return 
-                    }
-                    console.log(result.data)
-                    document.cookie = "isLogin=; expires=0";
-                    document.cookie = "username=; expires=0";
-                    document.cookie = "userid=; expires=0";
-                    document.cookie = `isLogin=${result.data[0]}`;
-                    document.cookie = `username=${this.name.substring(0, this.name.indexOf("@"))}`;
-                    document.cookie = `userid=${result.data[1]["user_id"]}`;
-                    location.href="/home"
-                })
-        },
         firebaseLogin: function() {
             signInWithEmailAndPassword(auth,this.name,this.password)
             .then(result => {
-                console.log("result",result._tokenResponse.localId);
                 store.commit("setUserId",result._tokenResponse.localId)
+                store.commit("setIsLogin",true)
                 this.$router.push("/home")
+                location.reload()
             })
-            .catch(
-            )
+            .catch((w)=>{
+                console.log(w)
+                store.commit("setUserId","")
+                store.commit("setIsLogin",false)
+
+            })
         },
         valid() {
             if (/\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?|\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu.test(this.name)) {
@@ -78,6 +62,10 @@ export default{
             return true
         }
     },
+    mounted: function() {
+        store.commit("setIsLogin",false)
+        console.log(store.state)
+    }
 
 }
 

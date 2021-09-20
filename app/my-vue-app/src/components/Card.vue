@@ -10,6 +10,7 @@
           :title="item.title"
           :caption="item.caption"
           :url="item.url"
+          :samb="item.samb"
           :likedNumber="item.likedNumber"
           :isLike="item.isLike"
           :comment="item.comment"
@@ -25,7 +26,9 @@
 
 <script>
 import Cardmin from './Cardmin.vue'
-
+import store from '../store'
+import { db } from '../firebase'
+import { doc, setDoc, query,collection,getDocs,where} from 'firebase/firestore'
 
 
 export default {
@@ -36,15 +39,34 @@ export default {
    data: function () {
      return {
         list: this.posts,
+        likedList:[],
+        userData:{},
+        userPrimarykey:""
      }
    },
    props:["posts"],
    methods:{
-      like:function(index){
+      like:async function(index){
+        //userのlikeに対しての処理
         this.list[index].isLike = !this.list[index].isLike
+        const q = query(collection(db,"videogram/v1/users"),where("uid","==",store.state.userId))
+        await getDocs(q).then(ret =>ret.docs[0]).then(res => {
+          this.userPrimarykey = res.id
+          this.userData = res.data()
+          })
+        if(this.list[index].isLike){
+          this.likedList.push(this.list[index].id)
+        }else{
+          this.likedList = this.likedList.filter(item => item != this.list[index].id)
+        }
+        await setDoc(doc(db,"videogram/v1/users",this.userPrimarykey),{
+          email:this.userData.email,
+          image:this.userData.image,
+          uid:this.userData.uid,
+          like: this.likedList
+        }).then(response => console.log(response,this.likedList))
       },
       openCommentModal:function(index){
-        console.log("card")
         this.$emit("openCommentModal",this.list[index])
       }  
    },
@@ -60,41 +82,22 @@ export default {
         grouped_list.push(result)
       }
       return grouped_list
-    }
+    },
   },
-  
+    watch:{
+      list:function(){
+          this.list.forEach((item,index) => {
+            this.likedList.forEach((liked) => {
+            if(item.id == liked) this.list[index].isLike = true
+          })
+        })
+      }
+      
+    },
   mounted: async function(){
-        if(location.pathname == "/like"){
-          let uid 
-          let likedList
-        this.axios.get('http://0.0.0.0:8000/posts/get_URL').then(response => {
-          this.list = response.data
-          console.log(response.data)
-          })
-        .catch((e) => {
-        alert(e);
-      });
-      this.axios.get(`http://0.0.0.0:8000/users/${uid}/likes`).then(response => {
-        response.data.forEach(res => {
-          for(var n = 0; n < this.list.length; n++){
-            if(this.list[n].movie_id == res.POST_ID){
-              likedList.push(this.list[n])
-            }
-          }
-        }); 
-        this.list = likedList
-        console.log(this.list)
-    })} else{
-      this.axios.get('http://0.0.0.0:8000/posts/get_URL').then(response => {
-          this.list = response.data
-          console.log(response.data)
-          })
-        .catch((e) => {
-        alert(e);
-      });
-        
-     }
-    }
+        const q = query(collection(db,"videogram/v1/users"),where("uid","==",store.state.userId))
+        await getDocs(q).then(ret =>ret.docs[0]).then(res => {this.likedList = res.data().like})
+    },
   }
 
 

@@ -43,7 +43,8 @@
     <!-- コメントポップアップ -->
     <div id='overlay_comment' v-show='showCommentContent'>
       <Comment :info="info"
-      @closeCommentModal="closeCommentModal"/>
+      @closeCommentModal="closeCommentModal"
+      :commentContents="commentContents"/>
     </div>
     <!-- コメントポップアップ -->
 
@@ -59,6 +60,8 @@
 import Navber from './components/Navber'
 import Comment from './components/Comment'
 import store from './store'
+import {db} from './firebase'
+import { collection, getDocs, where, query} from 'firebase/firestore'
 //import axios from 'axios'
 
 export default {
@@ -70,6 +73,7 @@ export default {
   data() {
     return{
       info:{},//コメントポップアップ用info
+      commentContents:[],//コメントの中身
       showContent: false,
       showCommentContent: false, //コメントポップアップ用
       user_id:"",
@@ -96,9 +100,23 @@ export default {
         this.uploadType = "own"
       }
     },
+    renderComment:async function(){
+      let commentList = []
+      const q = query(collection(db, "videogram/v1/comments"),where("postId", "==", this.info.id))
+      await getDocs(q).then(result => {
+        console.log(result.docs[0].data())
+        result.docs.forEach((doc,key)=>{
+          commentList[key] = doc.data().content
+          })
+        })
+      commentList.forEach(result => this.commentContents.push(result))
+      return commentList
+    },
 
     openCommentModal: function(info){ //コメントポップアップ用
       this.info = info
+      this.info.url = `${this.info.url.replace("https://www.youtube.com/embed/","https://img.youtube.com/vi/")}/maxresdefault.jpg`
+      this.renderComment();
       this.showCommentContent = true
     }, 
     closeCommentModal: function(){

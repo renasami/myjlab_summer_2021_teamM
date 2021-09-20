@@ -26,7 +26,7 @@
             picture-in-picture" allowfullscreen>
                 <!-- <img v-bind:src='uid' -->
                 <img
-                src="http://img.youtube.com/vi/ZAGJraxImGQ/sddefault.jpg"
+                :src="samb"
                 width="70%" 
                 height="50%"/>
             </div>                
@@ -51,6 +51,7 @@
         return{
             buttonState:this.isLike,
             sambnail : false,
+            sambUrl:"",
         }
     },
     method:{
@@ -64,11 +65,7 @@
           //this.$emit('openCommentModal')
         },
     },
-    props:  ["id","uid","title","caption","url","likedNumber","isLike","comment","index","like","openCommentModal"],
-    mounted: function() {
-    // <p>Hello</p>が出力される
-    console.log(this);
-  }
+    props:  ["id","uid","title","caption","url","samb","likedNumber","isLike","comment","index","like","openCommentModal"],
  }
 </script>
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="like-page">
         <Card/>
     </div>
 </template>
@@ -35,25 +35,16 @@ export default {
   padding: 0;
 }
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #231815;
-  margin-top: 0px;
-  height: 100vh;
+.like-page{
+    width:100%;
 }
 
-#nav {
-  position: fixed;
-  background-color: #F7F7F7;
-  top:0;
-  width:20%;
-  height:100vh;
+@media (min-width: 960px) {
+/*********************************************************
+  Stylesheet: 960px以上のタブレットやモニタで適用
+*********************************************************/
+.like-page{
+  width:80%;
 }
-
-#nav a {
-  color: #231815;
 }
 </style>

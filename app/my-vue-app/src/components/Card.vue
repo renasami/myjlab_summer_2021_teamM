@@ -104,7 +104,7 @@ export default {
 
 <style scoped>
 .card {
-  width:80%;
+  width:100%;
   position: absolute;
   right: 0;
   margin-top: 50px;
@@ -163,4 +163,12 @@ export default {
   float: left;
 }
 
+@media (min-width: 960px) {
+/*********************************************************
+  Stylesheet: 960px以上のタブレットやモニタで適用
+*********************************************************/
+.card{
+  width:80%;
+}
+}
 </style>

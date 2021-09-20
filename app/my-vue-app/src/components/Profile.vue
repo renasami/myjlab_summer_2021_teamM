@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 .profile {
-  width:80%;
+  width:100%;
   position: absolute;
   right: 0;
   height: 100vh;
@@ -92,5 +92,14 @@ input {
 
 .btn:hover {
     color: #418cb571 !important;
+}
+
+@media (min-width: 960px) {
+/*********************************************************
+  Stylesheet: 960px以上のタブレットやモニタで適用
+*********************************************************/
+.profile{
+    width:80%;
+}
 }
 </style>

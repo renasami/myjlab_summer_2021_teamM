@@ -3,7 +3,7 @@
 
         <!-- サムネイル -->
         <div class="left">
-            <img class="video-thumbnail" src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80" alt="">
+            <img class="video-thumbnail" :src="info.url" alt="">
         </div>
         <!-- サムネイル -->
 
@@ -17,16 +17,14 @@
 
             <!-- 投稿者情報 -->
             <div class="comment-user">
-                <p>動画投稿者名</p>
+                <p>{{ info.title.substr(0,10) }}...</p>
             </div>
             <!-- 投稿者情報 -->
             
             <!-- コメントリスト -->
             <div class="comment-list"> 
-                <ul class="list-inner">
-                    <li>おもしろい</li>
-                    <li>爆笑</li>
-                    <li>最高</li>
+                <ul class="list-inner" v-for="(comment,i) in comments" :key="i">
+                    <li>{{ comment }}</li>
                 </ul>
             </div>
             <!-- コメントリスト -->
@@ -42,8 +40,8 @@
             <!-- コメント投稿 -->
             <div class="comment-post">
                 <input type="textbox" class="post-text" v-model="content" placeholder="コメントを追加..."/>
-                <button class="post-button" @click="sendComment">投稿</button>
-                <!-- <button @click="getComment">get</button> -->
+                <button class="post-button" @click="sendComment">投稿</button><br>
+                <!-- <button class="post-button" @click="getComment">get</button> -->
             </div>
             <!-- コメント投稿 -->
 
@@ -56,36 +54,28 @@
 <script>
 import store from '../store'
 import {db} from '../firebase'
-import { addDoc, collection, getDocs, where, query} from 'firebase/firestore'
-
+import {addDoc,collection} from 'firebase/firestore'
 export default {
     name:'Comment',
     data(){
         return{
             content:'',
-            comments:[]
+            comments:this.commentContents,
         }
     },
 
-    props: ["info"],
+    props: ["info","commentContents"],
     methods:{
         closeCommentModal:function(){
             this.$emit('closeCommentModal')
         },
         sendComment: function(){
-            console.log(db)
             addDoc(collection(db, 'videogram/v1/comments'), 
             {content: this.content,
              postId:this.info.id,
              uid: store.state.userId,
             })
         },
-        getComment:async function(){
-            const q = query(collection(db, "videogram/v1/comments"),where("postId", "==", this.info.id))
-            const comments = await getDocs(q);
-            comments.forEach(doc => console.log(doc.data()));
-            //console.log(comments)
-        }
     },
 }
 </script>

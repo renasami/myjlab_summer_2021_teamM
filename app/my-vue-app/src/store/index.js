@@ -9,6 +9,7 @@ const store = new Vuex.Store({
     state: {
       user:'',
       userId:'',
+      likedList:[],
       isLogin: false,
       imgsrc:"./img/Profile.png"
     },

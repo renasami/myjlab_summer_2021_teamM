@@ -43,14 +43,15 @@
     <!-- コメントポップアップ -->
     <div id='overlay_comment' v-show='showCommentContent'>
       <Comment :info="info"
-      @closeCommentModal="closeCommentModal"/>
+      @closeCommentModal="closeCommentModal"
+      :commentContents="commentContents"/>
     </div>
     <!-- コメントポップアップ -->
 
 
 
-    <router-view class="routerView" @openCommentModal="openCommentModal"/> 
-    <Navber v-show="showNav" @createModal="openModal"/>
+    <router-view class="routerView" @openCommentModal="openCommentModal"  @createModal="openModal"/> 
+    <Navber v-show="showNav" @change="change" @closeModal="closeModal"/>
   </div>
 </template>
 
@@ -59,7 +60,8 @@
 import Navber from './components/Navber'
 import Comment from './components/Comment'
 import store from './store'
-//import axios from 'axios'
+import {db} from './firebase'
+import { collection, addDoc, getDocs, where, query} from 'firebase/firestore'
 
 export default {
   name: 'App',
@@ -70,6 +72,7 @@ export default {
   data() {
     return{
       info:{},//コメントポップアップ用info
+      commentContents:[],//コメントの中身
       showContent: false,
       showCommentContent: false, //コメントポップアップ用
       user_id:"",
@@ -89,6 +92,9 @@ export default {
     openModal: function(){
       this.showContent = true
     },
+    change: function() {
+      this.showNav = false
+    },
     changePostType: function(){
       if(this.uploadType == "own"){
         this.uploadType = "youtube"
@@ -96,30 +102,44 @@ export default {
         this.uploadType = "own"
       }
     },
+    renderComment:async function(){
+      let commentList = []
+      const q = query(collection(db, "videogram/v1/comments"),where("postId", "==", this.info.id))
+      await getDocs(q).then(result => {
+        console.log(result.docs[0].data())
+        result.docs.forEach((doc,key)=>{
+          commentList[key] = doc.data().content
+          })
+        })
+      commentList.forEach(result => this.commentContents.push(result))
+      return commentList
+    },
 
     openCommentModal: function(info){ //コメントポップアップ用
       this.info = info
+      this.info.url = `${this.info.url.replace("https://www.youtube.com/embed/","https://img.youtube.com/vi/")}/maxresdefault.jpg`
+      this.renderComment();
       this.showCommentContent = true
     }, 
     closeCommentModal: function(){
       this.showCommentContent = false
     },
-    sendYoutube: function(){
-      console.log({"userid":this.user_id,
-        "youtube": this.youtubeUrl,
-        "caption": this.youtubeCaption,
-        "title": this.youtubeTitle,
+    sendYoutube: async function(){
+      console.log("youtube")
+      if((this.youtubeUrl || this.youtubeTitle || this.youtubeCaption ) == ("")) {
+        alert("全て記入してください")
+        this.closeModal()
+        return
+      }
+      await addDoc(collection(db, "videogram/v1/posts"), {
+          url:this.youtubeUrl.replace("watch?v=","embed/"),
+          title:this.youtubeTitle,
+          caption:this.youtubeCaption,
+          userId:`/users/${store.state.userId}`,
+          likedNumber:0
       })
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://0.0.0.0:8000/posts/upload');
-      xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-      xhr.send({
-        "userid":Number(this.user_id),
-        "youtube": this.youtubeUrl,
-        "caption": this.youtubeCaption,
-        "title": this.youtubeTitle,
-      })},
-
+      this.closeModal()
+    },
     closeModal: function(){
       this.showContent = false
     },
@@ -136,7 +156,6 @@ export default {
       console.log(event.dataTransfer.types.includes("text/uri-list"))
       //this.files = [...event.dataTransfer.files]
       this.files = event.dataTransfer.getData('text');
-      console.log(this.files)
       this.isEnter = false;
     },
     sendFile: function(){
@@ -150,9 +169,7 @@ export default {
   },
   mounted() {
     this.showNav = store.state.isLogin
-    //ログインしていない時の処理を追記する
   },
-
 }
 </script>
 

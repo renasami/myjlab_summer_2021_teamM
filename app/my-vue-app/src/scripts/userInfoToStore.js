@@ -20,7 +20,7 @@ export const toStore = () => {
             store.commit("setIsLogin",true)
             store.commit("setUsername",u.displayName)
             //@よりも前を切り出し
-            if(!u.displayName) store.commit("setUsername", u.email.substring(0,u.email.indexOf("@")))
+            if(!u?.displayName|| !u?.displayName == undefined) store.commit("setUsername", u.email.substring(0,u.email.indexOf("@")))
         }
     });
 }

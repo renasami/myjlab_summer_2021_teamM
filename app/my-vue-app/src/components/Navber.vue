@@ -21,7 +21,7 @@
                 </li>
             </ul>
         </div>
-        <div class="mobile-post" @click="createModal">＋</div>
+        <a class="mobile-post" @click="createModal"><span>+</span></a>
     </div>
     <!-- モバイル用 -->
 

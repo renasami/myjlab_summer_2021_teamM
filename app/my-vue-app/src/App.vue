@@ -51,7 +51,7 @@
 
 
     <router-view class="routerView" @openCommentModal="openCommentModal"  @createModal="openModal"/> 
-    <Navber v-show="showNav" @change="change" @closeModal="closeModal"/>
+    <Navber v-show="showNav" @change="change" @closeModal="closeModal" @createModal="openModal"/>
   </div>
 </template>
 

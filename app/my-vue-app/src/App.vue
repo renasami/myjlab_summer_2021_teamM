@@ -61,8 +61,7 @@ import Navber from './components/Navber'
 import Comment from './components/Comment'
 import store from './store'
 import {db} from './firebase'
-import { collection, getDocs, where, query} from 'firebase/firestore'
-//import axios from 'axios'
+import { collection, addDoc, getDocs, where, query} from 'firebase/firestore'
 
 export default {
   name: 'App',
@@ -122,22 +121,22 @@ export default {
     closeCommentModal: function(){
       this.showCommentContent = false
     },
-    sendYoutube: function(){
-      console.log({"userid":this.user_id,
-        "youtube": this.youtubeUrl,
-        "caption": this.youtubeCaption,
-        "title": this.youtubeTitle,
+    sendYoutube: async function(){
+      console.log("youtube")
+      if((this.youtubeUrl || this.youtubeTitle || this.youtubeCaption ) == ("")) {
+        alert("全て記入してください")
+        this.closeModal()
+        return
+      }
+      await addDoc(collection(db, "videogram/v1/posts"), {
+          url:this.youtubeUrl.replace("watch?v=","embed/"),
+          title:this.youtubeTitle,
+          caption:this.youtubeCaption,
+          userId:`/users/${store.state.userId}`,
+          likedNumber:0
       })
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://0.0.0.0:8000/posts/upload');
-      xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-      xhr.send({
-        "userid":Number(this.user_id),
-        "youtube": this.youtubeUrl,
-        "caption": this.youtubeCaption,
-        "title": this.youtubeTitle,
-      })},
-
+      this.closeModal()
+    },
     closeModal: function(){
       this.showContent = false
     },

@@ -66,6 +66,7 @@ export default {
             comments:[]
         }
     },
+
     props: ["info"],
     methods:{
         closeCommentModal:function(){
@@ -82,13 +83,6 @@ export default {
         getComment:async function(){
             const q = query(collection(db, "videogram/v1/comments"),where("postId", "==", this.info.id))
             const comments = await getDocs(q);
-            // const list = comments.map((doc) => {
-            //     // doc.data() is never undefined for query doc snapshots
-            //     console.log({
-            //     uid: doc.data().uid,
-            //     content: doc.data().content
-            //     });
-            // });
             comments.forEach(doc => console.log(doc.data()));
             //console.log(comments)
         }

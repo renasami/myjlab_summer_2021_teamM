@@ -9,9 +9,13 @@ const store = new Vuex.Store({
     state: {
       user:'',
       userId:'',
-      isLogin: false
+      isLogin: false,
+      imgsrc:"./img/Profile.png"
     },
     mutations: {
+        setState(state,constructor,input){
+            state[constructor] = input;
+        },
         setUsername (state, input) {
           state.user = input
         },
@@ -20,6 +24,9 @@ const store = new Vuex.Store({
         },
         setIsLogin (state, input) {
             state.isLogin = input
+        },
+        settImageSrc (state, input) {
+            state.imgsrc = input
         }
     },
     plugins: [createPersistedState({storage: window.sessionStorage})]

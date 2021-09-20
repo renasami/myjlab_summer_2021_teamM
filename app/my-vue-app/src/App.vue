@@ -28,8 +28,8 @@
         <button class='cancel-button' @click="closeModal">
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
-        <button class='upload-button' v-if="uploadType == 'own'" @click="sendFile">Upload Your Video</button>
-        <button class='upload-button' v-if="uploadType == 'youtube'" @click="sendYoutube">Upload Youtube</button>
+        <button class='upload-button' v-if="uploadType == 'own'" @click="sendFile">ビデオを投稿</button>
+        <button class='upload-button' v-if="uploadType == 'youtube'" @click="sendYoutube">Youtube動画を投稿</button>
         <div>
           <button @click="changePostType" class="post-change" v-if="uploadType == 'youtube'">自作動画の投稿</button>
           <button @click="changePostType" class="post-change" v-if="uploadType == 'own'">Youtubeの投稿</button>
@@ -176,7 +176,6 @@ export default {
   width:30%;
   padding: 1em;
   background-color: #fff;
-  border-radius: 30px;
   position:relative;
   box-shadow: 0px 2px 6px 0 rgba(82, 81, 80, 0.5);
 }
@@ -187,14 +186,11 @@ export default {
   color: #444;
   font-weight: bold;
   font-size: 1.2em;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
   width: auto;
   height: 8em;
   /* border: 5px solid gray; */
   border: 2px dashed #FFDD83;
-  border-radius: 25px;
+  border-radius: 10px;
   /* margin:auto; */
   margin: 1em;
   position: relative;
@@ -233,6 +229,7 @@ export default {
   background-color: #FFDD83;
   padding: 10px 30px;
   border: none;
+  font-weight: bold;
   border-radius: 100vh;
   font-size: 16px;
   margin-top: 0.5em;

@@ -3,7 +3,9 @@ import os, cv2
 from fastapi.datastructures import UploadFile
 import time
 import pathlib
-from fastapi import APIRouter, Depends,Cookie,File, UploadFile
+from fastapi import APIRouter, Depends,Cookie,File, UploadFile, Form, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from models import schemas,crud,dbSchemas
 from pydantic.main import BaseModel
@@ -12,6 +14,9 @@ from tempfile import NamedTemporaryFile
 from database import get_db
 import shutil
 router = APIRouter()
+
+templates = Jinja2Templates(directory="./templates")
+
 #ディレクトリ先の指定
 BASE_DIR = os.path.dirname(__file__)
 FILES_DIR = BASE_DIR + '/files/'
@@ -28,12 +33,11 @@ class PostInfo(BaseModel):
     caption: str
     title: str
 
-#YoutubeでURLにて投稿機能とqrコード作成機能
 @router.post('/up/')
-def create_youtube(form: PostInfo ,post: schemas.PostsCreate, db: Session = Depends(get_db)):
-    youtubeurl = form.youtube
+async def create_youtube(USER_ID: int = Form(...), YOUTUBE: str = Form(...), CAPTION: str = Form(...), TITLE: str = Form(...)):
+    youtubeurl = YOUTUBE
     url = youtubeurl.replace('https://www.youtube.com/watch?v=', '')
-   
+    return {"USER_ID": USER_ID, "YOUTUBE": url, "CAPTION": CAPTION, "TITLE": TITLE}
 
     # file_name = url + '.png'
     # img = youtubeurl
@@ -64,11 +68,13 @@ def create_post_for_user(form:PostInfo, db: Session = Depends(get_db), post: Upl
     # print(test)
     #return crud.post_movie(db=db, post=post)
 
+
+#アップロード
 @router.post('/upload')
-def upload_movie(form:PostInfo, db: Session = Depends(get_db)):
-    print(form.userid, form.youtube, form.caption, form.title)
-    crud.post_movie(db, form.youtube, form.userid, form.caption, form.title)
+def upload_movie(USER_ID: int = Form(...), YOUTUBE: str = Form(...), CAPTION: str = Form(...), TITLE: str = Form(...), db: Session = Depends(get_db)):
+    crud.post_movie(db, YOUTUBE, USER_ID, CAPTION, TITLE)
     return "success"
+
 
 
 #動画サムネイル
@@ -138,3 +144,10 @@ def get_url(db: Session = Depends(get_db)):
 
 
 
+templates = Jinja2Templates(directory="./templates")
+
+
+# formのページ用意
+@router.get("/{id}", response_class=HTMLResponse)
+async def post_HTML(request: Request, id: str):
+    return templates.TemplateResponse("post.html", {"request": request, "id": id})

@@ -9,7 +9,7 @@ import models.dbSchemas  as md
 from models.database import ENGINE
 
 import auth
-from routers import posts, reactions,users 
+from routers import posts, reactions,users,tests 
 
 origins = [
     "http://127.0.0.1:8080",
@@ -30,12 +30,13 @@ app.include_router(auth.router, prefix="/auth")
 app.include_router(posts.router, prefix="/posts")
 app.include_router(reactions.router, prefix="/reactions")
 app.include_router(users.router, prefix="/users")
+app.include_router(tests.router, prefix="/tests")
 
 md.Base.metadata.create_all(bind=ENGINE)
 clients = {}
 
 # テスト用のtemplates指定
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="./templates")
 
 
 

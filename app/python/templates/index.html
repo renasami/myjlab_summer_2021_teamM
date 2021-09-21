@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<div class="row">
+  <div class="col-md-10">
+    <h1>ようこそ、{{ id }}さん</h1>
+  </div>
+  <div class="com-md-2">
+    <form action="/tests/postForm" method="post">
+      <label for="username">名前:
+        <input id="" type="text" name="username">
+      </label>
+      <br/>
+      <label for="password">パスワード:
+        <input id="" type="password" name="password">
+      </label>
+      <br>
+      <input type="submit" value="login">
+    </form>
+  </div>
+
+</div>
+
+
+{% endblock %}

@@ -104,6 +104,7 @@ export default {
     },
     renderComment:async function(){
       let commentList = []
+      this.commentContents = []
       const q = query(collection(db, "videogram/v1/comments"),where("postId", "==", this.info.id))
       await getDocs(q).then(result => {
         console.log(result.docs[0].data())

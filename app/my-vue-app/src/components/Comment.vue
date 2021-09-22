@@ -67,6 +67,7 @@ export default {
     props: ["info","commentContents"],
     methods:{
         closeCommentModal:function(){
+            this,commentContents=null
             this.$emit('closeCommentModal')
         },
         sendComment: function(){

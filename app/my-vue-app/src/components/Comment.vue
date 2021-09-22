@@ -24,7 +24,7 @@
             <!-- コメントリスト -->
             <div class="comment-list"> 
                 <ul class="list-inner" v-for="(comment,i) in comments" :key="i">
-                    <li>{{ comment }}</li>
+                    <li>{{ comment.postId == info.id ? comment.content : null }}</li>
                 </ul>
             </div>
             <!-- コメントリスト -->
@@ -76,6 +76,9 @@ export default {
              uid: store.state.userId,
             })
         },
+        test(){
+            console.log(this.info,this.commentContents)
+        }
     },
 }
 </script>

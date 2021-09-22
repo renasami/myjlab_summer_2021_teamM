@@ -108,7 +108,10 @@ export default {
       await getDocs(q).then(result => {
         console.log(result.docs[0].data())
         result.docs.forEach((doc,key)=>{
-          commentList[key] = doc.data().content
+          commentList[key] = {
+            content:doc.data().content,
+            postId:doc.data().postId
+            }
           })
         })
       commentList.forEach(result => this.commentContents.push(result))

@@ -26,7 +26,7 @@
             picture-in-picture" allowfullscreen>
                 <!-- <img v-bind:src='uid' -->
                 <img
-                :src="samb ? samb : 'http://img.youtube.com/vi/kKRKrkHrz2Q/maxresdefault.jpg'"
+                :src="samb"
                 width="70%" 
                 height="50%"/>
             </div>                

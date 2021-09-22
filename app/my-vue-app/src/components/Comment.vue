@@ -20,11 +20,11 @@
                 <p>{{ info.title.substr(0,10) }}...</p>
             </div>
             <!-- 投稿者情報 -->
-            
+
             <!-- コメントリスト -->
             <div class="comment-list"> 
                 <ul class="list-inner" v-for="(comment,i) in comments" :key="i">
-                    <li>{{ comment.postId == info.id ? comment.content : null }}</li>
+                    <li>{{ comment.content }}</li>
                 </ul>
             </div>
             <!-- コメントリスト -->
@@ -67,8 +67,8 @@ export default {
     props: ["info","commentContents"],
     methods:{
         closeCommentModal:function(){
-            this,commentContents=null
             this.$emit('closeCommentModal')
+            this.comments=[]
         },
         sendComment: function(){
             addDoc(collection(db, 'videogram/v1/comments'), 

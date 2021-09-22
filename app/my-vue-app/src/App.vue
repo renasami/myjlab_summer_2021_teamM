@@ -104,7 +104,6 @@ export default {
     },
     renderComment:async function(){
       let commentList = []
-      this.commentContents = []
       const q = query(collection(db, "videogram/v1/comments"),where("postId", "==", this.info.id))
       await getDocs(q).then(result => {
         console.log(result.docs[0].data())
@@ -115,14 +114,14 @@ export default {
             }
           })
         })
-      commentList.forEach(result => this.commentContents.push(result))
-      return commentList
+      commentList.forEach(result =>{this.commentContents.push(result)})
+      //this.commentContents = commentList
     },
 
-    openCommentModal: function(info){ //コメントポップアップ用
+    openCommentModal: async function(info){ //コメントポップアップ用
       this.info = info
-      this.info.url = `${this.info.url.replace("https://www.youtube.com/embed/","https://img.youtube.com/vi/")}/maxresdefault.jpg`
-      this.renderComment();
+      this.info.url = `${this.info.url.replace("https://www.youtube.com/embed/","https://img.youtube.com/vi/").replace("/maxresdefault.jpg","")}/maxresdefault.jpg`
+      await this.renderComment();
       this.showCommentContent = true
     }, 
     closeCommentModal: function(){
@@ -173,6 +172,7 @@ export default {
   },
   mounted() {
     this.showNav = store.state.isLogin
+    //this.renderComment()
   },
 }
 </script>

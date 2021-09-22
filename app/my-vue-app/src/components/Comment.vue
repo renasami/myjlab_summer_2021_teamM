@@ -75,6 +75,7 @@ export default {
              postId:this.info.id,
              uid: store.state.userId,
             })
+            this.content = ""
         },
         test(){
             console.log(this.info,this.commentContents)
